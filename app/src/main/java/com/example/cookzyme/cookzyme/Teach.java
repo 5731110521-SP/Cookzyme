@@ -9,48 +9,79 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ListView;
+import android.widget.Button;
 import android.widget.TextView;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+public class Teach extends AppCompatActivity {
 
-public class recipe extends AppCompatActivity {
-    public static String name="";
-    public static int index=0;
+    int stepno=1;
+    Food f;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_recipe);
+        setContentView(R.layout.activity_teach);
 
-        //navi bar
+        TextView tool = (TextView)findViewById(R.id.toolbar_title);
+        f = Splash.database.getArrayFood().get(recipe.index);
+        tool.setText(f.getName());
+        ((TextView)findViewById(R.id.textView1)).setText(f.getName());
+        ((TextView)findViewById(R.id.textView2)).setText(f.getEnergy()+"");
+        ((TextView)findViewById(R.id.textRank)).setText(f.getRank()+"");
+        ((TextView)findViewById(R.id.textLike)).setText(f.getLike()+"");
+
+        for (HowToCook x:Splash.database.getArrayHowToCook()) {
+            if(f.getName().equals(x.getFoodName()) && stepno==x.getStepNo()){
+                ((TextView)findViewById(R.id.textHow)).setText(x.getStepNo()+". "+x.getStep());
+                stepno++;
+                break;
+            }
+        }
+
+        findViewById(R.id.next).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                for (HowToCook x:Splash.database.getArrayHowToCook()) {
+                    if(f.getName().equals(x.getFoodName()) && stepno==x.getStepNo()){
+                        ((TextView)findViewById(R.id.textHow)).setText(x.getStepNo()+". "+x.getStep());
+                        stepno++;
+                        break;
+                    }
+                }
+            }
+        });
+
+        findViewById(R.id.next).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+
         BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavigationView);
         bottomNavigationView.getMenu().getItem(0).setChecked(true);
-
         bottomNavigationView.setOnNavigationItemSelectedListener(
                 new BottomNavigationView.OnNavigationItemSelectedListener() {
                     @Override
                     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                        TextView tv1 = (TextView)findViewById(R.id.toolbar_title);
                         switch (item.getItemId()) {
                             case R.id.camera:
                                 final String []option = {"Home","Superstore"};
                                 AlertDialog.Builder builder =
-                                        new AlertDialog.Builder(recipe.this);
+                                        new AlertDialog.Builder(Teach.this);
                                 builder.setTitle("Where are you");
                                 builder.setItems(option, new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
                                         String selected = option[which];
                                         if(selected.equals("Home")) {
-                                            Intent in = new Intent(recipe.this,Splash.class);
+                                            Intent in = new Intent(Teach.this,Splash.class);
                                             startActivity(in);
                                             overridePendingTransition(0, 0);
                                             finish();
                                         }else if(selected.equals("Superstore")) {
-                                            Intent in = new Intent(recipe.this,Splash.class);
+                                            Intent in = new Intent(Teach.this,Splash.class);
                                             startActivity(in);
                                             overridePendingTransition(0, 0);
                                             finish();
@@ -59,7 +90,7 @@ public class recipe extends AppCompatActivity {
                                 });
                                 builder.setNegativeButton("cancel",new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int whichButton) {
-                                        Intent in = new Intent(recipe.this,recipe.class);
+                                        Intent in = new Intent(Teach.this,setting.class);
                                         startActivity(in);
                                         overridePendingTransition(0, 0);
                                         finish();
@@ -69,7 +100,7 @@ public class recipe extends AppCompatActivity {
                                 builder.show();
                                 break;
                             case R.id.setting:
-                                Intent in = new Intent(recipe.this, setting.class);
+                                Intent in = new Intent(Teach.this, setting.class);
                                 startActivity(in);
                                 overridePendingTransition(0, 0);
                                 break;
@@ -77,52 +108,13 @@ public class recipe extends AppCompatActivity {
                         return true;
                     }
                 });
-
-        // zone list view
-        // sample food
-        ArrayList<String> name = new ArrayList<>();
-        ArrayList<Integer> cal = new ArrayList<>();
-        ArrayList<Integer> pic = new ArrayList<>();
-        ArrayList<Integer> rank = new ArrayList<>();
-        ArrayList<Integer> like = new ArrayList<>();
-
-        for(int i=0;i<Splash.database.getArrayFood().size();i++){
-            name.add(Splash.database.getArrayFood().get(i).getName());
-            cal.add(Splash.database.getArrayFood().get(i).getEnergy());
-            pic.add(R.drawable.egg);
-            rank.add(Splash.database.getArrayFood().get(i).getRank());
-            like.add(Splash.database.getArrayFood().get(i).getLike());
-        }
-
-        final List<String> name_list = name;
-        List<Integer> cal_list = cal;
-        List<Integer> pic_list = pic;
-        List<Integer> rank_list = rank;
-        List<Integer> like_list = like;
-        //listview
-        final customAdapter adapter =new customAdapter(getApplicationContext(), name_list, cal_list, pic_list,rank_list,like_list);
-
-        ListView listView = (ListView)findViewById(R.id.listview1);
-        listView.setAdapter(adapter);
-        //click item on listview
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-                //if(arg2==0){
-                    //recipe.name=name_list.get(0);
-                    recipe.index=arg2;
-                    Intent in = new Intent(recipe.this, viewRecipeHome.class);
-                    startActivity(in);
-                    overridePendingTransition(0, 0);
-                /*}else{
-                    recipe.index=arg2;
-                    Intent in = new Intent(recipe.this, viewRecipeSuperstore.class);
-                    startActivity(in);
-                    overridePendingTransition(0, 0);
-                }*/
+        //back button
+        findViewById(R.id.back).setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v){
+                Intent in = new Intent(Teach.this, recipe.class);
+                startActivity(in);
             }
         });
 
     }
-
-
 }

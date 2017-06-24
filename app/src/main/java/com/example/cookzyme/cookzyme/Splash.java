@@ -7,6 +7,7 @@ import android.os.Bundle;
 
 public class Splash extends AppCompatActivity {
     private static int SPLASH_TIME_OUT = 4000;
+    final static Database database=new Database();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

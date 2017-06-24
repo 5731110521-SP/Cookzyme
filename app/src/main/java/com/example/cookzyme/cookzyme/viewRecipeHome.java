@@ -19,7 +19,19 @@ public class viewRecipeHome extends AppCompatActivity {
         setContentView(R.layout.activity_view_recipe_home);
 
         TextView tool = (TextView)findViewById(R.id.toolbar_title);
-        tool.setText(recipe.name);
+        Food f = Splash.database.getArrayFood().get(recipe.index);
+        tool.setText(f.getName());
+        ((TextView)findViewById(R.id.textView1)).setText(f.getName());
+        ((TextView)findViewById(R.id.textView2)).setText(f.getEnergy()+"");
+        ((TextView)findViewById(R.id.textRank)).setText(f.getRank()+"");
+        ((TextView)findViewById(R.id.textLike)).setText(f.getLike()+"");
+        String in="";
+        for (HasIngredients x:Splash.database.getArrayHasIngredients()) {
+            if(f.getName().equals(x.getFoodName())){
+                in=in+x.getIngredientName()+"\n";
+            }
+        }
+        ((TextView)findViewById(R.id.textIngre)).setText(in);
         BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavigationView);
         bottomNavigationView.getMenu().getItem(0).setChecked(true);
         bottomNavigationView.setOnNavigationItemSelectedListener(

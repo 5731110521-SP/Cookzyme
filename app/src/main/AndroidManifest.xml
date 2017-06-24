@@ -31,7 +31,8 @@
         <activity android:name=".recipe" />
         <activity android:name=".setting" />
         <activity android:name=".viewRecipeHome" />
-        <activity android:name=".viewRecipeSuperstore"></activity>
+        <activity android:name=".viewRecipeSuperstore" />
+        <activity android:name=".Teach"></activity>
     </application>
 
 </manifest>

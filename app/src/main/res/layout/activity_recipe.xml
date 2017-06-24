@@ -8,70 +8,68 @@
     tools:context="com.example.cookzyme.cookzyme.recipe">
 
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar3"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:background="@color/colorToolbar"
-        android:minHeight="?attr/actionBarSize"
-        android:theme="?attr/actionBarTheme"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:layout_constraintLeft_creator="1"
-        tools:layout_constraintRight_creator="1"
-        tools:layout_constraintTop_creator="1">
-
-        <TextView
-            android:id="@+id/toolbar_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="@string/app_name"
-            android:textColor="@android:color/background_light"
-            android:textSize="25sp"
-            android:textStyle="bold" />
-
-    </android.support.v7.widget.Toolbar>
-
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0">
 
-        <LinearLayout
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar3"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:background="@color/colorToolbar"
+            android:minHeight="?attr/actionBarSize"
+            android:theme="?attr/actionBarTheme"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:layout_constraintLeft_creator="1"
+            tools:layout_constraintRight_creator="1"
+            tools:layout_constraintTop_creator="1">
+
+            <TextView
+                android:id="@+id/toolbar_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/app_name"
+                android:textColor="@android:color/background_light"
+                android:textSize="25sp"
+                android:textStyle="bold" />
+
+        </android.support.v7.widget.Toolbar>
+
+        <ListView
+            android:id="@+id/listview1"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="0.1"
-            android:orientation="vertical"></LinearLayout>
+            android:layout_weight="0.2"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <android.support.design.widget.BottomNavigationView
             android:id="@+id/bottomNavigationView"
+            itemBackground="@android:color/transparent"
+            itemIconTint="@drawable/selector_navibar"
+            itemTextColor="@drawable/selector_navibar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="bottom"
             android:layout_weight="1"
-            app:menu="@menu/menu"
             android:background="@color/colorNavibar"
-            itemBackground="@android:color/transparent"
-            itemIconTint="@drawable/selector_navibar"
-            itemTextColor="@drawable/selector_navibar"
-            />
+            app:menu="@menu/menu" />
 
 
     </LinearLayout>
-
-    <ListView
-        android:id="@+id/listview1"
-        android:layout_width="400dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar3"
-        tools:layout_editor_absoluteX="-8dp" />
 
 
 </android.support.constraint.ConstraintLayout>
