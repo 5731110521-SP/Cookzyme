@@ -12,14 +12,13 @@ import android.view.View;
 import android.widget.TextView;
 
 public class viewRecipeHome extends AppCompatActivity {
-
+    Food f = Splash.database.getArrayFood().get(recipe.index);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_recipe_home);
 
         TextView tool = (TextView)findViewById(R.id.toolbar_title);
-        Food f = Splash.database.getArrayFood().get(recipe.index);
         tool.setText(f.getName());
         ((TextView)findViewById(R.id.textView1)).setText(f.getName());
         ((TextView)findViewById(R.id.textView2)).setText(f.getEnergy()+"");
@@ -99,14 +98,15 @@ public class viewRecipeHome extends AppCompatActivity {
         //teach
         findViewById(R.id.teach).setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
-                Intent in = new Intent(viewRecipeHome.this, recipe.class);
+                Intent in = new Intent(viewRecipeHome.this, Teach.class);
                 startActivity(in);
             }
         });
         //like button
         findViewById(R.id.imageView5).setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
-                // like++
+                f.setLike(f.getLike()+1);
+                ((TextView) findViewById(R.id.textLike)).setText(f.getLike()+"");
             }
         });
 

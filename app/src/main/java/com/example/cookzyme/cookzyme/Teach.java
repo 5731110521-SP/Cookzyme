@@ -10,17 +10,29 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
+
+import com.microsoft.speech.tts.Synthesizer;
 
 public class Teach extends AppCompatActivity {
 
     int stepno=1;
     Food f;
+    private Synthesizer m_syn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_teach);
+
+        if (m_syn == null) {
+            // Create Text To Speech Synthesizer.
+            m_syn = new Synthesizer(getString(R.string.api_key));
+        }
+
+        m_syn.SetServiceStrategy(Synthesizer.ServiceStrategy.AlwaysService);
+
 
         TextView tool = (TextView)findViewById(R.id.toolbar_title);
         f = Splash.database.getArrayFood().get(recipe.index);
@@ -34,6 +46,7 @@ public class Teach extends AppCompatActivity {
             if(f.getName().equals(x.getFoodName()) && stepno==x.getStepNo()){
                 ((TextView)findViewById(R.id.textHow)).setText(x.getStepNo()+". "+x.getStep());
                 stepno++;
+                speak();
                 break;
             }
         }
@@ -45,16 +58,20 @@ public class Teach extends AppCompatActivity {
                     if(f.getName().equals(x.getFoodName()) && stepno==x.getStepNo()){
                         ((TextView)findViewById(R.id.textHow)).setText(x.getStepNo()+". "+x.getStep());
                         stepno++;
+                        speak();
                         break;
+                    }
+                    if(Splash.database.getArrayHowToCook().get(Splash.database.getArrayHowToCook().size()-1)==x){
+                        finish();
                     }
                 }
             }
         });
 
-        findViewById(R.id.next).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.again).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                speak();
             }
         });
 
@@ -111,10 +128,16 @@ public class Teach extends AppCompatActivity {
         //back button
         findViewById(R.id.back).setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
-                Intent in = new Intent(Teach.this, recipe.class);
-                startActivity(in);
+                finish();
             }
         });
 
+    }
+
+    private void speak() {
+        String text = "<speak version=\"1.0\" xmlns=\"http://www.w3.org/2001/10/synthesis\" xmlns:mstts=\"http://www.w3.org/2001/mstts\" xml:lang=\"th-TH\"><voice xml:lang=\"th-TH\" name=\"Microsoft Server Speech Text to Speech Voice (th-TH, Pattara)\"><prosody rate=\"-30.00%\">" +
+                ((TextView)findViewById(R.id.textHow)).getText()
+                +"</prosody></voice></speak>";
+        m_syn.SpeakSSMLToAudio(text);
     }
 }
