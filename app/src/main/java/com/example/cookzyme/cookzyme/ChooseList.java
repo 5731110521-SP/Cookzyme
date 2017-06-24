@@ -17,14 +17,14 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class recipe extends AppCompatActivity {
+public class ChooseList extends AppCompatActivity {
     public static String name="";
     public static int index=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_recipe);
+        setContentView(R.layout.activity_choose_list);
 
         //navi bar
         BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavigationView);
@@ -38,19 +38,19 @@ public class recipe extends AppCompatActivity {
                             case R.id.camera:
                                 final String []option = {"Home","Superstore"};
                                 AlertDialog.Builder builder =
-                                        new AlertDialog.Builder(recipe.this);
+                                        new AlertDialog.Builder(ChooseList.this);
                                 builder.setTitle("Where are you");
                                 builder.setItems(option, new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
                                         String selected = option[which];
                                         if(selected.equals("Home")) {
-                                            Intent in = new Intent(recipe.this,camera.class);
+                                            Intent in = new Intent(ChooseList.this,Splash.class);
                                             startActivity(in);
                                             overridePendingTransition(0, 0);
                                             finish();
                                         }else if(selected.equals("Superstore")) {
-                                            Intent in = new Intent(recipe.this,Splash.class);
+                                            Intent in = new Intent(ChooseList.this,Splash.class);
                                             startActivity(in);
                                             overridePendingTransition(0, 0);
                                             finish();
@@ -59,7 +59,7 @@ public class recipe extends AppCompatActivity {
                                 });
                                 builder.setNegativeButton("cancel",new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int whichButton) {
-                                        Intent in = new Intent(recipe.this,recipe.class);
+                                        Intent in = new Intent(ChooseList.this,recipe.class);
                                         startActivity(in);
                                         overridePendingTransition(0, 0);
                                         finish();
@@ -69,7 +69,7 @@ public class recipe extends AppCompatActivity {
                                 builder.show();
                                 break;
                             case R.id.setting:
-                                Intent in = new Intent(recipe.this, setting.class);
+                                Intent in = new Intent(ChooseList.this, setting.class);
                                 startActivity(in);
                                 overridePendingTransition(0, 0);
                                 break;
@@ -87,11 +87,17 @@ public class recipe extends AppCompatActivity {
         ArrayList<Integer> like = new ArrayList<>();
 
         for(int i=0;i<Splash.database.getArrayFood().size();i++){
-            name.add(Splash.database.getArrayFood().get(i).getName());
-            cal.add(Splash.database.getArrayFood().get(i).getEnergy());
-            pic.add(R.drawable.egg);
-            rank.add(Splash.database.getArrayFood().get(i).getRank());
-            like.add(Splash.database.getArrayFood().get(i).getLike());
+            for (String x:camera.recipeName
+                 ) {
+                if(x.equals(Splash.database.getArrayFood().get(i).getName())) {
+                    name.add(Splash.database.getArrayFood().get(i).getName());
+                    cal.add(Splash.database.getArrayFood().get(i).getEnergy());
+                    pic.add(R.drawable.egg);
+                    rank.add(Splash.database.getArrayFood().get(i).getRank());
+                    like.add(Splash.database.getArrayFood().get(i).getLike());
+                    break;
+                }
+            }
         }
 
         final List<String> name_list = name;
@@ -108,11 +114,11 @@ public class recipe extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
                 //if(arg2==0){
-                    //recipe.name=name_list.get(0);
-                    recipe.index=arg2;
-                    Intent in = new Intent(recipe.this, viewRecipeHome.class);
-                    startActivity(in);
-                    overridePendingTransition(0, 0);
+                //recipe.name=name_list.get(0);
+                recipe.index=arg2;
+                Intent in = new Intent(ChooseList.this, viewRecipeHome.class);
+                startActivity(in);
+                overridePendingTransition(0, 0);
                 /*}else{
                     recipe.index=arg2;
                     Intent in = new Intent(recipe.this, viewRecipeSuperstore.class);

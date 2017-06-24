@@ -28,12 +28,13 @@
             </intent-filter>
         </activity>
         <activity android:name=".ToDoActivity" />
-        <activity android:name=".camera"></activity>
+        <activity android:name=".camera" />
         <activity android:name=".recipe" />
         <activity android:name=".setting" />
         <activity android:name=".viewRecipeHome" />
         <activity android:name=".viewRecipeSuperstore" />
-        <activity android:name=".Teach"></activity>
+        <activity android:name=".Teach" />
+        <activity android:name=".ChooseList"></activity>
     </application>
 
 </manifest>
