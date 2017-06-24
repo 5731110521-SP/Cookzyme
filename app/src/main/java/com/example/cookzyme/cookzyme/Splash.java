@@ -23,6 +23,9 @@ import android.widget.Toast;
 import com.microsoft.speech.tts.Synthesizer;
 import com.microsoft.speech.tts.Voice;
 import com.microsoft.windowsazure.mobileservices.*;
+import android.os.Handler;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -44,6 +47,7 @@ import java.net.URI;
 import com.squareup.picasso.Picasso;
 
 public class Splash extends AppCompatActivity {
+
     private static final String[] PERMISSIONS_READ_STORAGE = new String[]{Manifest.permission.READ_EXTERNAL_STORAGE};
     private Synthesizer m_syn;
     private static final int CAMERA_REQUEST = 1888;
@@ -53,6 +57,8 @@ public class Splash extends AppCompatActivity {
     private static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE_CONTENT_RESOLVER = 101;
     Context mContext;
     PermissionsChecker checker;
+    private static int SPLASH_TIME_OUT = 4000;
+    final static Database database=new Database();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,14 +69,23 @@ public class Splash extends AppCompatActivity {
         checker = new PermissionsChecker(this);
 
         Log.d("CREATION",">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
-        findViewById(R.id.button).setOnClickListener(new View.OnClickListener(){
-            public void onClick(View v){
-                Intent regIntent = new Intent(Splash.this, ToDoActivity.class);
+        findViewById(R.id.button).setOnClickListener(new View.OnClickListener() {
+                                                         public void onClick(View v) {
+                                                             Intent regIntent = new Intent(Splash.this, ToDoActivity.class);
 
-                startActivity(regIntent);
+                                                             startActivity(regIntent);
+                                                         }
+                                                     });
+/*
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Intent in = new Intent(Splash.this, recipe.class);
+                startActivity(in);
+                finish();
             }
-        });
-
+        }, SPLASH_TIME_OUT);
+*/
         if (m_syn == null) {
             // Create Text To Speech Synthesizer.
             m_syn = new Synthesizer(getString(R.string.api_key));
@@ -89,15 +104,15 @@ public class Splash extends AppCompatActivity {
 
         findViewById(R.id.cvision).setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
-            Intent regIntent = new Intent(Splash.this, cvision.class);
+                Intent regIntent = new Intent(Splash.this, cvision.class);
                 Log.d("CREATION","e");
-            startActivity(regIntent);
+                startActivity(regIntent);
             }
         });
 
-        this.imageView = (ImageView)this.findViewById(R.id.imageView);
+        imageView = (ImageView)findViewById(R.id.imageView);
 
-        Button photoButton = (Button) this.findViewById(R.id.camera);
+        Button photoButton = (Button) findViewById(R.id.camera);
         photoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -108,6 +123,13 @@ public class Splash extends AppCompatActivity {
                 Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 intent.putExtra(MediaStore.EXTRA_OUTPUT, mPhotoUri);
                 startActivityForResult(intent,CAMERA_REQUEST);*/
+            }
+        });
+
+        findViewById(R.id.button2).setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v){
+                Intent regIntent = new Intent(Splash.this, recipe.class);
+                startActivity(regIntent);
             }
         });
 

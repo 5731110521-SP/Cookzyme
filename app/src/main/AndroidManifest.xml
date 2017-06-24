@@ -18,11 +18,11 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/ic_icon"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@mipmap/ic_icon"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/Theme.AppCompat.NoActionBar">
         <activity android:name=".Splash">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -34,6 +34,12 @@
         <activity android:name=".cvision" />
         <activity
             android:name=".PermissionsActivity" />
+        <activity android:name=".camera"></activity>
+        <activity android:name=".recipe" />
+        <activity android:name=".setting" />
+        <activity android:name=".viewRecipeHome" />
+        <activity android:name=".viewRecipeSuperstore" />
+        <activity android:name=".Teach"></activity>
     </application>
 
 </manifest>

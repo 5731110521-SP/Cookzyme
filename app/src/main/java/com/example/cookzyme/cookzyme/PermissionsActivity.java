@@ -10,6 +10,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 
 public class PermissionsActivity extends AppCompatActivity {
 
@@ -23,7 +24,7 @@ public class PermissionsActivity extends AppCompatActivity {
     private PermissionsChecker checker;
     private boolean requiresCheck;
 
-    public static void startActivityForResult(Activity activity, int requestCode, String... permissions) {
+    public static void startActivityForResult(Splash activity, int requestCode, String... permissions) {
         Intent intent = new Intent(activity, PermissionsActivity.class);
         intent.putExtra(EXTRA_PERMISSIONS, permissions);
         ActivityCompat.startActivityForResult(activity, intent, requestCode, null);
