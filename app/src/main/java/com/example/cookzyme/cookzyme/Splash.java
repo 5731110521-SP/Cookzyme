@@ -14,9 +14,9 @@ public class Splash extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
-        findViewById(R.id.button).setOnClickListener(new View.OnClickListener(){
+        findViewById(R.id.btnCamera).setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
-                Intent regIntent = new Intent(Splash.this, ToDoActivity.class);
+                Intent regIntent = new Intent(Splash.this, camera.class);
 
                 startActivity(regIntent);
             }
