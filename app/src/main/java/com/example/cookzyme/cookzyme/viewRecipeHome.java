@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 public class viewRecipeHome extends AppCompatActivity {
@@ -25,6 +26,8 @@ public class viewRecipeHome extends AppCompatActivity {
         ((TextView)findViewById(R.id.textView2)).setText(f.getEnergy()+"");
         ((TextView)findViewById(R.id.textRank)).setText(f.getRank()+"");
         ((TextView)findViewById(R.id.textLike)).setText(f.getLike()+"");
+        ((ImageView)findViewById(R.id.imageView1)).setImageResource(f.getPath());
+
         String in="";
         for (HasIngredients x:Splash.database.getArrayHasIngredients()) {
             if(f.getName().equals(x.getFoodName())){

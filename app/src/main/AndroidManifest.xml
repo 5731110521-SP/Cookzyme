@@ -4,6 +4,11 @@
     android:versionCode="1"
     android:versionName="1.0">
 
+    <provider android:authorities="com.facebook.app.FacebookContentProvider1712969235663640"
+        android:name="com.facebook.FacebookContentProvider"
+        android:exported="true" />
+
+
     <uses-sdk
         android:minSdkVersion="8"
         android:targetSdkVersion="18" />
@@ -20,20 +25,21 @@
         android:roundIcon="@mipmap/ic_icon"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.NoActionBar">
+        <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id"/>
+
         <activity android:name=".Splash">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity android:name=".ToDoActivity" />
-        <activity android:name=".camera"></activity>
+        <activity android:name=".camera" />
         <activity android:name=".recipe" />
         <activity android:name=".setting" />
         <activity android:name=".viewRecipeHome" />
         <activity android:name=".viewRecipeSuperstore" />
-        <activity android:name=".Teach"></activity>
+        <activity android:name=".Teach" />
     </application>
 
 </manifest>
