@@ -35,6 +35,9 @@ public class camera extends AppCompatActivity {
     private TextView textView;
     private Bitmap photo;
     private ArrayList<Bitmap> bitmaps = new ArrayList<Bitmap>();
+    private ArrayList<String> tag = new ArrayList<String>();
+    public static ArrayList<String> recipeName = new ArrayList<String>();
+    String nameFood[] = {"Pork Ball","ก๋วยเตี๋ยวราดหน้าหมูสับ","ข้าวต้มหมูทรงเครื่อง","ข้าวผัดกุ้ง","ข้าวมันไก่","ข้าวไก่กระเทียม","น้ำพริกอ่องอกไก่","ผัดกะเพราไก่","ฟักทองผัดไข่","สุกี้กุ้งสดแห้ง","แกงจืดไข่","ไก่ทอดหาดใหญ่","ไข่เจียว เห็ดเข็มทอง",};
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,15 +54,35 @@ public class camera extends AppCompatActivity {
                 startActivityForResult(cameraIntent, CAMERA_REQUEST);
             }
         });
+        int sum = 0;
         photoButton2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                for(int i = 0 ; i<bitmaps.size() ; i++){
+                System.out.println("======================================> ");
+                for(int i = 0 ; i < nameFood.length ; i++){
+                    boolean has=false;
+                    for(int j = 0; j < Splash.database.getArrayHasIngredients().size(); j++) {
+                        if( nameFood[i].equals(Splash.database.getArrayHasIngredients().get(j).getFoodName())) {
+                            has=false;
+                            for (int k = 0; k < tag.size(); k++){
+                                if(tag.get(k).equals(Splash.database.getArrayHasIngredients().get(j).getIngredientName())){
+                                    has=true;
+                                }
+                            }
+                            if(!has) break;
+                        }
 
+                    }
+                    if(has)recipeName.add(nameFood[i]);
                 }
                 bitmaps.clear();
+
+                Intent in = new Intent(camera.this, ChooseList.class);
+                startActivity(in);
+
             }
         });
+
     }
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == CAMERA_REQUEST && resultCode == Activity.RESULT_OK) {
@@ -74,6 +97,8 @@ public class camera extends AppCompatActivity {
                 e.printStackTrace();
             }
             textView.setText(r.getAns2()+ " " +bitmaps.size() );
+            tag.add(r.getAns2());
+            System.out.println(" ---------------- " + tag.size());
         }
     }
 }
