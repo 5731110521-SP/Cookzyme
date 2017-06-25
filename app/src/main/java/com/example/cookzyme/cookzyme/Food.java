@@ -3,7 +3,7 @@ package com.example.cookzyme.cookzyme;
 public class Food {
 
 	private String name;
-	private String path;
+	private Integer path;
 	private int rank;
     private int like;
 	public String getName() {
@@ -12,11 +12,8 @@ public class Food {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public String getPath() {
+	public Integer getPath() {
 		return path;
-	}
-	public void setPath(String path) {
-		this.path = path;
 	}
 	public int getEnergy() {
 		return energy;
@@ -25,7 +22,7 @@ public class Food {
 		this.energy = energy;
 	}
 	private int energy;
-	public Food(String name,String path,int energy) {
+	public Food(String name,Integer path,int energy) {
 		// TODO Auto-generated constructor stub
 		this.name = name;
 		this.path = path;
