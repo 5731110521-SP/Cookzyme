@@ -48,12 +48,10 @@ public class recipe extends AppCompatActivity {
                                             Intent in = new Intent(recipe.this,camera.class);
                                             startActivity(in);
                                             overridePendingTransition(0, 0);
-                                            finish();
                                         }else if(selected.equals("Superstore")) {
-                                            Intent in = new Intent(recipe.this,camera.class);
+                                            Intent in = new Intent(recipe.this,cameraShopping.class);
                                             startActivity(in);
                                             overridePendingTransition(0, 0);
-                                            finish();
                                         }
                                     }
                                 });

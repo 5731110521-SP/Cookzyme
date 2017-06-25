@@ -44,7 +44,7 @@ public class camera extends AppCompatActivity {
         setContentView(R.layout.activity_camera);
 
         this.imageView = (ImageView)this.findViewById(R.id.imageView);
-        this.textView = (TextView)this.findViewById(R.id.textView);
+        this.textView = (TextView)this.findViewById(R.id.toolbar_title);
         Button photoButton = (Button) this.findViewById(R.id.btnCamera);
         Button photoButton2 = (Button) this.findViewById(R.id.btnCooking);
         photoButton.setOnClickListener(new View.OnClickListener() {
@@ -87,6 +87,7 @@ public class camera extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == CAMERA_REQUEST && resultCode == Activity.RESULT_OK) {
             photo = (Bitmap) data.getExtras().get("data");
+            ((ImageView)findViewById(R.id.imageView)).setImageBitmap(photo);
             bitmaps.add(photo);
             run2 r = new run2(photo);
             Thread t= new Thread(r);
@@ -96,7 +97,7 @@ public class camera extends AppCompatActivity {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            textView.setText(r.getAns2()+ " " +bitmaps.size() );
+            textView.setText(r.getAns2());
             tag.add(r.getAns2());
             System.out.println(" ---------------- " + tag.size());
         }

@@ -45,12 +45,12 @@ public class ChooseList extends AppCompatActivity {
                                     public void onClick(DialogInterface dialog, int which) {
                                         String selected = option[which];
                                         if(selected.equals("Home")) {
-                                            Intent in = new Intent(ChooseList.this,Splash.class);
+                                            Intent in = new Intent(ChooseList.this,camera.class);
                                             startActivity(in);
                                             overridePendingTransition(0, 0);
                                             finish();
                                         }else if(selected.equals("Superstore")) {
-                                            Intent in = new Intent(ChooseList.this,Splash.class);
+                                            Intent in = new Intent(ChooseList.this,cameraShopping.class);
                                             startActivity(in);
                                             overridePendingTransition(0, 0);
                                             finish();

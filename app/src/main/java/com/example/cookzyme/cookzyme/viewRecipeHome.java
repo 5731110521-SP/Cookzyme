@@ -53,12 +53,12 @@ public class viewRecipeHome extends AppCompatActivity {
                                     public void onClick(DialogInterface dialog, int which) {
                                         String selected = option[which];
                                         if(selected.equals("Home")) {
-                                            Intent in = new Intent(viewRecipeHome.this,Splash.class);
+                                            Intent in = new Intent(viewRecipeHome.this,camera.class);
                                             startActivity(in);
                                             overridePendingTransition(0, 0);
                                             finish();
                                         }else if(selected.equals("Superstore")) {
-                                            Intent in = new Intent(viewRecipeHome.this,Splash.class);
+                                            Intent in = new Intent(viewRecipeHome.this,cameraShopping.class);
                                             startActivity(in);
                                             overridePendingTransition(0, 0);
                                             finish();
@@ -88,8 +88,7 @@ public class viewRecipeHome extends AppCompatActivity {
         //back button
         findViewById(R.id.back).setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
-                Intent in = new Intent(viewRecipeHome.this, recipe.class);
-                startActivity(in);
+                finish();
             }
         });
         //share on facebook

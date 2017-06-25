@@ -44,7 +44,7 @@ public class cameraShopping extends AppCompatActivity {
         setContentView(R.layout.activity_camera);
 
         this.imageView = (ImageView)this.findViewById(R.id.imageView);
-        this.textView = (TextView)this.findViewById(R.id.textView);
+        this.textView = (TextView)this.findViewById(R.id.toolbar_title);
         Button photoButton = (Button) this.findViewById(R.id.btnCamera);
         Button photoButton2 = (Button) this.findViewById(R.id.btnCooking);
         photoButton.setOnClickListener(new View.OnClickListener() {
@@ -58,25 +58,13 @@ public class cameraShopping extends AppCompatActivity {
         photoButton2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                System.out.println("======================================> ");
-                for(int i = 0 ; i < nameFood.length ; i++){
-                    boolean has=false;
-                    for(int j = 0; j < Splash.database.getArrayHasIngredients().size(); j++) {
-                        if( nameFood[i].equals(Splash.database.getArrayHasIngredients().get(j).getFoodName())) {
-                            has=false;
-                            for (int k = 0; k < tag.size(); k++){
-                                if(tag.get(k).equals(Splash.database.getArrayHasIngredients().get(j).getIngredientName())){
-                                    has=true;
-                                }
-                            }
-                            if(!has) break;
-                        }
-
+                for(int j=0;j<Splash.database.getArrayHasIngredients().size();j++) {
+                    if (tag.get(0).equals(Splash.database.getArrayHasIngredients().get(j).getIngredientName())) {
+                        recipeName.add(Splash.database.getArrayHasIngredients().get(j).getFoodName());
                     }
-                    if(has)recipeName.add(nameFood[i]);
                 }
                 bitmaps.clear();
-
+                camera.recipeName=recipeName;
                 Intent in = new Intent(cameraShopping.this, ChooseList.class);
                 startActivity(in);
 
@@ -87,6 +75,7 @@ public class cameraShopping extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == CAMERA_REQUEST && resultCode == Activity.RESULT_OK) {
             photo = (Bitmap) data.getExtras().get("data");
+            ((ImageView)findViewById(R.id.imageView)).setImageBitmap(photo);
             bitmaps.add(photo);
             run2 r = new run2(photo);
             Thread t= new Thread(r);
@@ -96,7 +85,8 @@ public class cameraShopping extends AppCompatActivity {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            textView.setText(r.getAns2()+ " " +bitmaps.size() );
+            textView.setText(r.getAns2());
+            tag.clear();
             tag.add(r.getAns2());
             System.out.println(" ---------------- " + tag.size());
         }
