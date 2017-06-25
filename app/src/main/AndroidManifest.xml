@@ -34,7 +34,8 @@
         <activity android:name=".viewRecipeHome" />
         <activity android:name=".viewRecipeSuperstore" />
         <activity android:name=".Teach" />
-        <activity android:name=".ChooseList"></activity>
+        <activity android:name=".ChooseList" />
+        <activity android:name=".cameraShopping"></activity>
     </application>
 
 </manifest>
