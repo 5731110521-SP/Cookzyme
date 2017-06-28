@@ -45,15 +45,13 @@ public class recipe extends AppCompatActivity {
                                     public void onClick(DialogInterface dialog, int which) {
                                         String selected = option[which];
                                         if(selected.equals("Home")) {
-                                            Intent in = new Intent(recipe.this,Splash.class);
+                                            Intent in = new Intent(recipe.this,camera.class);
                                             startActivity(in);
                                             overridePendingTransition(0, 0);
-                                            finish();
                                         }else if(selected.equals("Superstore")) {
-                                            Intent in = new Intent(recipe.this,Splash.class);
+                                            Intent in = new Intent(recipe.this,cameraShopping.class);
                                             startActivity(in);
                                             overridePendingTransition(0, 0);
-                                            finish();
                                         }
                                     }
                                 });
@@ -89,7 +87,7 @@ public class recipe extends AppCompatActivity {
         for(int i=0;i<Splash.database.getArrayFood().size();i++){
             name.add(Splash.database.getArrayFood().get(i).getName());
             cal.add(Splash.database.getArrayFood().get(i).getEnergy());
-            pic.add(R.drawable.egg);
+            pic.add(Splash.database.getArrayFood().get(i).getPath());
             rank.add(Splash.database.getArrayFood().get(i).getRank());
             like.add(Splash.database.getArrayFood().get(i).getLike());
         }
@@ -108,11 +106,11 @@ public class recipe extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
                 //if(arg2==0){
-                    //recipe.name=name_list.get(0);
-                    recipe.index=arg2;
+                    recipe.name=name_list.get(arg2);
                     Intent in = new Intent(recipe.this, viewRecipeHome.class);
                     startActivity(in);
                     overridePendingTransition(0, 0);
+                finish();
                 /*}else{
                     recipe.index=arg2;
                     Intent in = new Intent(recipe.this, viewRecipeSuperstore.class);

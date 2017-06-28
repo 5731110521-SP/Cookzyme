@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.microsoft.speech.tts.Synthesizer;
@@ -20,6 +21,7 @@ public class Teach extends AppCompatActivity {
     int stepno=1;
     Food f;
     private Synthesizer m_syn;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,10 +37,19 @@ public class Teach extends AppCompatActivity {
 
 
         TextView tool = (TextView)findViewById(R.id.toolbar_title);
-        f = Splash.database.getArrayFood().get(recipe.index);
+
+        for (Food x:Splash.database.getArrayFood()
+                ) {
+            if(x.getName().equals(recipe.name)){
+                f=x;
+                break;
+            }
+        }
+
         tool.setText(f.getName());
+        ((ImageView)findViewById(R.id.imageView1)).setImageResource(f.getPath());
         ((TextView)findViewById(R.id.textView1)).setText(f.getName());
-        ((TextView)findViewById(R.id.textView2)).setText(f.getEnergy()+"");
+        ((TextView)findViewById(R.id.textView2)).setText(f.getEnergy()+" kcal");
         ((TextView)findViewById(R.id.textRank)).setText(f.getRank()+"");
         ((TextView)findViewById(R.id.textLike)).setText(f.getLike()+"");
 

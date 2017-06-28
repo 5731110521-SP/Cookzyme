@@ -9,63 +9,49 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageView;
+import android.widget.AdapterView;
+import android.widget.ListView;
 import android.widget.TextView;
 
-public class viewRecipeHome extends AppCompatActivity {
-    Food f = Splash.database.getArrayFood().get(0);
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+public class ChooseList extends AppCompatActivity {
+    public static String name="";
+    public static int index=0;
+    List<String> name_list;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_view_recipe_home);
+        setContentView(R.layout.activity_choose_list);
 
-        for (Food x:Splash.database.getArrayFood()
-             ) {
-            if(x.getName().equals(recipe.name)){
-                f=x;
-                break;
-            }
-        }
-
-        TextView tool = (TextView)findViewById(R.id.toolbar_title);
-        tool.setText(f.getName());
-        ((TextView)findViewById(R.id.textView1)).setText(f.getName());
-        ((TextView)findViewById(R.id.textView2)).setText(f.getEnergy()+" kcal");
-        ((TextView)findViewById(R.id.textRank)).setText(f.getRank()+"");
-        ((TextView)findViewById(R.id.textLike)).setText(f.getLike()+"");
-        ((ImageView)findViewById(R.id.imageView1)).setBackgroundResource(f.getPath());
-
-        String in="";
-        for (HasIngredients x:Splash.database.getArrayHasIngredients()) {
-            if(f.getName().equals(x.getFoodName())){
-                in=in+x.getIngredientName()+"\n";
-            }
-        }
-        ((TextView)findViewById(R.id.textIngre)).setText(in);
+        //navi bar
         BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavigationView);
         bottomNavigationView.getMenu().getItem(0).setChecked(true);
+
         bottomNavigationView.setOnNavigationItemSelectedListener(
                 new BottomNavigationView.OnNavigationItemSelectedListener() {
                     @Override
                     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                        TextView tv1 = (TextView)findViewById(R.id.toolbar_title);
                         switch (item.getItemId()) {
                             case R.id.camera:
                                 final String []option = {"Home","Superstore"};
                                 AlertDialog.Builder builder =
-                                        new AlertDialog.Builder(viewRecipeHome.this);
+                                        new AlertDialog.Builder(ChooseList.this);
                                 builder.setTitle("Where are you");
                                 builder.setItems(option, new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
                                         String selected = option[which];
                                         if(selected.equals("Home")) {
-                                            Intent in = new Intent(viewRecipeHome.this,camera.class);
+                                            Intent in = new Intent(ChooseList.this,camera.class);
                                             startActivity(in);
                                             overridePendingTransition(0, 0);
                                             finish();
                                         }else if(selected.equals("Superstore")) {
-                                            Intent in = new Intent(viewRecipeHome.this,cameraShopping.class);
+                                            Intent in = new Intent(ChooseList.this,cameraShopping.class);
                                             startActivity(in);
                                             overridePendingTransition(0, 0);
                                             finish();
@@ -74,7 +60,7 @@ public class viewRecipeHome extends AppCompatActivity {
                                 });
                                 builder.setNegativeButton("cancel",new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int whichButton) {
-                                        Intent in = new Intent(viewRecipeHome.this,setting.class);
+                                        Intent in = new Intent(ChooseList.this,recipe.class);
                                         startActivity(in);
                                         overridePendingTransition(0, 0);
                                         finish();
@@ -84,7 +70,7 @@ public class viewRecipeHome extends AppCompatActivity {
                                 builder.show();
                                 break;
                             case R.id.setting:
-                                Intent in = new Intent(viewRecipeHome.this, setting.class);
+                                Intent in = new Intent(ChooseList.this, setting.class);
                                 startActivity(in);
                                 overridePendingTransition(0, 0);
                                 break;
@@ -92,35 +78,57 @@ public class viewRecipeHome extends AppCompatActivity {
                         return true;
                     }
                 });
-        //back button
-        findViewById(R.id.back).setOnClickListener(new View.OnClickListener(){
-            public void onClick(View v){
-                Intent in = new Intent(viewRecipeHome.this, recipe.class);
-                startActivity(in);
-            }
-        });
-        //share on facebook
-        findViewById(R.id.facebook).setOnClickListener(new View.OnClickListener(){
-            public void onClick(View v){
-                Intent in = new Intent(viewRecipeHome.this, recipe.class);
-                startActivity(in);
-            }
-        });
-        //teach
-        findViewById(R.id.teach).setOnClickListener(new View.OnClickListener(){
-            public void onClick(View v){
-                Intent in = new Intent(viewRecipeHome.this, Teach.class);
-                startActivity(in);
-            }
-        });
-        //like button
-        findViewById(R.id.imageView5).setOnClickListener(new View.OnClickListener(){
-            public void onClick(View v){
-                f.setLike(f.getLike()+1);
-                ((TextView) findViewById(R.id.textLike)).setText(f.getLike()+"");
-            }
-        });
 
+        // zone list view
+        // sample food
+        ArrayList<String> name = new ArrayList<>();
+        ArrayList<Integer> cal = new ArrayList<>();
+        ArrayList<Integer> pic = new ArrayList<>();
+        ArrayList<Integer> rank = new ArrayList<>();
+        ArrayList<Integer> like = new ArrayList<>();
+
+        for(int i=0;i<Splash.database.getArrayFood().size();i++){
+            for (String x:camera.recipeName
+                 ) {
+                if(x.equals(Splash.database.getArrayFood().get(i).getName())) {
+                    name.add(Splash.database.getArrayFood().get(i).getName());
+                    cal.add(Splash.database.getArrayFood().get(i).getEnergy());
+                    pic.add(Splash.database.getArrayFood().get(i).getPath());
+                    rank.add(Splash.database.getArrayFood().get(i).getRank());
+                    like.add(Splash.database.getArrayFood().get(i).getLike());
+                    break;
+                }
+            }
+        }
+
+        name_list = name;
+        List<Integer> cal_list = cal;
+        List<Integer> pic_list = pic;
+        List<Integer> rank_list = rank;
+        List<Integer> like_list = like;
+        //listview
+        final customAdapter adapter =new customAdapter(getApplicationContext(), name_list, cal_list, pic_list,rank_list,like_list);
+
+        ListView listView = (ListView)findViewById(R.id.listview1);
+        listView.setAdapter(adapter);
+        //click item on listview
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+                //if(arg2==0){
+                recipe.name=name_list.get(arg2);
+                Intent in = new Intent(ChooseList.this, viewRecipeHome.class);
+                startActivity(in);
+                overridePendingTransition(0, 0);
+                /*}else{
+                    recipe.index=arg2;
+                    Intent in = new Intent(recipe.this, viewRecipeSuperstore.class);
+                    startActivity(in);
+                    overridePendingTransition(0, 0);
+                }*/
+            }
+        });
 
     }
+
+
 }

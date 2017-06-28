@@ -23,4 +23,5 @@
     <string name="string_unable_to_pick_image">Unable to Pickup Image</string>
     <string name="string_unable_to_load_image">Unable to Load Image</string>
     <string name="string_reselect">Click on Image to Reselect</string>
+    <string name="facebook_app_id">1712969235663640</string>
 </resources>

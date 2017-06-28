@@ -33,7 +33,7 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 
 
-public class camera extends AppCompatActivity {
+public class cameraShopping extends AppCompatActivity {
 
     private static final int CAMERA_REQUEST = 1888;
     private ImageView imageView;
@@ -61,18 +61,18 @@ public class camera extends AppCompatActivity {
                             case R.id.camera:
                                 final String []option = {"Home","Superstore"};
                                 AlertDialog.Builder builder =
-                                        new AlertDialog.Builder(camera.this);
+                                        new AlertDialog.Builder(cameraShopping.this);
                                 builder.setTitle("Where are you");
                                 builder.setItems(option, new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
                                         String selected = option[which];
                                         if(selected.equals("Home")) {
-                                            Intent in = new Intent(camera.this,camera.class);
+                                            Intent in = new Intent(cameraShopping.this,camera.class);
                                             startActivity(in);
                                             overridePendingTransition(0, 0);
                                         }else if(selected.equals("Superstore")) {
-                                            Intent in = new Intent(camera.this,cameraShopping.class);
+                                            Intent in = new Intent(cameraShopping.this,cameraShopping.class);
                                             startActivity(in);
                                             overridePendingTransition(0, 0);
                                         }
@@ -90,12 +90,12 @@ public class camera extends AppCompatActivity {
                                 builder.show();
                                 break;
                             case R.id.setting:
-                                in = new Intent(camera.this, setting.class);
+                                in = new Intent(cameraShopping.this, setting.class);
                                 startActivity(in);
                                 overridePendingTransition(0, 0);
                                 break;
                             case R.id.recipe:
-                                in = new Intent(camera.this, recipe.class);
+                                in = new Intent(cameraShopping.this, recipe.class);
                                 startActivity(in);
                                 overridePendingTransition(0, 0);
                                 break;
@@ -120,26 +120,14 @@ public class camera extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(tag.size()==0)return;
-                System.out.println("======================================> ");
-                for(int i = 0 ; i < nameFood.length ; i++){
-                    boolean has=false;
-                    for(int j = 0; j < Splash.database.getArrayHasIngredients().size(); j++) {
-                        if( nameFood[i].equals(Splash.database.getArrayHasIngredients().get(j).getFoodName())) {
-                            has=false;
-                            for (int k = 0; k < tag.size(); k++){
-                                if(tag.get(k).equals(Splash.database.getArrayHasIngredients().get(j).getIngredientName())){
-                                    has=true;
-                                }
-                            }
-                            if(!has) break;
-                        }
-
+                for(int j=0;j<Splash.database.getArrayHasIngredients().size();j++) {
+                    if (tag.get(0).equals(Splash.database.getArrayHasIngredients().get(j).getIngredientName())) {
+                        recipeName.add(Splash.database.getArrayHasIngredients().get(j).getFoodName());
                     }
-                    if(has)recipeName.add(nameFood[i]);
                 }
                 bitmaps.clear();
-
-                Intent in = new Intent(camera.this, ChooseList.class);
+                camera.recipeName=recipeName;
+                Intent in = new Intent(cameraShopping.this, ChooseList.class);
                 startActivity(in);
 
             }
@@ -160,6 +148,7 @@ public class camera extends AppCompatActivity {
                 e.printStackTrace();
             }
             textView.setText(r.getAns2());
+            tag.clear();
             tag.add(r.getAns2());
             System.out.println(" ---------------- " + tag.size());
         }
