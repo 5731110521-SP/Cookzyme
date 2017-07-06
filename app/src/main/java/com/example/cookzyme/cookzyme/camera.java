@@ -1,14 +1,23 @@
 package com.example.cookzyme.cookzyme;
 
+import android.Manifest;
 import android.app.Activity;
+import android.content.ContentValues;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.media.Image;
+import android.net.Uri;
+import android.os.Build;
 import android.provider.MediaStore;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -18,6 +27,17 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.facebook.CallbackManager;
+import com.facebook.FacebookSdk;
+import com.facebook.appevents.AppEventsLogger;
+
+import com.facebook.share.ShareApi;
+import com.facebook.share.model.ShareLinkContent;
+import com.facebook.share.model.SharePhoto;
+import com.facebook.share.model.SharePhotoContent;
+import com.facebook.share.widget.ShareButton;
+import com.facebook.share.widget.ShareDialog;
 
 import java.net.URI;
 import java.util.ArrayList;
@@ -35,18 +55,26 @@ import org.apache.http.util.EntityUtils;
 
 public class camera extends AppCompatActivity {
 
+    Context MyActivity = this;
+    CallbackManager callbackManager;
+    ShareDialog shareDialog;
     private static final int CAMERA_REQUEST = 1888;
     private ImageView imageView;
+    private Bitmap image1;
     private TextView textView;
-    private Bitmap photo;
+    private Bitmap image;
     private ArrayList<Bitmap> bitmaps = new ArrayList<Bitmap>();
     private ArrayList<String> tag = new ArrayList<String>();
     public static ArrayList<String> recipeName = new ArrayList<String>();
-    String nameFood[] = {"Pork Ball","ก๋วยเตี๋ยวราดหน้าหมูสับ","ข้าวต้มหมูทรงเครื่อง","ข้าวผัดกุ้ง","ข้าวมันไก่","ข้าวไก่กระเทียม","น้ำพริกอ่องอกไก่","ผัดกะเพราไก่","ฟักทองผัดไข่","สุกี้กุ้งสดแห้ง","แกงจืดไข่","ไก่ทอดหาดใหญ่","ไข่เจียว เห็ดเข็มทอง",};
+    String nameFood[] = {"Pork Ball","ก๋วยเตี๋ยวราดหน้าหมูสับ","ข้าวต้มหมูทรงเครื่อง","ข้าวผัดกุ้ง","ข้าวมันไก่","ข้าวไก่กระเทียม","น้ำพริกอ่องอกไก่","ผัดกะเพราไก่","ฟักทองผัดไข่","สุกี้กุ้งสดแห้ง","แกงจืดไข่","ไก่ทอดหาดใหญ่","ไข่เจียว เห็ดเข็มทอง"};
+    private Uri imageUri;
+    public static final int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 123;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_camera);
+
+
 
         //navi bar
         BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavigationView);
@@ -68,7 +96,7 @@ public class camera extends AppCompatActivity {
                                     public void onClick(DialogInterface dialog, int which) {
                                         String selected = option[which];
                                         if(selected.equals("Home")) {
-                                            Intent in = new Intent(camera.this,camera.class);
+                                            Intent inิ= new Intent(camera.this,camera.class);
                                             startActivity(in);
                                             overridePendingTransition(0, 0);
                                         }else if(selected.equals("Superstore")) {
@@ -111,8 +139,18 @@ public class camera extends AppCompatActivity {
         photoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-                startActivityForResult(cameraIntent, CAMERA_REQUEST);
+                ContentValues values = new ContentValues();
+                values.put(MediaStore.Images.Media.TITLE, "New Picture");
+                values.put(MediaStore.Images.Media.DESCRIPTION, "From your Camera");
+                if (checkPermissionWRITE_EXTERNAL_STORAGE(MyActivity)) {
+                    System.out.println("5555555555555555555555555555555555555555555555555555555555555555555555");
+                    imageUri = getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
+                }else{
+                    System.out.println("******************************************");
+                }
+                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
+                startActivityForResult(intent, CAMERA_REQUEST);
             }
         });
         int sum = 0;
@@ -144,25 +182,99 @@ public class camera extends AppCompatActivity {
 
             }
         });
+        ShareLinkContent content = new ShareLinkContent.Builder()
+                .setContentUrl(Uri.parse("https://developers.facebook.com"))
+                .build();
+        ShareButton shareButton = (ShareButton)findViewById(R.id.fb_share_button);
+        shareButton.setShareContent(content);
 
     }
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == CAMERA_REQUEST && resultCode == Activity.RESULT_OK) {
-            photo = (Bitmap) data.getExtras().get("data");
-            ((ImageView)findViewById(R.id.imageView)).setImageBitmap(photo);
-            bitmaps.add(photo);
-            run2 r = new run2(photo);
-            Thread t= new Thread(r);
-            t.start();
-            try {
-                t.join();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+
+    public boolean checkPermissionWRITE_EXTERNAL_STORAGE(
+            final Context context) {
+        int currentAPIVersion = Build.VERSION.SDK_INT;
+        if (currentAPIVersion >= android.os.Build.VERSION_CODES.M) {
+            if (ContextCompat.checkSelfPermission(context,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                if (ActivityCompat.shouldShowRequestPermissionRationale(
+                        (Activity) context,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                    showDialog("External storage", context, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+
+                } else {
+                    ActivityCompat
+                            .requestPermissions(
+                                    (Activity) context,
+                                    new String[] { Manifest.permission.WRITE_EXTERNAL_STORAGE },
+                                    MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE);
+                }
+                return false;
+            } else {
+                return true;
             }
-            textView.setText(r.getAns2());
-            tag.add(r.getAns2());
-            System.out.println(" ---------------- " + tag.size());
+
+        } else {
+            return true;
         }
     }
-}
 
+    public void showDialog(final String msg, final Context context,
+                           final String permission) {
+        AlertDialog.Builder alertBuilder = new AlertDialog.Builder(context);
+        alertBuilder.setCancelable(true);
+        alertBuilder.setTitle("Permission necessary");
+        alertBuilder.setMessage(msg + " permission is necessary");
+        alertBuilder.setPositiveButton(android.R.string.yes,
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        ActivityCompat.requestPermissions((Activity) context,
+                                new String[] { permission },
+                                MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE);
+                    }
+                });
+        AlertDialog alert = alertBuilder.create();
+        alert.show();
+    }
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
+            case CAMERA_REQUEST:
+                if (requestCode == CAMERA_REQUEST)
+                    if (resultCode == Activity.RESULT_OK) {
+                        try {
+
+                            Bitmap thumbnail = MediaStore.Images.Media.getBitmap(getContentResolver(), imageUri);
+                            imageView.setImageBitmap(thumbnail);
+                            SharePhoto photo = new SharePhoto.Builder()
+                                    //.setImageUrl(Uri.parse("https://static.pexels.com/photos/126407/pexels-photo-126407.jpeg"))
+                                    .setBitmap(thumbnail)
+                                    .build();
+                            SharePhotoContent content2 = new SharePhotoContent.Builder()
+                                    .addPhoto(photo)
+                                    .build();
+
+                            ShareButton shareButton2 = (ShareButton)findViewById(R.id.fb_share_button2);
+                            shareButton2.setShareContent(content2);
+                            image = thumbnail;
+                            bitmaps.add(image1);
+                            run2 r = new run2(image1);
+                            Thread t= new Thread(r);
+                            t.start();
+                            try {
+                                t.join();
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                            textView.setText(r.getAns2());
+                            tag.add(r.getAns2());
+                            // imageurl = getRealPathFromURI(imageUri);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+        }
+
+    }
+
+}
