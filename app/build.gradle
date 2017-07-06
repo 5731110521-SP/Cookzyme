@@ -1,7 +1,9 @@
 apply plugin: 'com.android.application'
+
 repositories {
     mavenCentral()
 }
+
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
@@ -14,9 +16,14 @@ dependencies {
         exclude module: "httpclient"
     }
 
+    compile 'com.facebook.android:facebook-android-sdk:[4,5)'
+    compile 'com.facebook.android:facebook-android-sdk:4.24.0'
+    compile 'com.google.code.gson:gson:2.7'
+    compile 'com.google.guava:guava:20.0'
+    compile('org.apache.httpcomponents:httpmime:4.3') {
+        exclude module: "httpclient"
+    }
     compile 'com.facebook.android:facebook-android-sdk:4.+'
-    compile 'com.google.code.gson:gson:2.3'
-    compile 'com.google.guava:guava:18.0'
     compile 'com.squareup.okhttp:okhttp:2.5.0'
     compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
@@ -27,15 +34,12 @@ dependencies {
     compile 'org.jbundle.util.osgi.wrapped:org.jbundle.util.osgi.wrapped.org.apache.http.client:4.1.2'
     compile 'org.apache.directory.studio:org.apache.commons.io:2.4'
     compile 'com.alibaba:fastjson:1.2.33'
-    compile('org.apache.httpcomponents:httpmime:4.3') {
-        exclude module: "httpclient"
-    }
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.squareup.retrofit2:retrofit:2.0.2'
     compile 'com.squareup.retrofit2:converter-gson:2.0.2'
-    testCompile 'junit:junit:4.12'
     compile 'com.android.support:design:25.3.1'
-    compile 'com.facebook.android:facebook-android-sdk:4.+'
+
+    testCompile 'junit:junit:4.12'
 }
 
 android {
