@@ -16,14 +16,13 @@ dependencies {
         exclude module: "httpclient"
     }
 
-    compile 'com.facebook.android:facebook-android-sdk:[4,5)'
-    compile 'com.facebook.android:facebook-android-sdk:4.24.0'
-    compile 'com.google.code.gson:gson:2.7'
-    compile 'com.google.guava:guava:20.0'
     compile('org.apache.httpcomponents:httpmime:4.3') {
         exclude module: "httpclient"
     }
-    compile 'com.facebook.android:facebook-android-sdk:4.+'
+
+    compile 'com.facebook.android:facebook-android-sdk:4.24.0'
+    compile 'com.google.code.gson:gson:2.7'
+    compile 'com.google.guava:guava:20.0'
     compile 'com.squareup.okhttp:okhttp:2.5.0'
     compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
@@ -38,7 +37,7 @@ dependencies {
     compile 'com.squareup.retrofit2:retrofit:2.0.2'
     compile 'com.squareup.retrofit2:converter-gson:2.0.2'
     compile 'com.android.support:design:25.3.1'
-
+    compile 'com.android.support:support-vector-drawable:25.3.1'
     testCompile 'junit:junit:4.12'
 }
 
@@ -53,6 +52,7 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        vectorDrawables.useSupportLibrary = true
     }
     buildTypes {
         release {
@@ -82,5 +82,8 @@ android {
         exclude 'META-INF/LGPL2.1'
     }
 
+
 }
+
+
 
