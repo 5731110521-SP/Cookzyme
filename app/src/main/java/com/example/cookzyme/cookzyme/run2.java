@@ -61,14 +61,14 @@ public class run2 implements Runnable {
 
             // Request body
             System.out.println(getEncoded64ImageStringFromBitmap(bitmap));
-
+            System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
             ByteArrayEntity reqEntity = new ByteArrayEntity( getEncoded64ImageStringFromBitmap(bitmap));
             request.setEntity(reqEntity);
-
+            System.out.println("yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy");
             HttpResponse response = httpclient.execute(request);
-
+            System.out.println("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
             HttpEntity entity = response.getEntity();
-
+            System.out.println("bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb");
             if (entity != null)
             {
                 ans = EntityUtils.toString(entity);
@@ -81,7 +81,7 @@ public class run2 implements Runnable {
         {
             e.printStackTrace();
         }
-
+        System.out.println("ccccccccccccccccccccccccccccccccccccccccccccccccccc");
     }
     public String getAns2() {
         return ans2;
