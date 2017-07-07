@@ -1,2 +1,2 @@
-include ':app', ':speechsdk'
+include ':app', ':speechsdk', ':azure-mobile-android-3.3.0'
 project(':speechsdk').projectDir = new File('module/speechsdk')

@@ -143,7 +143,6 @@ public class camera extends AppCompatActivity {
                 values.put(MediaStore.Images.Media.TITLE, "New Picture");
                 values.put(MediaStore.Images.Media.DESCRIPTION, "From your Camera");
                 if (checkPermissionWRITE_EXTERNAL_STORAGE(MyActivity)) {
-                    System.out.println("5555555555555555555555555555555555555555555555555555555555555555555555");
                     imageUri = getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
                 }else{
                     System.out.println("******************************************");
@@ -158,7 +157,6 @@ public class camera extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(tag.size()==0)return;
-                System.out.println("======================================> ");
                 for(int i = 0 ; i < nameFood.length ; i++){
                     boolean has=false;
                     for(int j = 0; j < Splash.database.getArrayHasIngredients().size(); j++) {
@@ -182,11 +180,17 @@ public class camera extends AppCompatActivity {
 
             }
         });
-        ShareLinkContent content = new ShareLinkContent.Builder()
-                .setContentUrl(Uri.parse("https://developers.facebook.com"))
-                .build();
-        ShareButton shareButton = (ShareButton)findViewById(R.id.fb_share_button);
-        shareButton.setShareContent(content);
+
+        Button facebookInfo = (Button)findViewById(R.id.fb_share_button);
+        facebookInfo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent in = new Intent(camera.this, FacebookInfo.class);
+                startActivity(in);
+                finish();
+            }
+        });
+
 
     }
 
