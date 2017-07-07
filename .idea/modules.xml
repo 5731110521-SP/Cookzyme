@@ -5,7 +5,6 @@
       <module fileurl="file://$PROJECT_DIR$/CooKzyMe.iml" filepath="$PROJECT_DIR$/CooKzyMe.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/module/speechsdk/speechsdk.iml" filepath="$PROJECT_DIR$/module/speechsdk/speechsdk.iml" />
-      <module fileurl="file://$PROJECT_DIR$/module/speechsdk/speechsdk.iml" filepath="$PROJECT_DIR$/module/speechsdk/speechsdk.iml" />
     </modules>
   </component>
 </project>
