@@ -51,7 +51,7 @@ public class HomeTabFragment extends Fragment {
         List<Integer> rank_list = rank;
         List<Integer> like_list = like;
         //listview
-        final customAdapter adapter =new customAdapter(getContext(), name_list, cal_list, pic_list,rank_list,like_list);
+        final customAdapter adapter =new customAdapter(getContext(), name_list, cal_list, pic_list,like_list);
 
         ListView listView = (ListView) rootView.findViewById(R.id.listview1);
         listView.setAdapter(adapter);

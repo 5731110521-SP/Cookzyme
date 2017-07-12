@@ -53,7 +53,6 @@
         <activity android:name=".viewRecipeHome" />
         <activity android:name=".viewRecipeSuperstore" />
         <activity android:name=".Teach" />
-        <activity android:name=".ChooseList" />
         <activity android:name=".cameraShopping" />
         <activity
             android:name=".LoginActivity"
@@ -75,15 +74,14 @@
             </intent-filter>
         </activity>
         <activity android:name=".letmetry" />
-
         <provider
             android:name="com.facebook.FacebookContentProvider"
             android:authorities="com.facebook.app.FacebookContentProvider1712969235663640"
             android:exported="true" />
-
         <activity
             android:name=".HomeActivity"
             android:label="@string/title_activity_home" />
+        <activity android:name=".addIngredient"></activity>
     </application>
 
 </manifest>

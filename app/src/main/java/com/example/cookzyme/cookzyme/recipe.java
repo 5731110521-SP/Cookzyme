@@ -95,10 +95,9 @@ public class recipe extends AppCompatActivity {
         final List<String> name_list = name;
         List<Integer> cal_list = cal;
         List<Integer> pic_list = pic;
-        List<Integer> rank_list = rank;
         List<Integer> like_list = like;
         //listview
-        final customAdapter adapter =new customAdapter(getApplicationContext(), name_list, cal_list, pic_list,rank_list,like_list);
+        final customAdapter adapter =new customAdapter(getApplicationContext(), name_list, cal_list, pic_list,like_list);
 
         ListView listView = (ListView)findViewById(R.id.listview1);
         listView.setAdapter(adapter);
