@@ -32,13 +32,18 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
+import com.facebook.FacebookSdk;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 
+import org.apache.commons.logging.Log;
+
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static android.Manifest.permission.READ_CONTACTS;
@@ -76,6 +81,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        callbackManager = CallbackManager.Factory.create();
+
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         //populateAutoComplete();
@@ -104,16 +112,39 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         mProgressView = findViewById(R.id.login_progress);
         mSigninForm = findViewById(R.id.signin_form);
 
-        Button loginWithface = (Button) findViewById(R.id.tryna);
-        loginWithface.setOnClickListener(new View.OnClickListener() {
+        Button infoface = (Button)this.findViewById(R.id.loginfacebook);
+        infoface.setOnClickListener(new View.OnClickListener(){
             @Override
-            public void onClick(View v) {
-                Intent in = new Intent(LoginActivity.this, camera.class);
-                startActivity(in);
-                finish();
+            public void onClick(View view) {
+                // importFbProfilePhoto();
+                LoginManager.getInstance().logInWithReadPermissions(LoginActivity.this, Arrays.asList("user_friends", "email", "public_profile"));
+
+                LoginManager.getInstance().registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+                    @Override
+                    public void onSuccess(LoginResult loginResult) {
+                        Intent in = new Intent(LoginActivity.this, camera.class);
+                        startActivity(in);
+                        finish();
+                    }
+
+                    @Override
+                    public void onCancel() {
+
+                    }
+
+                    @Override
+                    public void onError(FacebookException error) {
+
+                    }
+                });
             }
         });
 
+    }
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        callbackManager.onActivityResult(requestCode, resultCode, data);
     }
 
     private void populateAutoComplete() {

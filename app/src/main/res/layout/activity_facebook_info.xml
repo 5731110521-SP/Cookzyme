@@ -98,12 +98,18 @@
                 android:layout_marginRight="20dp"
                 android:layout_weight="1" />
 
-            <com.facebook.share.widget.ShareButton
-                android:id="@+id/fb_share_button2"
+            <Button
+                android:id="@+id/logout"
                 android:layout_width="20dp"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:background="@android:color/holo_orange_light"
+                android:text="logout"
+                android:textColor="@android:color/white"
+                tools:layout_editor_absoluteX="8dp"
+                tools:layout_editor_absoluteY="0dp" />
 
         </LinearLayout>
     </LinearLayout>
@@ -139,13 +145,6 @@
             app:menu="@menu/menu"
 
             />
-        <com.facebook.login.widget.LoginButton
-            android:id="@+id/login_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="30dp"
-            android:layout_marginBottom="30dp" />
 
     </LinearLayout>
 

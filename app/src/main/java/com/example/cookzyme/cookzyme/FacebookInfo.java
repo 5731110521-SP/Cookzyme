@@ -6,7 +6,9 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.content.pm.Signature;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.Image;
@@ -21,6 +23,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Base64;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -50,6 +53,8 @@ import com.facebook.share.widget.ShareDialog;
 
 import java.net.MalformedURLException;
 import java.net.URI;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -68,7 +73,6 @@ import com.microsoft.windowsazure.mobileservices.*;
 import com.microsoft.windowsazure.mobileservices.http.ServiceFilterResponse;
 import com.microsoft.windowsazure.mobileservices.table.TableOperationCallback;
 
-
 public class FacebookInfo extends AppCompatActivity {
 
     Context MyActivity = this;
@@ -86,11 +90,11 @@ public class FacebookInfo extends AppCompatActivity {
     private Uri imageUri;
     public static final int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 123;
     private  MobileServiceClient mClient;
-
+    private String profilepic;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_camera);
+        setContentView(R.layout.activity_facebook_info);
         try {
             mClient = new MobileServiceClient(
                     "https://cookzyme.azurewebsites.net",
@@ -105,10 +109,8 @@ public class FacebookInfo extends AppCompatActivity {
         infoface.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                importFbProfilePhoto();
-                System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++");
+               // importFbProfilePhoto();
                 LoginManager.getInstance().logInWithReadPermissions(FacebookInfo.this, Arrays.asList("user_friends", "email", "public_profile"));
-
 
                 LoginManager.getInstance().registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
                     @Override
@@ -129,6 +131,7 @@ public class FacebookInfo extends AppCompatActivity {
             }
         });
 
+
         Button checklogin = (Button) this.findViewById(R.id.btnCooking);
         checklogin.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -143,43 +146,42 @@ public class FacebookInfo extends AppCompatActivity {
                         }
                     }
                 });
-
             }
         });
-    }
 
+        Button logout = (Button) this.findViewById(R.id.logout);
+        logout.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                System.out.println("eieieieiei");
+                LoginManager.getInstance().logOut();
+                Intent in = new Intent(FacebookInfo.this, LoginActivity.class);
+                startActivity(in);
+                finish();
+            }
+        });
+
+    }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         callbackManager.onActivityResult(requestCode, resultCode, data);
     }
-
     private void importFbProfilePhoto() {
-        System.out.println("--------------------------------------------");
         if (AccessToken.getCurrentAccessToken() != null) {
-            System.out.println("0000000000000000000000000000");
             GraphRequest request = GraphRequest.newMeRequest(
                     AccessToken.getCurrentAccessToken(), new GraphRequest.GraphJSONObjectCallback() {
                         @Override
                         public void onCompleted(JSONObject me, GraphResponse response) {
-                            System.out.println("1111111111111111111111111111111111111111111111");
                             if (AccessToken.getCurrentAccessToken() != null) {
-                                System.out.println("222222222222222222222222222222222222222222");
                                 if (me != null) {
-
-                                    String profileImageUrl = ImageRequest.getProfilePictureUri(me.optString("id"), 500, 500).toString();
-                                    //Log.i(LOG_TAG, profileImageUrl);
-                                    System.out.println("33333333333333333333333333333333333333");
-                                    System.out.println(profileImageUrl);
-
+                                    profilepic = ImageRequest.getProfilePictureUri(me.optString("id"), 500, 500).toString();
                                 }
                             }
                         }
                     });
             GraphRequest.executeBatchAsync(request);
         }
-        System.out.println("4444444444444444444444444444");
-
     }
 
     private void setFacebookData(final LoginResult loginResult)
@@ -200,26 +202,26 @@ public class FacebookInfo extends AppCompatActivity {
                             Profile profile = Profile.getCurrentProfile();
                             String id = profile.getId();
                             String link = profile.getLinkUri().toString();
-                            Log.i("Link",link);
+                          //  Log.i("Link",link);
                             if (Profile.getCurrentProfile()!=null)
                             {
-                                Log.i("Login", "ProfilePic" + Profile.getCurrentProfile().getProfilePictureUri(200, 200));
+                                profilepic = "" + Profile.getCurrentProfile().getProfilePictureUri(500, 500);
+                                Log.i("Login", "" + Profile.getCurrentProfile().getProfilePictureUri(500, 500));
                             }
-
                             Log.i("Login" + "Email", email);
                             Log.i("Login"+ "FirstName", firstName);
                             Log.i("Login" + "LastName", lastName);
                             Log.i("Login" + "Gender", gender);
-                            mClient.getTable(Users.class).insert(new Users(email,null,firstName+" "+lastName,link,null), new TableOperationCallback<Users>() {
+                            mClient.getTable(Users.class).insert(new Users(email,null,firstName+" "+lastName,profilepic,null), new TableOperationCallback<Users>() {
                                 public void onCompleted(Users entity, Exception exception, ServiceFilterResponse response) {
                                     if (exception == null) {
                                         // Insert succeeded
                                     } else {
                                         // Insert failed
                                     }
+
                                 }
                             });
-
 
                         } catch (JSONException e) {
                             e.printStackTrace();

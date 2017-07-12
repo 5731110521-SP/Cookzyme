@@ -10,7 +10,7 @@
 
     <provider
         android:name="com.facebook.FacebookContentProvider"
-        android:authorities="com.facebook.app.FacebookContentProvider1712969235663640"
+        android:authorities="com.facebook.app.FacebookContentProvider255779318241603"
         android:exported="true" />
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -78,7 +78,7 @@
 
         <provider
             android:name="com.facebook.FacebookContentProvider"
-            android:authorities="com.facebook.app.FacebookContentProvider1712969235663640"
+            android:authorities="com.facebook.app.FacebookContentProvider255779318241603"
             android:exported="true" />
 
         <activity android:name=".FacebookInfo"></activity>

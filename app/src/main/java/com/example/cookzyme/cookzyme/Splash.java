@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.os.Handler;
+
+import com.facebook.AccessToken;
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
 
@@ -21,9 +23,23 @@ public class Splash extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                Intent in = new Intent(Splash.this, LoginActivity.class);
-                startActivity(in);
-                finish();
+                FacebookSdk.sdkInitialize(getApplicationContext(), new FacebookSdk.InitializeCallback() {
+                    @Override
+                    public void onInitialized() {
+                        if(AccessToken.getCurrentAccessToken() == null){
+                            System.out.println("not logged in yet");
+                            Intent in = new Intent(Splash.this, LoginActivity.class);
+                            startActivity(in);
+                            finish();
+                        } else {
+                            System.out.println("Logged in");
+                            Intent in = new Intent(Splash.this, camera.class);
+                            startActivity(in);
+                            finish();
+                        }
+                    }
+                });
+
             }
         }, SPLASH_TIME_OUT);
 

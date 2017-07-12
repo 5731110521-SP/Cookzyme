@@ -29,9 +29,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
 
+import com.facebook.login.LoginManager;
+import com.facebook.login.LoginResult;
 import com.facebook.share.ShareApi;
 import com.facebook.share.model.ShareLinkContent;
 import com.facebook.share.model.SharePhoto;
@@ -74,11 +78,10 @@ public class camera extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_camera);
 
-
-
         //navi bar
         BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavigationView);
         bottomNavigationView.getMenu().getItem(0).setChecked(true);
+
 
         bottomNavigationView.setOnNavigationItemSelectedListener(
                 new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -190,8 +193,6 @@ public class camera extends AppCompatActivity {
                 finish();
             }
         });
-
-
     }
 
     public boolean checkPermissionWRITE_EXTERNAL_STORAGE(

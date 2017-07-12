@@ -23,7 +23,7 @@
     <string name="string_unable_to_pick_image">Unable to Pickup Image</string>
     <string name="string_unable_to_load_image">Unable to Load Image</string>
     <string name="string_reselect">Click on Image to Reselect</string>
-    <string name="facebook_app_id">1712969235663640</string>
+    <string name="facebook_app_id">255779318241603</string>
     <string name="title_activity_login">Sign in</string>
 
     <!-- Strings related to login -->
@@ -38,5 +38,5 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
-    <string name="fb_login_protocol_scheme">fb1712969235663640</string>
+    <string name="fb_login_protocol_scheme">fb255779318241603</string>
 </resources>
