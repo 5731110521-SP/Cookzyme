@@ -39,4 +39,6 @@
         completions."
     </string>
     <string name="fb_login_protocol_scheme">fb1712969235663640</string>
+    <string name="zero">0</string>
+
 </resources>

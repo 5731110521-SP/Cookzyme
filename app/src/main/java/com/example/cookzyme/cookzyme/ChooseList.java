@@ -89,7 +89,7 @@ public class ChooseList extends AppCompatActivity {
 
         for(int i=0;i<Splash.database.getArrayFood().size();i++){
             for (String x:camera.recipeName
-                 ) {
+                    ) {
                 if(x.equals(Splash.database.getArrayFood().get(i).getName())) {
                     name.add(Splash.database.getArrayFood().get(i).getName());
                     cal.add(Splash.database.getArrayFood().get(i).getEnergy());
@@ -107,7 +107,7 @@ public class ChooseList extends AppCompatActivity {
         List<Integer> rank_list = rank;
         List<Integer> like_list = like;
         //listview
-        final customAdapter adapter =new customAdapter(getApplicationContext(), name_list, cal_list, pic_list,rank_list,like_list);
+        final customAdapter adapter =new customAdapter(getApplicationContext(), name_list, cal_list, pic_list,like_list);
 
         ListView listView = (ListView)findViewById(R.id.listview1);
         listView.setAdapter(adapter);

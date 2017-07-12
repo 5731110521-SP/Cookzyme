@@ -19,15 +19,13 @@ public class customAdapter extends BaseAdapter {
     private List<String> name;
     private List<Integer> cal;
     private List<Integer> pic;
-    private List<Integer> rank;
     private List<Integer> like;
 
-    public customAdapter(Context context, List<String> name,List<Integer> cal, List<Integer> pic,List<Integer> rank,List<Integer> like) {
+    public customAdapter(Context context, List<String> name,List<Integer> cal, List<Integer> pic,List<Integer> like) {
         this.mContext= context;
         this.name = name;
         this.cal = cal;
         this.pic = pic;
-        this.rank = rank;
         this.like = like;
     }
 
@@ -50,29 +48,25 @@ public class customAdapter extends BaseAdapter {
         if(view == null)
             view = mInflater.inflate(R.layout.singlerow, parent, false);
 
-        TextView textView = (TextView)view.findViewById(R.id.textView1);
-        textView.setText(name.get(position));
+        TextView textViewFoodName = (TextView)view.findViewById(R.id.foodName);
+        textViewFoodName.setText(name.get(position));
 
 
-        TextView textView1 = (TextView)view.findViewById(R.id.textViewsing2);
-        textView1.setText(Integer.toString(cal.get(position))+" kcal");
+        TextView textViewCalorie = (TextView)view.findViewById(R.id.calorie);
+        textViewCalorie.setText(Integer.toString(cal.get(position))+" kcal");
 
 
-        ImageView imageView = (ImageView)view.findViewById(R.id.imageView1);
-        imageView.setBackgroundResource(pic.get(position));
+        ImageView imageViewFoodPic = (ImageView)view.findViewById(R.id.foodPic);
+        imageViewFoodPic.setBackgroundResource(pic.get(position));
 
-        TextView textView3 = (TextView)view.findViewById(R.id.textRank);
-        textView3.setText(Integer.toString(rank.get(position)));
+        TextView textViewLike = (TextView)view.findViewById(R.id.textLike);
+        textViewLike.setText(Integer.toString(like.get(position)));
 
-        TextView textView4 = (TextView)view.findViewById(R.id.textLike);
-        textView4.setText(Integer.toString(like.get(position)));
+        ImageView imageViewCarrot = (ImageView)view.findViewById(R.id.carrot);
+        imageViewCarrot.setBackgroundResource(R.drawable.carrot_grey);
 
-        ImageView imageView5 = (ImageView)view.findViewById(R.id.imageView4);
-        imageView5.setBackgroundResource(R.drawable.rank1);
-
-        ImageView imageView6 = (ImageView)view.findViewById(R.id.imageView5);
-        imageView6.setBackgroundResource(R.drawable.like);
-
+        ImageView imageViewStar = (ImageView)view.findViewById(R.id.star);
+        imageViewStar.setBackgroundResource(R.drawable.star40);
         return view;
     }
 }
