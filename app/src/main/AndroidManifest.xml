@@ -83,7 +83,7 @@
 
         <activity
             android:name=".HomeActivity"
-            android:label="@string/title_activity_home"></activity>
+            android:label="@string/title_activity_home" />
     </application>
 
 </manifest>
