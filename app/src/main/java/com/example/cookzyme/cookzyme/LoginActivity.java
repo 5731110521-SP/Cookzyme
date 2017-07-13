@@ -37,11 +37,20 @@ import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
+import com.facebook.Profile;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
+import com.microsoft.windowsazure.mobileservices.MobileServiceClient;
+import com.microsoft.windowsazure.mobileservices.http.ServiceFilterResponse;
+import com.microsoft.windowsazure.mobileservices.table.TableOperationCallback;
 
 import org.apache.commons.logging.Log;
+import org.json.JSONException;
+import org.json.JSONObject;
 
+import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -77,12 +86,12 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private View mLoginFormView;
     private View mSigninForm;
     private CallbackManager callbackManager;
+    private  MobileServiceClient mClient;
+    private String profilepic;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
-        callbackManager = CallbackManager.Factory.create();
 
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
@@ -112,17 +121,27 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         mProgressView = findViewById(R.id.login_progress);
         mSigninForm = findViewById(R.id.signin_form);
 
+        try {
+            mClient = new MobileServiceClient(
+                    "https://cookzymeapp.azurewebsites.net",
+                    this
+            );
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+        callbackManager = CallbackManager.Factory.create();
+
         Button infoface = (Button)this.findViewById(R.id.loginfacebook);
         infoface.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                // importFbProfilePhoto();
                 LoginManager.getInstance().logInWithReadPermissions(LoginActivity.this, Arrays.asList("user_friends", "email", "public_profile"));
 
                 LoginManager.getInstance().registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
                     @Override
                     public void onSuccess(LoginResult loginResult) {
-                        Intent in = new Intent(LoginActivity.this, camera.class);
+                        setFacebookData(loginResult);
+                        Intent in = new Intent(LoginActivity.this, HomeActivity.class);
                         startActivity(in);
                         finish();
                     }
@@ -410,6 +429,60 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             mAuthTask = null;
             showProgress(false);
         }
+    }
+
+    private void setFacebookData(final LoginResult loginResult)
+    {
+        GraphRequest request = GraphRequest.newMeRequest(
+                loginResult.getAccessToken(),
+                new GraphRequest.GraphJSONObjectCallback() {
+                    @Override
+                    public void onCompleted(JSONObject object, GraphResponse response) {
+                        try {
+                            android.util.Log.i("Response",response.toString());
+
+                            String email = response.getJSONObject().getString("email");
+                            String firstName = response.getJSONObject().getString("first_name");
+                            String lastName = response.getJSONObject().getString("last_name");
+                            String gender = response.getJSONObject().getString("gender");
+
+                            Profile profile = Profile.getCurrentProfile();
+                            String id = profile.getId();
+                            String link = profile.getLinkUri().toString();
+                            //  Log.i("Link",link);
+                            if (Profile.getCurrentProfile()!=null)
+                            {
+                                profilepic = "" + Profile.getCurrentProfile().getProfilePictureUri(500, 500);
+                                android.util.Log.i("Login", "" + Profile.getCurrentProfile().getProfilePictureUri(500, 500));
+                            }
+                            android.util.Log.i("Login" + "Email", email);
+                            android.util.Log.i("Login"+ "FirstName", firstName);
+                            android.util.Log.i("Login" + "LastName", lastName);
+                            android.util.Log.i("Login" + "Gender", gender);
+                            mClient.getTable(Users.class).insert(new Users(email,null,firstName+" "+lastName,null,profilepic,0,0), new TableOperationCallback<Users>() {
+                                public void onCompleted(Users entity, Exception exception, ServiceFilterResponse response) {
+                                    if (exception == null) {
+                                        // Insert succeeded
+                                        System.out.println("eieieieieieieieieieieieieieieieiei");
+                                    } else {
+                                        // Insert failed
+                                        System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
+                                        exception.printStackTrace();
+                                    }
+
+                                }
+                            });
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+        );
+        Bundle parameters = new Bundle();
+        parameters.putString("fields", "id,email,first_name,last_name,gender");
+        request.setParameters(parameters);
+        request.executeAsync();
     }
 }
 
