@@ -73,7 +73,7 @@
                 android:layout_marginRight="20dp"
                 android:layout_weight="1"
                 android:background="@android:color/holo_red_dark"
-                android:text="Open Camera"
+                android:text="add info"
                 android:textColor="@android:color/white"
                 tools:layout_editor_absoluteX="8dp"
                 tools:layout_editor_absoluteY="0dp" />
@@ -86,17 +86,23 @@
                 android:layout_marginRight="20dp"
                 android:layout_weight="1"
                 android:background="@android:color/holo_blue_dark"
-                android:text="Cooking"
+                android:text="check status"
                 android:textColor="@android:color/white"
                 tools:layout_editor_absoluteX="8dp"
                 tools:layout_editor_absoluteY="0dp" />
 
-            <com.facebook.share.widget.ShareButton
-                android:id="@+id/fb_share_button"
+            <Button
+                android:id="@+id/friendlist"
                 android:layout_width="20dp"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:background="@android:color/holo_orange_light"
+                android:text="friendlist"
+                android:textColor="@android:color/white"
+                tools:layout_editor_absoluteX="8dp"
+                tools:layout_editor_absoluteY="0dp" />
 
             <Button
                 android:id="@+id/logout"

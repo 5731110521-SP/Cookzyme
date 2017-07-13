@@ -38,6 +38,7 @@ import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
+import com.facebook.HttpMethod;
 import com.facebook.Profile;
 import com.facebook.appevents.AppEventsLogger;
 
@@ -67,6 +68,7 @@ import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import com.microsoft.windowsazure.mobileservices.*;
@@ -97,7 +99,7 @@ public class FacebookInfo extends AppCompatActivity {
         setContentView(R.layout.activity_facebook_info);
         try {
             mClient = new MobileServiceClient(
-                    "https://cookzyme.azurewebsites.net",
+                    "https://cookzymeapp.azurewebsites.net",
                     this
             );
         } catch (MalformedURLException e) {
@@ -109,55 +111,61 @@ public class FacebookInfo extends AppCompatActivity {
         infoface.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-               // importFbProfilePhoto();
                 LoginManager.getInstance().logInWithReadPermissions(FacebookInfo.this, Arrays.asList("user_friends", "email", "public_profile"));
 
                 LoginManager.getInstance().registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
-                    @Override
-                    public void onSuccess(LoginResult loginResult) {
-                        setFacebookData(loginResult);
-                    }
+                @Override
+                public void onSuccess(LoginResult loginResult) {
+                    setFacebookData(loginResult);
+                }
 
-                    @Override
-                    public void onCancel() {
+                @Override
+                public void onCancel() {
 
-                    }
+                }
 
-                    @Override
-                    public void onError(FacebookException error) {
+                @Override
+                public void onError(FacebookException error) {
 
-                    }
-                });
-            }
-        });
+                }
+            });
+        }
+    });
 
 
-        Button checklogin = (Button) this.findViewById(R.id.btnCooking);
+    Button checklogin = (Button) this.findViewById(R.id.btnCooking);
         checklogin.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view) {
-                FacebookSdk.sdkInitialize(getApplicationContext(), new FacebookSdk.InitializeCallback() {
-                    @Override
-                    public void onInitialized() {
-                        if(AccessToken.getCurrentAccessToken() == null){
-                            System.out.println("not logged in yet");
-                        } else {
-                            System.out.println("Logged in");
-                        }
+        @Override
+        public void onClick(View view) {
+            FacebookSdk.sdkInitialize(getApplicationContext(), new FacebookSdk.InitializeCallback() {
+                @Override
+                public void onInitialized() {
+                    if(AccessToken.getCurrentAccessToken() == null){
+                        System.out.println("not logged in yet");
+                    } else {
+                        System.out.println("Logged in");
                     }
-                });
-            }
+                }
+            });
+        }
         });
 
         Button logout = (Button) this.findViewById(R.id.logout);
         logout.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                System.out.println("eieieieiei");
                 LoginManager.getInstance().logOut();
                 Intent in = new Intent(FacebookInfo.this, LoginActivity.class);
                 startActivity(in);
                 finish();
+            }
+        });
+
+        Button friendlist = (Button) this.findViewById(R.id.friendlist);
+        friendlist.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                getFriendList();
             }
         });
 
@@ -167,28 +175,11 @@ public class FacebookInfo extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         callbackManager.onActivityResult(requestCode, resultCode, data);
     }
-    private void importFbProfilePhoto() {
-        if (AccessToken.getCurrentAccessToken() != null) {
-            GraphRequest request = GraphRequest.newMeRequest(
-                    AccessToken.getCurrentAccessToken(), new GraphRequest.GraphJSONObjectCallback() {
-                        @Override
-                        public void onCompleted(JSONObject me, GraphResponse response) {
-                            if (AccessToken.getCurrentAccessToken() != null) {
-                                if (me != null) {
-                                    profilepic = ImageRequest.getProfilePictureUri(me.optString("id"), 500, 500).toString();
-                                }
-                            }
-                        }
-                    });
-            GraphRequest.executeBatchAsync(request);
-        }
-    }
 
     private void setFacebookData(final LoginResult loginResult)
     {
         GraphRequest request = GraphRequest.newMeRequest(
-                loginResult.getAccessToken(),
-                new GraphRequest.GraphJSONObjectCallback() {
+                loginResult.getAccessToken(), new GraphRequest.GraphJSONObjectCallback() {
                     @Override
                     public void onCompleted(JSONObject object, GraphResponse response) {
                         try {
@@ -212,12 +203,15 @@ public class FacebookInfo extends AppCompatActivity {
                             Log.i("Login"+ "FirstName", firstName);
                             Log.i("Login" + "LastName", lastName);
                             Log.i("Login" + "Gender", gender);
-                            mClient.getTable(Users.class).insert(new Users(email,null,firstName+" "+lastName,profilepic,null), new TableOperationCallback<Users>() {
+                            mClient.getTable(Users.class).insert(new Users(email,null,firstName+" "+lastName,null,profilepic,0,0), new TableOperationCallback<Users>() {
                                 public void onCompleted(Users entity, Exception exception, ServiceFilterResponse response) {
                                     if (exception == null) {
                                         // Insert succeeded
+                                        System.out.println("eieieieieieieieieieieieieieieieiei");
                                     } else {
                                         // Insert failed
+                                        System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
+                                        exception.printStackTrace();
                                     }
 
                                 }
@@ -234,4 +228,57 @@ public class FacebookInfo extends AppCompatActivity {
         request.setParameters(parameters);
         request.executeAsync();
     }
+
+
+
+    private void myNewGraphReq(String friendlistId) {
+        final String graphPath = "/"+friendlistId+"/members/";
+        AccessToken token = AccessToken.getCurrentAccessToken();
+        GraphRequest request = new GraphRequest(token, graphPath, null, HttpMethod.GET, new GraphRequest.Callback() {
+            @Override
+            public void onCompleted(GraphResponse graphResponse) {
+                JSONObject object = graphResponse.getJSONObject();
+                try {
+                    JSONArray arrayOfUsersInFriendList= object.getJSONArray("data");
+                /* Do something with the user list */
+                /* ex: get first user in list, "name" */
+                    JSONObject user = arrayOfUsersInFriendList.getJSONObject(0);
+                    String usersName = user.getString("name");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        Bundle param = new Bundle();
+        param.putString("fields", "name");
+        request.setParameters(param);
+        request.executeAsync();
+    }
+
+    private void getFriendList(){
+        System.out.println("22222222222222222222222222222222222222");
+        AccessToken token = AccessToken.getCurrentAccessToken();
+        System.out.println("11111111111111111111111111111111111111");
+        GraphRequest graphRequest = GraphRequest.newMeRequest(token, new GraphRequest.GraphJSONObjectCallback() {
+            @Override
+            public void onCompleted(JSONObject jsonObject, GraphResponse graphResponse) {
+                try {
+                    JSONArray jsonArrayFriends = jsonObject.getJSONObject("user_friends").getJSONArray("data");
+                    JSONObject friendlistObject = jsonArrayFriends.getJSONObject(0);
+                    String friendListID = friendlistObject.getString("id");
+                    myNewGraphReq(friendListID);
+                    System.out.println("*************************************************"+friendListID);
+
+                } catch (JSONException e) {
+                    System.out.println("TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT");
+                    e.printStackTrace();
+                }
+            }
+        });
+        Bundle param = new Bundle();
+        param.putString("fields", "friendlist" );
+        graphRequest.setParameters(param);
+        graphRequest.executeAsync();
+    }
+
 }

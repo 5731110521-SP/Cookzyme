@@ -23,28 +23,23 @@ public class Splash extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-//<<<<<<< HEAD
-//                FacebookSdk.sdkInitialize(getApplicationContext(), new FacebookSdk.InitializeCallback() {
-//                    @Override
-//                    public void onInitialized() {
-//                        if(AccessToken.getCurrentAccessToken() == null){
-//                            System.out.println("not logged in yet");
-//                            Intent in = new Intent(Splash.this, LoginActivity.class);
-//                            startActivity(in);
-//                            finish();
-//                        } else {
-//                            System.out.println("Logged in");
-//                            Intent in = new Intent(Splash.this, camera.class);
-//                            startActivity(in);
-//                            finish();
-//                        }
-//                    }
-//                });
-//
-//=======
-                Intent in = new Intent(Splash.this, LoginActivity.class);
-                startActivity(in);
-                finish();
+
+                FacebookSdk.sdkInitialize(getApplicationContext(), new FacebookSdk.InitializeCallback() {
+                    @Override
+                    public void onInitialized() {
+                        if(AccessToken.getCurrentAccessToken() == null){
+                            System.out.println("not logged in yet");
+                            Intent in = new Intent(Splash.this, LoginActivity.class);
+                            startActivity(in);
+                            finish();
+                        } else {
+                            System.out.println("Logged in");
+                            Intent in = new Intent(Splash.this, HomeActivity.class);
+                            startActivity(in);
+                            finish();
+                        }
+                    }
+                });
             }
         }, SPLASH_TIME_OUT);
 
