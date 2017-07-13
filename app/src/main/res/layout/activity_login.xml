@@ -199,7 +199,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="0"
                 android:text="Create one"
-                android:textColor="@color/colorToolbar" />
+                android:textColor="@color/colorToolbar"
+                android:textStyle="bold|italic" />
         </LinearLayout>
 
     </LinearLayout>

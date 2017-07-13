@@ -7,6 +7,7 @@
     <color name="colorNavibar">#c3c63d</color>
     <color name="colorBG">#feffcf</color>
     <color name="colorNewBG">#ffe465</color>
+    <color name="colorButton">#5b6f98</color>
 
 
 </resources>

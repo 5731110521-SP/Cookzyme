@@ -80,7 +80,7 @@ public class HomeSectionFragment extends Fragment {
                 case 0:
                     return new HomeTabFragment();
                 case 1:
-                    return new HomeTabFragment();
+                    return new Feed();
                 default:
                     return new HomeTabFragment();
             }
