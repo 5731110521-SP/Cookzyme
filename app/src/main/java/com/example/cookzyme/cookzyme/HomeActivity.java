@@ -29,13 +29,13 @@ public class HomeActivity extends FragmentActivity {
                 case R.id.navigation_home:
                     mViewPager.setCurrentItem(0);
                     return true;
-                case R.id.navigation_dashboard:
+                case R.id.navigation_Refrigerator:
                     mViewPager.setCurrentItem(1);
                     return true;
-                case R.id.navigation_notifications:
+                case R.id.navigation_Profile:
                     mViewPager.setCurrentItem(2);
                     return true;
-                case R.id.navigation_proflie:
+                case R.id.navigation_Setting:
                     mViewPager.setCurrentItem(3);
                     return true;
             }

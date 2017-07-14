@@ -1,9 +1,5 @@
 package com.example.cookzyme.cookzyme;
 
-import android.content.Context;
-import android.content.Intent;
-import android.content.res.Resources;
-import android.graphics.Point;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -11,12 +7,9 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.DisplayMetrics;
-import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 
 public class HomeSectionFragment extends Fragment {
 
@@ -80,7 +73,7 @@ public class HomeSectionFragment extends Fragment {
                 case 0:
                     return new HomeTabFragment();
                 case 1:
-                    return new Feed();
+                    return new HomeFeedFragment();
                 default:
                     return new HomeTabFragment();
             }
