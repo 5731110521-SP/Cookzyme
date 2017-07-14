@@ -23,12 +23,13 @@ public class Splash extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
+
                 FacebookSdk.sdkInitialize(getApplicationContext(), new FacebookSdk.InitializeCallback() {
                     @Override
                     public void onInitialized() {
                         if(AccessToken.getCurrentAccessToken() == null){
                             System.out.println("not logged in yet");
-                            Intent in = new Intent(Splash.this, LoginActivity.class);
+                            Intent in = new Intent(Splash.this, HomeActivity.class);
                             startActivity(in);
                             finish();
                         } else {

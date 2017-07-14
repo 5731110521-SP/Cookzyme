@@ -29,13 +29,13 @@ public class HomeActivity extends FragmentActivity {
                 case R.id.navigation_home:
                     mViewPager.setCurrentItem(0);
                     return true;
-                case R.id.navigation_dashboard:
+                case R.id.navigation_Refrigerator:
                     mViewPager.setCurrentItem(1);
                     return true;
-                case R.id.navigation_notifications:
+                case R.id.navigation_Profile:
                     mViewPager.setCurrentItem(2);
                     return true;
-                case R.id.navigation_proflie:
+                case R.id.navigation_Setting:
                     mViewPager.setCurrentItem(3);
                     return true;
             }
@@ -72,7 +72,7 @@ public class HomeActivity extends FragmentActivity {
                 case 1:
                     return new HomeSectionFragment();
                 case 2:
-                    return new HomeSectionFragment();
+                    return new Profile();
                 case 3:
                     return new HomeSectionFragment();
                 default:

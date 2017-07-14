@@ -74,15 +74,19 @@
             </intent-filter>
         </activity>
         <activity android:name=".letmetry" />
+
         <provider
             android:name="com.facebook.FacebookContentProvider"
             android:authorities="com.facebook.app.FacebookContentProvider255779318241603"
             android:exported="true" />
-        <activity android:name=".FacebookInfo"></activity>
+
+        <activity android:name=".FacebookInfo" />
         <activity
             android:name=".HomeActivity"
             android:label="@string/title_activity_home" />
-        <activity android:name=".addIngredient"></activity>
+        <activity android:name=".addIngredient" />
+        <activity android:name=".HomeFeedFragment" />
+        <activity android:name=".Profile"></activity>
     </application>
 
 </manifest>
