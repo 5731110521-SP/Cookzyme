@@ -93,6 +93,7 @@ public class FacebookInfo extends AppCompatActivity {
     public static final int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 123;
     private  MobileServiceClient mClient;
     private String profilepic;
+    private String myEmail;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -107,47 +108,62 @@ public class FacebookInfo extends AppCompatActivity {
         }
         callbackManager = CallbackManager.Factory.create();
 
-        Button infoface = (Button)this.findViewById(R.id.btnCamera);
+        Button infoface = (Button)this.findViewById(R.id.addinfo);
         infoface.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
                 LoginManager.getInstance().logInWithReadPermissions(FacebookInfo.this, Arrays.asList("user_friends", "email", "public_profile"));
 
                 LoginManager.getInstance().registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
-                @Override
-                public void onSuccess(LoginResult loginResult) {
-                    setFacebookData(loginResult);
-                }
+                    @Override
+                    public void onSuccess(LoginResult loginResult) {
+                        findMyEmail(loginResult);
 
-                @Override
-                public void onCancel() {
+                        System.out.println("11111111111111111111111111111111111111");
+                        mClient.getTable(Posts.class).insert(new Posts(myEmail,"http://www.cutestpaw.com/wp-content/uploads/2014/07/Friend-said-she-just-got-a-new-corgi..jpg","น่ารักเหมือนเก๊ามั้ยยย" ,"คอร์กี้ต้ำยำ"), new TableOperationCallback<Posts>() {
+                            public void onCompleted(Posts entity, Exception exception, ServiceFilterResponse response) {
+                                if (exception == null) {
+                                    // Insert succeeded
+                                    System.out.println("insert successfully");
+                                } else {
+                                    // Insert failed
+                                    System.out.println("insert fail");
+                                    exception.printStackTrace();
+                                }
 
-                }
-
-                @Override
-                public void onError(FacebookException error) {
-
-                }
-            });
-        }
-    });
-
-
-    Button checklogin = (Button) this.findViewById(R.id.btnCooking);
-        checklogin.setOnClickListener(new View.OnClickListener(){
-        @Override
-        public void onClick(View view) {
-            FacebookSdk.sdkInitialize(getApplicationContext(), new FacebookSdk.InitializeCallback() {
-                @Override
-                public void onInitialized() {
-                    if(AccessToken.getCurrentAccessToken() == null){
-                        System.out.println("not logged in yet");
-                    } else {
-                        System.out.println("Logged in");
+                            }
+                        });
+                        System.out.println("2222222222222222222222222222");
                     }
-                }
-            });
-        }
+
+                    @Override
+                    public void onCancel() {
+
+                    }
+
+                    @Override
+                    public void onError(FacebookException error) {
+
+                    }
+                });
+            }
+        });
+
+        Button checklogin = (Button) this.findViewById(R.id.camera);
+        checklogin.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                FacebookSdk.sdkInitialize(getApplicationContext(), new FacebookSdk.InitializeCallback() {
+                    @Override
+                    public void onInitialized() {
+                        if(AccessToken.getCurrentAccessToken() == null){
+                            System.out.println("not logged in yet");
+                        } else {
+                            System.out.println("Logged in");
+                        }
+                    }
+                });
+            }
         });
 
         Button logout = (Button) this.findViewById(R.id.logout);
@@ -161,14 +177,13 @@ public class FacebookInfo extends AppCompatActivity {
             }
         });
 
-        Button friendlist = (Button) this.findViewById(R.id.friendlist);
-        friendlist.setOnClickListener(new View.OnClickListener(){
+        Button post= (Button) this.findViewById(R.id.post);
+        post.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                getFriendList();
+
             }
         });
-
     }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -176,7 +191,7 @@ public class FacebookInfo extends AppCompatActivity {
         callbackManager.onActivityResult(requestCode, resultCode, data);
     }
 
-    private void setFacebookData(final LoginResult loginResult)
+    private void findMyEmail(final LoginResult loginResult)
     {
         GraphRequest request = GraphRequest.newMeRequest(
                 loginResult.getAccessToken(), new GraphRequest.GraphJSONObjectCallback() {
@@ -185,7 +200,7 @@ public class FacebookInfo extends AppCompatActivity {
                         try {
                             Log.i("Response",response.toString());
 
-                            String email = response.getJSONObject().getString("email");
+                            myEmail = response.getJSONObject().getString("email");
                             String firstName = response.getJSONObject().getString("first_name");
                             String lastName = response.getJSONObject().getString("last_name");
                             String gender = response.getJSONObject().getString("gender");
@@ -193,29 +208,16 @@ public class FacebookInfo extends AppCompatActivity {
                             Profile profile = Profile.getCurrentProfile();
                             String id = profile.getId();
                             String link = profile.getLinkUri().toString();
-                          //  Log.i("Link",link);
+                            //  Log.i("Link",link);
                             if (Profile.getCurrentProfile()!=null)
                             {
                                 profilepic = "" + Profile.getCurrentProfile().getProfilePictureUri(500, 500);
                                 Log.i("Login", "" + Profile.getCurrentProfile().getProfilePictureUri(500, 500));
                             }
-                            Log.i("Login" + "Email", email);
+                            Log.i("Login" + "Email", myEmail);
                             Log.i("Login"+ "FirstName", firstName);
                             Log.i("Login" + "LastName", lastName);
                             Log.i("Login" + "Gender", gender);
-                            mClient.getTable(Users.class).insert(new Users(email,null,firstName+" "+lastName,null,profilepic,0,0), new TableOperationCallback<Users>() {
-                                public void onCompleted(Users entity, Exception exception, ServiceFilterResponse response) {
-                                    if (exception == null) {
-                                        // Insert succeeded
-                                        System.out.println("eieieieieieieieieieieieieieieieiei");
-                                    } else {
-                                        // Insert failed
-                                        System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
-                                        exception.printStackTrace();
-                                    }
-
-                                }
-                            });
 
                         } catch (JSONException e) {
                             e.printStackTrace();
