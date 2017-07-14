@@ -85,7 +85,8 @@
             android:name=".HomeActivity"
             android:label="@string/title_activity_home" />
         <activity android:name=".addIngredient" />
-        <activity android:name=".HomeFeedFragment"></activity>
+        <activity android:name=".HomeFeedFragment" />
+        <activity android:name=".Profile"></activity>
     </application>
 
 </manifest>

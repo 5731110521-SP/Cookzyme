@@ -29,7 +29,7 @@ public class Splash extends AppCompatActivity {
                     public void onInitialized() {
                         if(AccessToken.getCurrentAccessToken() == null){
                             System.out.println("not logged in yet");
-                            Intent in = new Intent(Splash.this, LoginActivity.class);
+                            Intent in = new Intent(Splash.this, HomeActivity.class);
                             startActivity(in);
                             finish();
                         } else {

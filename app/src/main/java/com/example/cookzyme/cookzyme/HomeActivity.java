@@ -72,7 +72,7 @@ public class HomeActivity extends FragmentActivity {
                 case 1:
                     return new HomeSectionFragment();
                 case 2:
-                    return new HomeSectionFragment();
+                    return new Profile();
                 case 3:
                     return new HomeSectionFragment();
                 default:
