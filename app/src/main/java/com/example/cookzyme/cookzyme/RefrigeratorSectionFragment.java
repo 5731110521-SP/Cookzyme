@@ -19,6 +19,13 @@ public class RefrigeratorSectionFragment extends Fragment {
     static ArrayList<Ingredients> refrigerator;
     View rootView;
 
+    public static RefrigeratorSectionFragment newInstance() {
+        RefrigeratorSectionFragment fragment = new RefrigeratorSectionFragment();
+        return fragment;
+    }
+
+    public RefrigeratorSectionFragment() { }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

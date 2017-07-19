@@ -96,17 +96,17 @@ public class HomeActivity extends FragmentActivity {
         public Fragment getItem(int i) {
             switch (i) {
                 case 0:
-                    return new RefrigeratorSectionFragment();
+                    return RefrigeratorSectionFragment.newInstance();
                 case 1:
-                    return new HomeFeedFragment();
+                    return HomeFeedFragment.newInstance();
                 case 2:
-                    return new HomeSectionFragment();
+                    return HomeSectionFragment.newInstance();
                 case 3:
-                    return new Profile();
+                    return Profile.newInstance();
                 case 4:
-                    return new HomeSectionFragment();
+                    return HomeSectionFragment.newInstance();
                 default:
-                    return new Profile();
+                    return Profile.newInstance();
             }
         }
 

@@ -62,6 +62,13 @@ public class HomeFeedFragment extends Fragment {
     private MobileServiceTable<Posts> mPosts;
     private boolean ready;
 
+    public static HomeFeedFragment newInstance() {
+        HomeFeedFragment fragment = new HomeFeedFragment();
+        return fragment;
+    }
+
+    public HomeFeedFragment() { }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

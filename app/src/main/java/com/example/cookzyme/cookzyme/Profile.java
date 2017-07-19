@@ -1,8 +1,10 @@
 package com.example.cookzyme.cookzyme;
 
+import android.content.Intent;
 import android.support.v4.app.Fragment;
         import android.os.Bundle;
-        import android.text.method.ScrollingMovementMethod;
+import android.support.v4.app.FragmentTransaction;
+import android.text.method.ScrollingMovementMethod;
         import android.view.LayoutInflater;
         import android.view.MotionEvent;
         import android.view.View;
@@ -29,6 +31,14 @@ public class Profile extends Fragment {
     private static TextView username,cookingNum,followersNum,followingNum;
     private static ImageView headerPic;
     private static CircleImageView userPic;
+
+
+    public static Profile newInstance() {
+        Profile fragment = new Profile();
+        return fragment;
+    }
+
+    public Profile() { }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -104,9 +114,16 @@ public class Profile extends Fragment {
 //
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-                Toast.makeText(getActivity(), "" + position, Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getActivity(), "" + position, Toast.LENGTH_SHORT).show();
+                Bundle bundle = new Bundle();
+                bundle.putString(String.valueOf(position), "From Activity");
 
-
+                ViewPostInProfile viewPost = new ViewPostInProfile();
+                viewPost.setArguments(bundle);
+                FragmentTransaction transaction =  getFragmentManager().beginTransaction();
+                transaction.replace(R.id.frame, viewPost);
+                transaction.addToBackStack(null);
+                transaction.commit();
             }
         });
 
