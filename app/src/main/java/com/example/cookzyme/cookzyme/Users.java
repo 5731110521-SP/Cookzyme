@@ -12,6 +12,12 @@ public class Users {
     public String email;
     public String password;
     public String name;
+    public Date birthdate;
+    public String path;
+    public int following;
+    public int follower;
+    @com.google.gson.annotations.SerializedName("id")
+    private String mId;
 
     public Users(String email, String password, String name, Date birthdate, String path, int following, int follower) {
         this.email = email;
@@ -22,13 +28,6 @@ public class Users {
         this.following = following;
         this.follower = follower;
     }
-
-    public Date birthdate;
-    public String path;
-    public int following;
-    public int follower;
-    @com.google.gson.annotations.SerializedName("id")
-    private String mId;
     public String getId() { return mId; }
     public final void setId(String id) { mId = id; }
 

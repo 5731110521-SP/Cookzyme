@@ -5,6 +5,13 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.ContextMenu;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.GridView;
+import android.widget.Toast;
 
 import com.facebook.CallbackManager;
 import com.facebook.share.ShareApi;
@@ -13,30 +20,24 @@ import com.facebook.share.model.SharePhotoContent;
 
 public class letmetry extends AppCompatActivity {
 
-    private CallbackManager callbackManager;
+
+    String[] Cmd = {"View Full", "Send Photo", "Shared Photo", "Delete Photo"};
+    Integer[] arrImg = {R.drawable.egg, R.drawable.icon, R.drawable.egg, R.drawable.icon, R.drawable.egg, R.drawable.icon, R.drawable.egg};
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_letmetry);
-        callbackManager = CallbackManager.Factory.create();
-        //Bitmap image = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
-        SharePhoto photo = new SharePhoto.Builder()
-                //.setBitmap(image)
-                .setImageUrl(Uri.parse("https://static.pexels.com/photos/126407/pexels-photo-126407.jpeg"))
-                .setCaption("Give me my codez or I will ... you know, do that thing you don't like!")
-                .build();
+        setContentView(R.layout.grid_view);
 
-        SharePhotoContent content = new SharePhotoContent.Builder()
-                .addPhoto(photo)
-                .build();
 
-        ShareApi.share(content, null);
+        GridView gridview = (GridView) findViewById(R.id.gridView);
+        gridview.setAdapter(new customAdapterGrid(this,arrImg));
 
-    }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        callbackManager.onActivityResult(requestCode, resultCode, data);
+        gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
+                Toast.makeText(letmetry.this, "" + position, Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

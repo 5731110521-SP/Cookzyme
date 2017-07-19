@@ -17,6 +17,8 @@ public class HomeSectionFragment extends Fragment {
 
     AppSectionsPagerAdapter mAppSectionsPagerAdapter;
 
+    TabLayout mTab;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -24,8 +26,10 @@ public class HomeSectionFragment extends Fragment {
         ((Toolbar)rootView.findViewById(R.id.Toolbar)).setTitle("Home");
 
         mViewPager = (ViewPager) rootView.findViewById(R.id.pagerHome);
-
-        ((TabLayout)rootView.findViewById(R.id.tabs)).addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+        mTab = (TabLayout)rootView.findViewById(R.id.tabs);
+        //pager swipe focus
+        mTab.setupWithViewPager(mViewPager);
+        mTab.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 switch (tab.getPosition()) {

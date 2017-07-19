@@ -5,16 +5,19 @@ import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Paint;
 import android.graphics.drawable.GradientDrawable;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
-import android.graphics.Color;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 public class addIngredient extends AppCompatActivity {
@@ -27,11 +30,22 @@ public class addIngredient extends AppCompatActivity {
     static final int DATE_DIALOG_ID = 0;
     private Context context;
     private TextView clickHere;
+    TextView foodName;
+    EditText num;
+    TextView pronoun;
+    Button datePicker;
+    ImageView foodPic;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_ingredient);
+
+        foodName=(TextView) findViewById(R.id.foodName);
+        num=(EditText) findViewById(R.id.num);
+        pronoun=(TextView) findViewById(R.id.pronoun);
+        datePicker=(Button) findViewById(R.id.datePicker);
+        foodPic=(ImageView) findViewById(R.id.foodPic);
 
         // change color button
         confirmButton = (Button) findViewById(R.id.confirm);
@@ -56,15 +70,26 @@ public class addIngredient extends AppCompatActivity {
         //cancel button
         findViewById(R.id.cancel).setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
-//                Intent loginIntent = new Intent(addBankaccount.this, viewBankAccount.class);
-//                startActivity(loginIntent);
+                finish();
             }
         });
         //confirm button
         findViewById(R.id.confirm).setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
-//                Intent loginIntent = new Intent(addBankaccount.this, viewBankAccount.class);
-//                startActivity(loginIntent);
+                DateFormat df2 = new SimpleDateFormat("M-d-yyyy");
+                try {
+                    Ingredients ingredient = new Ingredients(foodName.getText().toString(),"path",pronoun.getText().toString(),
+                            Integer.parseInt(num.getText().toString())
+                            ,df2.parse(datePicker.getText().toString()));
+                    SQLiteDBHelper database = new SQLiteDBHelper(v.getContext());
+                    database.insertRefrigerator(ingredient);
+                    database.closeDB();
+                    setResult(RESULT_OK);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+
+                    finish();
             }
         });
         // all about click here
