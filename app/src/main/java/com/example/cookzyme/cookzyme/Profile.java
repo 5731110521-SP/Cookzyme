@@ -1,6 +1,6 @@
 package com.example.cookzyme.cookzyme;
 
-        import android.support.v4.app.Fragment;
+import android.support.v4.app.Fragment;
         import android.os.Bundle;
         import android.text.method.ScrollingMovementMethod;
         import android.view.LayoutInflater;
