@@ -1,6 +1,8 @@
 package com.example.cookzyme.cookzyme;
 
 import android.content.Context;
+import android.content.res.Resources;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +11,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -62,7 +66,19 @@ public class customAdapterRefrigerator extends BaseAdapter {
 
         TextView textViewIngredientName = (TextView)view.findViewById(R.id.ingredientName);
         textViewIngredientName.setText(refrigerator.get(position).getIngredient_name());
+        ImageView imageViewSign = (ImageView)view.findViewById(R.id.sign);
 
+        Date date = new Date();
+        date.setHours(0);
+        date.setMinutes(0);
+        date.setSeconds(0);
+        long expire = refrigerator.get(position).getExpire().getTime()/(24*60*60*1000);
+        long today = date.getTime()/(24*60*60*1000);
+        if(expire-today<0){
+            imageViewSign.setImageResource(R.drawable.warning_red);
+        }else if(expire-today<3){
+            imageViewSign.setImageResource(R.drawable.warning);
+        }
 //        ImageView imageViewSign = (ImageView)view.findViewById(R.id.sign);
 //        imageViewSign.setBackgroundResource(sign.get(position));
 
