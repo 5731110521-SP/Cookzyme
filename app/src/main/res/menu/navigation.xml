@@ -2,14 +2,19 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/navigation_home"
-        android:icon="@drawable/ic_home_black_24dp"
-        android:title="Home" />
-
-    <item
         android:id="@+id/navigation_Refrigerator"
         android:icon="@drawable/refrigerator"
         android:title="Refrigerator" />
+
+    <item
+        android:id="@+id/navigation_Superstore"
+        android:icon="@drawable/refrigerator"
+        android:title="Superstore" />
+
+    <item
+        android:id="@+id/navigation_home"
+        android:icon="@drawable/ic_home_black_24dp"
+        android:title="Home" />
 
     <item
         android:id="@+id/navigation_Profile"
