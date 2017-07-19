@@ -261,16 +261,6 @@ public class camera extends AppCompatActivity {
                             shareButton2.setShareContent(content2);
                             image = thumbnail;
                             bitmaps.add(image1);
-                            run2 r = new run2(image1);
-                            Thread t= new Thread(r);
-                            t.start();
-                            try {
-                                t.join();
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
-                            }
-                            textView.setText(r.getAns2());
-                            tag.add(r.getAns2());
                             // imageurl = getRealPathFromURI(imageUri);
                         } catch (Exception e) {
                             e.printStackTrace();

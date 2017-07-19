@@ -60,7 +60,7 @@
             android:layout_height="350dp"
             android:adjustViewBounds="true"
             android:scaleType="fitCenter"
-            app:srcCompat="@drawable/egg"/>
+            app:srcCompat="@drawable/egg" />
 
         <LinearLayout
             android:layout_width="match_parent"

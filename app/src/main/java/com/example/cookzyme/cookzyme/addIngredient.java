@@ -73,7 +73,6 @@ public class addIngredient extends AppCompatActivity {
     private static final int CAMERA_REQUEST = 1888;
     public static final int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 123;
     Thread t;
-    run2 r;
     Bitmap thumbnail;
 
     @Override
