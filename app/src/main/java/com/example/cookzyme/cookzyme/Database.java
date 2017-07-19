@@ -50,19 +50,7 @@ public class Database {
 
 	public void generateDB() {
 		// TODO Auto-generated method stub
-		arrayFood.add(new Foods("Pork Ball", R.drawable.pork_ball, 615));
-		arrayFood.add(new Foods("ก๋วยเตี๋ยวราดหน้าหมูสับ", R.drawable.t2, 397));
-		arrayFood.add(new Foods("ข้าวต้มหมูทรงเครื่อง", R.drawable.t3, 297));
-		arrayFood.add(new Foods("ข้าวผัดกุ้ง", R.drawable.t4, 595));
-		arrayFood.add(new Foods("ข้าวมันไก่", R.drawable.t5, 596));
-		arrayFood.add(new Foods("ข้าวไก่กระเทียม", R.drawable.t6, 744));
-		arrayFood.add(new Foods("น้ำพริกอ่องอกไก่", R.drawable.t7, 265));
-		arrayFood.add(new Foods("ผัดกะเพราไก่", R.drawable.t13, 554));
-		arrayFood.add(new Foods("ฟักทองผัดไข่", R.drawable.t8, 255));
-		arrayFood.add(new Foods("สุกี้กุ้งสดแห้ง", R.drawable.t9, 280));
-		arrayFood.add(new Foods("แกงจืดไข่", R.drawable.t10, 276));
-		arrayFood.add(new Foods("ไก่ทอดหาดใหญ่", R.drawable.t11, 860));
-		arrayFood.add(new Foods("ไข่เจียว เห็ดเข็มทอง", R.drawable.t12, 684));
+		arrayFood.add(new Foods("Pork Ball", "", 0,615));
 		
 		arrayIngredients.add(new Ingredients("Brown Onion", ""));
 		arrayIngredients.add(new Ingredients("Cabbage", ""));

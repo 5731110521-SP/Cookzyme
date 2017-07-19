@@ -2,6 +2,9 @@ package com.example.cookzyme.cookzyme;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AlertDialog;
@@ -13,6 +16,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.microsoft.speech.tts.Synthesizer;
+
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 public class Teach extends AppCompatActivity {
 
@@ -45,7 +52,18 @@ public class Teach extends AppCompatActivity {
         }
 
         tool.setText(f.getFood_name());
-        ((ImageView)findViewById(R.id.imageView1)).setImageResource(f.getPath());
+        try {
+            URL newurl2 = null;
+            newurl2 = new URL(f.getPath());
+            Bitmap mIcon_val2 = BitmapFactory.decodeStream(newurl2.openConnection().getInputStream());
+            BitmapDrawable ob2 = new BitmapDrawable(getResources(), mIcon_val2);
+            ((ImageView)findViewById(R.id.imageView1)).setBackgroundDrawable(ob2);;
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         ((TextView)findViewById(R.id.textView1)).setText(f.getFood_name());
         ((TextView)findViewById(R.id.textView2)).setText(f.getEnergy()+" kcal");
         ((TextView)findViewById(R.id.textLike)).setText(f.getLike()+"");

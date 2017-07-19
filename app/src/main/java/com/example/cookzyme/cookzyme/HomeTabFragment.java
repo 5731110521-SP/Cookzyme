@@ -2,6 +2,7 @@ package com.example.cookzyme.cookzyme;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.drawable.BitmapDrawable;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
@@ -33,21 +34,17 @@ public class HomeTabFragment extends Fragment {
         // sample food
         ArrayList<String> name = new ArrayList<>();
         ArrayList<Integer> cal = new ArrayList<>();
-        ArrayList<Integer> pic = new ArrayList<>();
+        ArrayList<BitmapDrawable> pic = new ArrayList<>();
         ArrayList<Integer> rank = new ArrayList<>();
         ArrayList<Integer> like = new ArrayList<>();
 
         for(int i=0;i<Splash.database.getArrayFood().size();i++){
-            name.add(Splash.database.getArrayFood().get(i).getName());
-            cal.add(Splash.database.getArrayFood().get(i).getEnergy());
-            pic.add(Splash.database.getArrayFood().get(i).getPath());
-            rank.add(Splash.database.getArrayFood().get(i).getRank());
-            like.add(Splash.database.getArrayFood().get(i).getLike());
+
         }
 
         final List<String> name_list = name;
         List<Integer> cal_list = cal;
-        List<Integer> pic_list = pic;
+        List<BitmapDrawable> pic_list = pic;
         List<Integer> rank_list = rank;
         List<Integer> like_list = like;
         //listview

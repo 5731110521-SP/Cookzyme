@@ -2,6 +2,9 @@ package com.example.cookzyme.cookzyme;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AlertDialog;
@@ -12,6 +15,10 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
+
 public class viewRecipeHome extends AppCompatActivity {
     Foods f = Splash.database.getArrayFood().get(0);
     @Override
@@ -21,23 +28,33 @@ public class viewRecipeHome extends AppCompatActivity {
 
         for (Foods x:Splash.database.getArrayFood()
              ) {
-            if(x.getName().equals(recipe.name)){
+            if(x.getFood_name().equals(recipe.name)){
                 f=x;
                 break;
             }
         }
 
         TextView tool = (TextView)findViewById(R.id.toolbar_title);
-        tool.setText(f.getName());
-        ((TextView)findViewById(R.id.textView1)).setText(f.getName());
+        tool.setText(f.getFood_name());
+        try {
+            URL newurl2 = null;
+            newurl2 = new URL(f.getPath());
+            Bitmap mIcon_val2 = BitmapFactory.decodeStream(newurl2.openConnection().getInputStream());
+            BitmapDrawable ob2 = new BitmapDrawable(getResources(), mIcon_val2);
+            ((ImageView)findViewById(R.id.imageView1)).setBackgroundDrawable(ob2);;
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        ((TextView)findViewById(R.id.textView1)).setText(f.getFood_name());
         ((TextView)findViewById(R.id.textView2)).setText(f.getEnergy()+" kcal");
-        ((TextView)findViewById(R.id.textRank)).setText(f.getRank()+"");
         ((TextView)findViewById(R.id.textLike)).setText(f.getLike()+"");
-        ((ImageView)findViewById(R.id.imageView1)).setBackgroundResource(f.getPath());
 
         String in="";
         for (HasIngredients x:Splash.database.getArrayHasIngredients()) {
-            if(f.getName().equals(x.getFoodName())){
+            if(f.getFood_name().equals(x.getFoodName())){
                 in=in+x.getIngredientName()+"\n";
             }
         }
