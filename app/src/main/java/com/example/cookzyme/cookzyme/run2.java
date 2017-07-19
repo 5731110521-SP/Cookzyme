@@ -1,6 +1,8 @@
 package com.example.cookzyme.cookzyme;
 
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.util.Base64;
 
 import com.android.internal.http.multipart.MultipartEntity;
@@ -60,9 +62,9 @@ public class run2 implements Runnable {
             request.setHeader("Prediction-key", "14adf81076e843c3a06f6f325337f291");
 
             // Request body
-            System.out.println(getEncoded64ImageStringFromBitmap(bitmap));
+            //System.out.println(getEncoded64ImageStringFromBitmap(bitmap));
             System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
-            ByteArrayEntity reqEntity = new ByteArrayEntity( getEncoded64ImageStringFromBitmap(bitmap));
+            ByteArrayEntity reqEntity = new ByteArrayEntity( getEncoded64ImageStringFromBitmap(getResizedBitmap(bitmap,300)));
             request.setEntity(reqEntity);
             System.out.println("yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy");
             HttpResponse response = httpclient.execute(request);
@@ -86,6 +88,23 @@ public class run2 implements Runnable {
     public String getAns2() {
         return ans2;
     }
+
+    public Bitmap getResizedBitmap(Bitmap bm, int newWidth) {
+        int width = bm.getWidth();
+        int height = bm.getHeight();
+        float scaleWidth = ((float) newWidth) / width;
+        // CREATE A MATRIX FOR THE MANIPULATION
+        Matrix matrix = new Matrix();
+        // RESIZE THE BIT MAP
+        matrix.postScale(scaleWidth, scaleWidth);
+
+        // "RECREATE" THE NEW BITMAP
+        Bitmap resizedBitmap = Bitmap.createBitmap(
+                bm, 0, 0, width, height, matrix, false);
+        bm.recycle();
+        return resizedBitmap;
+    }
+
 }
 
 
