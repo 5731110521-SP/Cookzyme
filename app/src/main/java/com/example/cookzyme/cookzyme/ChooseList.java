@@ -119,7 +119,7 @@ public class ChooseList extends AppCompatActivity {
                 Intent in = new Intent(ChooseList.this, viewRecipeHome.class);
                 startActivity(in);
                 overridePendingTransition(0, 0);
-                /*}else{
+                /*}else{ะ
                     recipe.index=arg2;
                     Intent in = new Intent(recipe.this, viewRecipeSuperstore.class);
                     startActivity(in);
