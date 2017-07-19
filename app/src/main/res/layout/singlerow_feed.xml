@@ -23,7 +23,6 @@
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_gravity="center"
-                android:layout_weight="0.3"
                 android:scaleType="centerCrop"
                 app:srcCompat="@drawable/com_facebook_profile_picture_blank_square" />
 
@@ -32,6 +31,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"
                 android:layout_gravity="center"
+                android:layout_marginLeft="15dp"
                 android:layout_weight="1"
                 android:gravity="left|center_vertical"
                 android:paddingLeft="10dp"
@@ -85,7 +85,6 @@
                 android:id="@+id/carrot"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:layout_weight="0.1"
                 android:scaleX="0.7"
                 android:scaleY="0.7"
                 app:srcCompat="@drawable/carrot_grey" />
@@ -94,6 +93,7 @@
                 android:id="@+id/likeNum"
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"
+                android:layout_marginLeft="10dp"
                 android:layout_weight="1"
                 android:gravity="center_vertical"
                 android:text="likeNum"

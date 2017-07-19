@@ -87,6 +87,7 @@
                 android:weightSum="3">
 
                 <LinearLayout
+                    android:id="@+id/cooking_layout"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -119,6 +120,7 @@
                     android:orientation="vertical"></LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/follower_layout"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -151,6 +153,7 @@
                     android:orientation="vertical"></LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/following_layout"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="1"

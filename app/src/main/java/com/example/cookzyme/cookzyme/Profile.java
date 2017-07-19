@@ -29,7 +29,7 @@ public class Profile extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.activity_profile, container, false);
 
-
+//        normal but scroll within grid
 //        GridView gridview = (GridView) rootView.findViewById(R.id.gridView);
 //        gridview.setAdapter(new customAdapterGrid(getActivity(),arrImg));
 
@@ -54,13 +54,15 @@ public class Profile extends Fragment {
         //remove scroll bar
 //        gridview.setVerticalScrollBarEnabled(false);
 //
-//        gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-//                Toast.makeText(getActivity(), "" + position, Toast.LENGTH_SHORT).show();
-//            }
-//        });
+        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
+                Toast.makeText(getActivity(), "" + position, Toast.LENGTH_SHORT).show();
 
 
+            }
+        });
+
+//        Another how to
 //        ExpandableHeightGridView mGridView = (ExpandableHeightGridView)
 //                getView().findViewById(R.id.gridView);
 //        mGridView.setExpanded(true);
