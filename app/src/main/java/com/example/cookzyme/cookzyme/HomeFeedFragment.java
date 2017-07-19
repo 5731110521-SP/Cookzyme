@@ -1,6 +1,7 @@
 package com.example.cookzyme.cookzyme;
 
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
@@ -50,14 +51,23 @@ public class HomeFeedFragment extends Fragment {
     private ArrayList<Integer> carrot=new ArrayList<>();
     private ArrayList<Integer> likeNum=new ArrayList<>();
     private ArrayList<Integer> commentNum = new ArrayList<>();
+
     private View rootView;
     private ListView listView;
-    private boolean ready;
     private customAdapterFeed adapter;
+    private customAdapterFeed adapter2;
     private Thread a;
     private MobileServiceTable<Follow> mFollowers;
     private MobileServiceTable<Users> mUsers;
     private MobileServiceTable<Posts> mPosts;
+    private boolean ready;
+
+    public static HomeFeedFragment newInstance() {
+        HomeFeedFragment fragment = new HomeFeedFragment();
+        return fragment;
+    }
+
+    public HomeFeedFragment() { }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -78,6 +88,15 @@ public class HomeFeedFragment extends Fragment {
         listView = (ListView) rootView.findViewById(R.id.listviewFeed);
 
         a = new Thread(new Runnable() {
+            private ArrayList<String> followingEmail2 = new ArrayList<>();
+            private ArrayList<BitmapDrawable> followingPic2 = new ArrayList<>();
+            private ArrayList<String> fromMenu2 = new ArrayList<>();
+            private ArrayList<BitmapDrawable> foodPic2 = new ArrayList<>();
+            private ArrayList<String> caption2 =new ArrayList<>();
+            private ArrayList<Integer> carrot2 =new ArrayList<>();
+            private ArrayList<Integer> likeNum2 =new ArrayList<>();
+            private ArrayList<Integer> commentNum2 = new ArrayList<>();
+
             @Override
             public void run() {
                 try {
@@ -87,59 +106,64 @@ public class HomeFeedFragment extends Fragment {
                             .select("following_email")
                             .execute()
                             .get();
-                    System.out.println(followingEmailna.get(0).following_email+"########################");
-                    String myFollowing = followingEmailna.get(0).following_email;
-                    List<Users> Usersna = mUsers
-                            .where()
-                            .field("email").eq(myFollowing)
-                            .execute()
-                            .get();
-                    URL newurl = new URL(Usersna.get(0).path);
-                    Bitmap mIcon_val = BitmapFactory.decodeStream(newurl.openConnection().getInputStream());
-                    BitmapDrawable ob = new BitmapDrawable(getResources(), mIcon_val);
-                    followingEmail.add(Usersna.get(0).name);
-                    followingPic.add(ob);
-                    System.out.println("##################################");
-                    List<Posts> Postsna = mPosts
-                            .where()
-                            .field("email").eq(myFollowing)
-                            .execute()
-                            .get();
-                    String nameoffood = Postsna.get(0).food_name;
-                    String pathofpost = Postsna.get(0).path;
-                    fromMenu.add(nameoffood);
-                    URL newurl2 = new URL(pathofpost);
-                    Bitmap mIcon_val2 = BitmapFactory.decodeStream(newurl2.openConnection().getInputStream());
-                    BitmapDrawable ob2 = new BitmapDrawable(getResources(), mIcon_val2);
-                    foodPic.add(ob2);
-                    caption.add(Postsna.get(0).description);
-                    System.out.println("*******************************");
+                    System.out.println("---STEP 01---");
+                    List<String> allMyFollowing  = new ArrayList<>();
+                    for(int i = 0; i<followingEmailna.size(); i++){
+                        allMyFollowing.add( followingEmailna.get(i).following_email);
+                        List<Users> Usersna = mUsers
+                                .where()
+                                .field("email").eq(allMyFollowing.get(i))
+                                .execute()
+                                .get();
+                        URL newurl = new URL(Usersna.get(0).path);
+                        Bitmap mIcon_val = BitmapFactory.decodeStream(newurl.openConnection().getInputStream());
+                        BitmapDrawable ob = new BitmapDrawable(getResources(), mIcon_val);
+                        followingEmail2.add(Usersna.get(0).name);
+                        followingPic2.add(ob);
+                        System.out.println("---STEP 02---");
+                        List<Posts> Postsna = mPosts
+                                .where()
+                                .field("email").eq(allMyFollowing.get(i))
+                                .execute()
+                                .get();
+                        List<Posts> allMyFollowingPost = new ArrayList<>();
+                        for(int j =0; j<Postsna.size(); j++) {
+                            allMyFollowingPost.add(Postsna.get(i));
+                            String nameoffood = Postsna.get(i).food_name;
+                            String pathofpost = Postsna.get(i).path;
+                            fromMenu2.add(nameoffood);
+                            URL newurl2 = new URL(pathofpost);
+                            Bitmap mIcon_val2 = BitmapFactory.decodeStream(newurl2.openConnection().getInputStream());
+                            BitmapDrawable ob2 = new BitmapDrawable(getResources(), mIcon_val2);
+                            foodPic2.add(ob2);
+                            caption2.add(Postsna.get(i).description);
+                            System.out.println("---STEP 03---");
+                            carrot2.add(R.drawable.carrot_grey);
+                            likeNum2.add(2);
+                            commentNum2.add(5);
+                            adapter2 = new customAdapterFeed(getContext(), followingEmail2, followingPic2, fromMenu2,
+                                    foodPic2,caption2,carrot2,likeNum2,commentNum2);
+                            adapter = adapter2;
+                        }
+
+                    }
                 }catch (Exception e) {
                     e.printStackTrace();
-                    System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
                 }
             }
-
         });
         a.start();
-
 
         BitmapDrawable eiei = new BitmapDrawable();
         followingEmail.add("CooKzyMe");
         followingPic.add(eiei);
         fromMenu.add("CooKzyMe");
         foodPic.add(eiei);
-        caption.add("e");
+        caption.add("CooKzeMe");
         carrot.add(R.drawable.carrot_grey);
         likeNum.add(0);
         commentNum.add(0);
 
-        //fromMenu.add("CooKzyMe");
-        //foodPic.add(eiei);
-        //caption.add("e");
-        carrot.add(R.drawable.carrot_grey);
-        likeNum.add(2);
-        commentNum.add(5);
         adapter = new customAdapterFeed(getContext(), followingEmail, followingPic, fromMenu,foodPic,caption,carrot,likeNum,commentNum);
 
         //listview
@@ -160,9 +184,16 @@ public class HomeFeedFragment extends Fragment {
                     overridePendingTransition(0, 0);
                 }*/
                 setnaka(adapter);
+                followingEmail.clear();
+                followingPic.clear();
+                fromMenu.clear();
+                foodPic.clear();
+                caption.clear();
+                carrot.clear();
+                likeNum.clear();
+                commentNum.clear();
             }
         });
-
         return rootView;
     }
     private void setnaka(customAdapterFeed adapter){

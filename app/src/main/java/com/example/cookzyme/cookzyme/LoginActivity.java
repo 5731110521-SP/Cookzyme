@@ -473,14 +473,14 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                             android.util.Log.i("Login"+ "FirstName", firstName);
                             android.util.Log.i("Login" + "LastName", lastName);
                             android.util.Log.i("Login" + "Gender", gender);
-                            mClient.getTable(Users.class).insert(new Users(email,null,firstName+" "+lastName,null,profilepic,0,0), new TableOperationCallback<Users>() {
+                            String bgPath = "https://i.ytimg.com/vi/wnBXGxJdO_E/maxresdefault.jpg";
+                            mClient.getTable(Users.class).insert(new Users(email,null,firstName+" "+lastName,null,profilepic,bgPath,0,0), new TableOperationCallback<Users>() {
                                 public void onCompleted(Users entity, Exception exception, ServiceFilterResponse response) {
                                     if (exception == null) {
                                         // Insert succeeded
-                                        System.out.println("eieieieieieieieieieieieieieieieiei");
+                                        System.out.println("insert succeeded");
                                     } else {
                                         // Insert failed
-                                        System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
                                         exception.printStackTrace();
                                     }
 

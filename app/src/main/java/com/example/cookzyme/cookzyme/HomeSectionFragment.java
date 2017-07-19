@@ -19,6 +19,14 @@ public class HomeSectionFragment extends Fragment {
 
     TabLayout mTab;
 
+
+    public static HomeSectionFragment newInstance() {
+        HomeSectionFragment fragment = new HomeSectionFragment();
+        return fragment;
+    }
+
+    public HomeSectionFragment() { }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

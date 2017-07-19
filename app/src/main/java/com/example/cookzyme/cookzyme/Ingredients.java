@@ -3,7 +3,8 @@ package com.example.cookzyme.cookzyme;
 import java.util.Date;
 
 public class Ingredients {
-	
+	@com.google.gson.annotations.SerializedName("id")
+	private String mId;
 	private String ingredient_name;
 	private String path;
 	private String unit;

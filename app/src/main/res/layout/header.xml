@@ -28,13 +28,13 @@
                     android:text="Follow" />
 
                 <Button
-                    android:id="@+id/challenge"
+                    android:id="@+id/challengeButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="1dp"
                     android:layout_weight="1"
                     android:background="@android:color/white"
-                    android:text="Challenge" />
+                    android:text="Challenge"/>
             </LinearLayout>
 
             <RelativeLayout
@@ -42,14 +42,14 @@
                 android:layout_height="150dp">
 
                 <ImageView
-                    android:id="@+id/foodPic"
+                    android:id="@+id/headerPic"
                     android:layout_width="match_parent"
                     android:layout_height="150dp"
                     android:layout_alignParentTop="true"
                     android:adjustViewBounds="true"
                     android:alpha="0.7"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/egg" />
+                    android:src="@drawable/egg"/>
 
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/userPic"

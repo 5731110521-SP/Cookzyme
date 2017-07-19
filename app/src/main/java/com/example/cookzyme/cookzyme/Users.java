@@ -14,20 +14,31 @@ public class Users {
     public String name;
     public Date birthdate;
     public String path;
+    public String bgPath;
     public int following;
     public int follower;
     @com.google.gson.annotations.SerializedName("id")
     private String mId;
 
-    public Users(String email, String password, String name, Date birthdate, String path, int following, int follower) {
+    public Users(String email, String password, String name, Date birthdate, String path, String bgPath, int following, int follower) {
         this.email = email;
         this.password = password;
         this.name = name;
         this.birthdate = birthdate;
         this.path = path;
+        this.bgPath = bgPath;
         this.following = following;
         this.follower = follower;
     }
+
+    public String getBgPath() {
+        return bgPath;
+    }
+
+    public void setBgPath(String bgPath) {
+        this.bgPath = bgPath;
+    }
+
     public String getId() { return mId; }
     public final void setId(String id) { mId = id; }
 

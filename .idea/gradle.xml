@@ -9,7 +9,6 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
-            <option value="$PROJECT_DIR$/azure-mobile-android-3.3.0" />
             <option value="$PROJECT_DIR$/module/speechsdk" />
           </set>
         </option>

@@ -1,6 +1,7 @@
 package com.example.cookzyme.cookzyme;
 
 import android.content.Context;
+import android.graphics.drawable.BitmapDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,10 +19,10 @@ public class customAdapter extends BaseAdapter {
     Context mContext;
     private List<String> name;
     private List<Integer> cal;
-    private List<Integer> pic;
+    private List<BitmapDrawable> pic;
     private List<Integer> like;
 
-    public customAdapter(Context context, List<String> name,List<Integer> cal, List<Integer> pic,List<Integer> like) {
+    public customAdapter(Context context, List<String> name,List<Integer> cal, List<BitmapDrawable> pic,List<Integer> like) {
         this.mContext= context;
         this.name = name;
         this.cal = cal;
@@ -57,7 +58,7 @@ public class customAdapter extends BaseAdapter {
 
 
         ImageView imageViewFoodPic = (ImageView)view.findViewById(R.id.foodPic);
-        imageViewFoodPic.setBackgroundResource(pic.get(position));
+        imageViewFoodPic.setBackgroundDrawable(pic.get(position));
 
         TextView textViewLike = (TextView)view.findViewById(R.id.textLike);
         textViewLike.setText(Integer.toString(like.get(position)));

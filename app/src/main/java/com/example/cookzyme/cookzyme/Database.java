@@ -3,24 +3,24 @@ package com.example.cookzyme.cookzyme;
 import java.util.ArrayList;
 
 public class Database {
-	private ArrayList<Food> arrayFood;
+	private ArrayList<Foods> arrayFood;
 	private ArrayList<Ingredients> arrayIngredients;
 	private ArrayList<HowToCook> arrayHowToCook;
 	private ArrayList<HasIngredients> arrayHasIngredients;
 	public Database() {
 		// TODO Auto-generated constructor stub
-		arrayFood=new ArrayList<Food>();
+		arrayFood=new ArrayList<Foods>();
 		arrayIngredients = new ArrayList<Ingredients>();
 		arrayHowToCook = new ArrayList<HowToCook>();
 		arrayHasIngredients = new ArrayList<HasIngredients>();
 		generateDB();
 	}
 
-	public ArrayList<Food> getArrayFood() {
+	public ArrayList<Foods> getArrayFood() {
 		return arrayFood;
 	}
 
-	public void setArrayFood(ArrayList<Food> arrayFood) {
+	public void setArrayFood(ArrayList<Foods> arrayFood) {
 		this.arrayFood = arrayFood;
 	}
 
@@ -50,19 +50,7 @@ public class Database {
 
 	public void generateDB() {
 		// TODO Auto-generated method stub
-		arrayFood.add(new Food("Pork Ball", R.drawable.pork_ball, 615));
-		arrayFood.add(new Food("ก๋วยเตี๋ยวราดหน้าหมูสับ", R.drawable.t2, 397));
-		arrayFood.add(new Food("ข้าวต้มหมูทรงเครื่อง", R.drawable.t3, 297));
-		arrayFood.add(new Food("ข้าวผัดกุ้ง", R.drawable.t4, 595));
-		arrayFood.add(new Food("ข้าวมันไก่", R.drawable.t5, 596));
-		arrayFood.add(new Food("ข้าวไก่กระเทียม", R.drawable.t6, 744));
-		arrayFood.add(new Food("น้ำพริกอ่องอกไก่", R.drawable.t7, 265));
-		arrayFood.add(new Food("ผัดกะเพราไก่", R.drawable.t13, 554));
-		arrayFood.add(new Food("ฟักทองผัดไข่", R.drawable.t8, 255));
-		arrayFood.add(new Food("สุกี้กุ้งสดแห้ง", R.drawable.t9, 280));
-		arrayFood.add(new Food("แกงจืดไข่", R.drawable.t10, 276));
-		arrayFood.add(new Food("ไก่ทอดหาดใหญ่", R.drawable.t11, 860));
-		arrayFood.add(new Food("ไข่เจียว เห็ดเข็มทอง", R.drawable.t12, 684));
+		arrayFood.add(new Foods("Pork Ball", "", 0,615));
 		
 		arrayIngredients.add(new Ingredients("Brown Onion", ""));
 		arrayIngredients.add(new Ingredients("Cabbage", ""));
