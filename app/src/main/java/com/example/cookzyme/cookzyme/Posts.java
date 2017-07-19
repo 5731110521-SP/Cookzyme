@@ -12,7 +12,7 @@ public class Posts {
     public String email;
     public String path;
     public String description;
-    public String foodname;
+    public String food_name;
     @com.google.gson.annotations.SerializedName("id")
     private String mId;
     public String getId() { return mId; }
@@ -22,7 +22,7 @@ public class Posts {
         this.email = email;
         this.path = path;
         this.description = description;
-        this.foodname = foodname;
+        this.food_name = foodname;
     }
 
     public String getEmail() {
@@ -50,10 +50,10 @@ public class Posts {
     }
 
     public String getFoodname() {
-        return foodname;
+        return food_name;
     }
 
     public void setFoodname(String foodname) {
-        this.foodname = foodname;
+        this.food_name = foodname;
     }
 }

@@ -58,6 +58,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -73,7 +74,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import com.microsoft.windowsazure.mobileservices.*;
 import com.microsoft.windowsazure.mobileservices.http.ServiceFilterResponse;
+import com.microsoft.windowsazure.mobileservices.table.MobileServiceTable;
 import com.microsoft.windowsazure.mobileservices.table.TableOperationCallback;
+import com.microsoft.windowsazure.mobileservices.table.TableQueryCallback;
 
 public class FacebookInfo extends AppCompatActivity {
 
@@ -94,6 +97,8 @@ public class FacebookInfo extends AppCompatActivity {
     private  MobileServiceClient mClient;
     private String profilepic;
     private String myEmail;
+    private int ready = 0;
+    private String eiei;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -108,6 +113,8 @@ public class FacebookInfo extends AppCompatActivity {
         }
         callbackManager = CallbackManager.Factory.create();
 
+        final MobileServiceTable<Follow> mFollowers = mClient.getTable(Follow.class);
+
         Button infoface = (Button)this.findViewById(R.id.addinfo);
         infoface.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -118,22 +125,8 @@ public class FacebookInfo extends AppCompatActivity {
                     @Override
                     public void onSuccess(LoginResult loginResult) {
                         findMyEmail(loginResult);
-
+                       // System.out.println(myEmail);
                         System.out.println("11111111111111111111111111111111111111");
-                        mClient.getTable(Posts.class).insert(new Posts(myEmail,"http://www.cutestpaw.com/wp-content/uploads/2014/07/Friend-said-she-just-got-a-new-corgi..jpg","น่ารักเหมือนเก๊ามั้ยยย" ,"คอร์กี้ต้ำยำ"), new TableOperationCallback<Posts>() {
-                            public void onCompleted(Posts entity, Exception exception, ServiceFilterResponse response) {
-                                if (exception == null) {
-                                    // Insert succeeded
-                                    System.out.println("insert successfully");
-                                } else {
-                                    // Insert failed
-                                    System.out.println("insert fail");
-                                    exception.printStackTrace();
-                                }
-
-                            }
-                        });
-                        System.out.println("2222222222222222222222222222");
                     }
 
                     @Override
@@ -163,17 +156,36 @@ public class FacebookInfo extends AppCompatActivity {
                         }
                     }
                 });
-            }
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            List<Follow> followingEmailna = mFollowers
+                                    //.where()
+                                    //.field("email").eq("khamint@hotmail.com")
+                                    //.select("following_email")
+                                    .execute()
+                                    .get();
+                            eiei = followingEmailna.get(0).following_email;
+                        }catch (Exception e) {
+                            e.printStackTrace();
+                            System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
+                        }
+                    }
+
+                }).start();
+           }
         });
 
         Button logout = (Button) this.findViewById(R.id.logout);
         logout.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                LoginManager.getInstance().logOut();
-                Intent in = new Intent(FacebookInfo.this, LoginActivity.class);
-                startActivity(in);
-                finish();
+//                LoginManager.getInstance().logOut();
+//                Intent in = new Intent(FacebookInfo.this, LoginActivity.class);
+//                startActivity(in);
+//                finish();
+                System.out.println(eiei);
             }
         });
 
@@ -181,7 +193,21 @@ public class FacebookInfo extends AppCompatActivity {
         post.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
+                System.out.println(myEmail+"---------------------------------");
+                mClient.getTable(Posts.class).insert(new Posts(myEmail,"http://www.cutestpaw.com/wp-content/uploads/2014/07/Friend-said-she-just-got-a-new-corgi..jpg","น่ารักเหมือนเก๊ามั้ยยย" ,"ข้าวผัด"), new TableOperationCallback<Posts>() {
+                    public void onCompleted(Posts entity, Exception exception, ServiceFilterResponse response) {
+                        if (exception == null) {
+                            // Insert succeeded
 
+                            System.out.println("insert successfully");
+                        } else {
+                            // Insert failed
+                            System.out.println("insert fail");
+                            exception.printStackTrace();
+                        }
+
+                    }
+                });
             }
         });
     }
@@ -229,6 +255,7 @@ public class FacebookInfo extends AppCompatActivity {
         parameters.putString("fields", "id,email,first_name,last_name,gender");
         request.setParameters(parameters);
         request.executeAsync();
+        ready = 1;
     }
 
 

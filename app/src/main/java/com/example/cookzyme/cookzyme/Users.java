@@ -32,23 +32,6 @@ public class Users {
     public String getId() { return mId; }
     public final void setId(String id) { mId = id; }
 
-
-//    @com.google.gson.annotations.SerializedName("createdAt")
-//    private DateTimeOffset mCreatedAt;
-//    public DateTimeOffset getCreatedAt() { return mCreatedAt; }
-//    protected void setCreatedAt(DateTimeOffset createdAt) { mCreatedAt = createdAt; }
-//
-//    @com.google.gson.annotations.SerializedName("updatedAt")
-//    private DateTimeOffset mUpdatedAt;
-//    public DateTimeOffset getUpdatedAt() { return mUpdatedAt; }
-//    protected void setUpdatedAt(DateTimeOffset updatedAt) { mUpdatedAt = updatedAt; }
-//
-//    @com.google.gson.annotations.SerializedName("version")
-//    private String mVersion;
-//    public String getText() { return mVersion; }
-//    public final void setText(String version) { mVersion = version; }
-
-
     public String getEmail() {
         return email;
     }
