@@ -82,7 +82,6 @@ public class camera extends AppCompatActivity {
         BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavigationView);
         bottomNavigationView.getMenu().getItem(0).setChecked(true);
 
-
         bottomNavigationView.setOnNavigationItemSelectedListener(
                 new BottomNavigationView.OnNavigationItemSelectedListener() {
                     Intent in;
@@ -99,7 +98,7 @@ public class camera extends AppCompatActivity {
                                     public void onClick(DialogInterface dialog, int which) {
                                         String selected = option[which];
                                         if(selected.equals("Home")) {
-                                            Intent inิ= new Intent(camera.this,camera.class);
+                                            Intent in= new Intent(camera.this,camera.class);
                                             startActivity(in);
                                             overridePendingTransition(0, 0);
                                         }else if(selected.equals("Superstore")) {

@@ -85,6 +85,7 @@
             android:name=".HomeActivity"
             android:label="@string/title_activity_home" />
         <activity android:name=".addIngredient" />
+
     </application>
 
 </manifest>

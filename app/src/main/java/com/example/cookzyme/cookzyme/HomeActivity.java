@@ -18,7 +18,8 @@ import android.widget.TextView;
 public class HomeActivity extends FragmentActivity {
 
     ViewPager mViewPager;
-
+//    private static HomeSectionFragment homeSectionFragment = new HomeSectionFragment();
+//    private static Profile profile = new Profile();
     AppSectionsPagerAdapter mAppSectionsPagerAdapter;
 
     BottomNavigationView navigation;
@@ -97,7 +98,7 @@ public class HomeActivity extends FragmentActivity {
                 case 0:
                     return new RefrigeratorSectionFragment();
                 case 1:
-                    return new HomeSectionFragment();
+                    return new HomeFeedFragment();
                 case 2:
                     return new HomeSectionFragment();
                 case 3:
