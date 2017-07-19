@@ -2,6 +2,9 @@ package com.example.cookzyme.cookzyme;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AlertDialog;
@@ -13,6 +16,9 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -80,21 +86,30 @@ public class recipe extends AppCompatActivity {
         // sample food
         ArrayList<String> name = new ArrayList<>();
         ArrayList<Integer> cal = new ArrayList<>();
-        ArrayList<Integer> pic = new ArrayList<>();
+        ArrayList<BitmapDrawable> pic = new ArrayList<>();
         ArrayList<Integer> rank = new ArrayList<>();
         ArrayList<Integer> like = new ArrayList<>();
 
         for(int i=0;i<Splash.database.getArrayFood().size();i++){
-            name.add(Splash.database.getArrayFood().get(i).getName());
+            name.add(Splash.database.getArrayFood().get(i).getFood_name());
             cal.add(Splash.database.getArrayFood().get(i).getEnergy());
-            pic.add(Splash.database.getArrayFood().get(i).getPath());
-            rank.add(Splash.database.getArrayFood().get(i).getRank());
+            URL newurl2 = null;
+            try {
+                newurl2 = new URL(Splash.database.getArrayFood().get(i).getPath());
+                Bitmap mIcon_val2 = BitmapFactory.decodeStream(newurl2.openConnection().getInputStream());
+                BitmapDrawable ob2 = new BitmapDrawable(getResources(), mIcon_val2);
+                pic.add(ob2);
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             like.add(Splash.database.getArrayFood().get(i).getLike());
         }
 
         final List<String> name_list = name;
         List<Integer> cal_list = cal;
-        List<Integer> pic_list = pic;
+        List<BitmapDrawable> pic_list = pic;
         List<Integer> like_list = like;
         //listview
         final customAdapter adapter =new customAdapter(getApplicationContext(), name_list, cal_list, pic_list,like_list);
