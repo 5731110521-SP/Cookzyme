@@ -12,6 +12,16 @@ public class HasIngredient {
     public String food_name;
     public String ingredient_name;
     public int amount;
+    private String unit;
+
+    public String getUnit() {
+        return unit;
+    }
+
+    public void setUnit(String unit) {
+        this.unit = unit;
+    }
+
     @com.google.gson.annotations.SerializedName("id")
     private String mId;
     public String getId() { return mId; }

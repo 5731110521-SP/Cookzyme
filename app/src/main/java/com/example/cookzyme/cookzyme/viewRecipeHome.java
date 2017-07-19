@@ -13,13 +13,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 public class viewRecipeHome extends AppCompatActivity {
-    Food f = Splash.database.getArrayFood().get(0);
+    Foods f = Splash.database.getArrayFood().get(0);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_recipe_home);
 
-        for (Food x:Splash.database.getArrayFood()
+        for (Foods x:Splash.database.getArrayFood()
              ) {
             if(x.getName().equals(recipe.name)){
                 f=x;

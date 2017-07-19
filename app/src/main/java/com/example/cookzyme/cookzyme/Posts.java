@@ -56,4 +56,12 @@ public class Posts {
     public void setFoodname(String foodname) {
         this.food_name = foodname;
     }
+
+    public String getmId() {
+        return mId;
+    }
+
+    public void setmId(String mId) {
+        this.mId = mId;
+    }
 }
