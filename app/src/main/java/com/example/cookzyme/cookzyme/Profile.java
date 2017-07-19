@@ -79,7 +79,6 @@ public class Profile extends Fragment {
         });
         headerView.findViewById(R.id.follower_layout).setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
-
             }
         });headerView.findViewById(R.id.following_layout).setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
