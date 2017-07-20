@@ -7,15 +7,20 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ListView;
+
+import com.example.cookzyme.cookzyme.customAdapter.customAdapterRefrigerator;
+import com.example.cookzyme.cookzyme.database.Ingredients;
+
 import java.util.ArrayList;
 
 public class RefrigeratorSectionFragment extends Fragment {
 
-    customAdapterRefrigerator customAdapterRefrigerator;
+    com.example.cookzyme.cookzyme.customAdapter.customAdapterRefrigerator customAdapterRefrigerator;
     ListView listView;
     FloatingActionButton addIngredient;
-    FloatingActionButton cooking;
+    ImageButton cooking;
     static ArrayList<Ingredients> refrigerator;
     View rootView;
 
@@ -32,7 +37,7 @@ public class RefrigeratorSectionFragment extends Fragment {
         rootView = inflater.inflate(R.layout.refrigerator_section_fragment, container, false);
         listView=(ListView) rootView.findViewById(R.id.refrigeratorListView);
         addIngredient=(FloatingActionButton) rootView.findViewById(R.id.addIngredient);
-        cooking=(FloatingActionButton) rootView.findViewById(R.id.cooking);
+        cooking=(ImageButton) rootView.findViewById(R.id.cooking);
         addIngredient.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

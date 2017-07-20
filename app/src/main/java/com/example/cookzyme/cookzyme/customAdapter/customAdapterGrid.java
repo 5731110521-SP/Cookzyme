@@ -1,4 +1,4 @@
-package com.example.cookzyme.cookzyme;
+package com.example.cookzyme.cookzyme.customAdapter;
 
 import android.content.Context;
 import android.content.Intent;

@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -40,7 +41,9 @@ public class HomeActivity extends FragmentActivity {
                     mViewPager.setCurrentItem(2);
                     return true;
                 case R.id.navigation_Profile:
+                    mViewPager.getAdapter().notifyDataSetChanged();
                     mViewPager.setCurrentItem(3);
+                    getSupportFragmentManager().popBackStack();
                     return true;
                 case R.id.navigation_Setting:
                     mViewPager.setCurrentItem(4);
@@ -102,12 +105,16 @@ public class HomeActivity extends FragmentActivity {
                 case 2:
                     return HomeSectionFragment.newInstance();
                 case 3:
-                    return Profile.newInstance();
+                    return new Profile();
                 case 4:
                     return HomeSectionFragment.newInstance();
                 default:
                     return Profile.newInstance();
             }
+        }
+
+        public int getItemPosition(Object object) {
+            return POSITION_NONE;
         }
 
         @Override

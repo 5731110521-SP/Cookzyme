@@ -44,8 +44,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ToDoActivity" />
-        <activity android:name=".cvision" />
+        <activity android:name=".ref.ToDoActivity" />
+        <activity android:name=".ref.cvision" />
         <activity android:name=".PermissionsActivity" />
         <activity android:name=".camera" />
         <activity android:name=".recipe" />
@@ -73,7 +73,7 @@
                 <data android:scheme="@string/fb_login_protocol_scheme" />
             </intent-filter>
         </activity>
-        <activity android:name=".letmetry" />
+        <activity android:name=".ref.letmetry" />
 
         <provider
             android:name="com.facebook.FacebookContentProvider"

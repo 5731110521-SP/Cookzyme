@@ -1,4 +1,4 @@
-package com.example.cookzyme.cookzyme;
+package com.example.cookzyme.cookzyme.database;
 
 public class Foods {
 

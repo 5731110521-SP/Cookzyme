@@ -1,4 +1,4 @@
-package com.example.cookzyme.cookzyme;
+package com.example.cookzyme.cookzyme.database;
 
 import java.util.ArrayList;
 
@@ -50,7 +50,7 @@ public class Database {
 
 	public void generateDB() {
 		// TODO Auto-generated method stub
-		arrayFood.add(new Foods("Pork Ball", "", 0,615));
+		arrayFood.add(new Foods("Pork Ball", "http://www.cutestpaw.com/wp-content/uploads/2014/08/corgi.jpg", 0,615));
 		
 		arrayIngredients.add(new Ingredients("Brown Onion", ""));
 		arrayIngredients.add(new Ingredients("Cabbage", ""));
