@@ -1,17 +1,16 @@
 package com.example.cookzyme.cookzyme;
 
-import android.app.AlertDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,32 +20,27 @@ import android.widget.ListView;
 import com.facebook.*;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
+
+import com.example.cookzyme.cookzyme.customAdapter.customAdapterFeed;
+import com.example.cookzyme.cookzyme.database.Follow;
+import com.example.cookzyme.cookzyme.database.Posts;
+import com.example.cookzyme.cookzyme.database.Users;
+
 import com.microsoft.windowsazure.mobileservices.MobileServiceClient;
-import com.microsoft.windowsazure.mobileservices.MobileServiceList;
-import com.microsoft.windowsazure.mobileservices.http.ServiceFilterResponse;
 import com.microsoft.windowsazure.mobileservices.table.MobileServiceTable;
-import com.microsoft.windowsazure.mobileservices.table.TableOperationCallback;
-import com.microsoft.windowsazure.mobileservices.table.TableQueryCallback;
-import com.microsoft.windowsazure.mobileservices.table.sync.MobileServiceSyncContext;
-import com.microsoft.windowsazure.mobileservices.table.sync.localstore.ColumnDataType;
-import com.microsoft.windowsazure.mobileservices.table.sync.localstore.MobileServiceLocalStoreException;
-import com.microsoft.windowsazure.mobileservices.table.sync.localstore.SQLiteLocalStore;
-import com.microsoft.windowsazure.mobileservices.table.sync.synchandler.SimpleSyncHandler;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.net.MalformedURLException;
-import java.net.URI;
 import java.net.URL;
 import java.util.ArrayList;
+
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
+
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.TimeUnit;
 
 public class HomeFeedFragment extends Fragment {
     private MobileServiceClient mClient;
@@ -74,6 +68,13 @@ public class HomeFeedFragment extends Fragment {
     public static String myLastName;
 
 
+    public static HomeFeedFragment newInstance() {
+        HomeFeedFragment fragment = new HomeFeedFragment();
+        return fragment;
+    }
+
+    public HomeFeedFragment() { }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -92,7 +93,6 @@ public class HomeFeedFragment extends Fragment {
         mFollowers = mClient.getTable(Follow.class);
         mUsers = mClient.getTable(Users.class);
         mPosts = mClient.getTable(Posts.class);
-
         listView = (ListView) rootView.findViewById(R.id.listviewFeed);
 
         new CustomVisonTask().execute();

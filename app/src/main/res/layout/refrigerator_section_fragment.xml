@@ -42,31 +42,27 @@
     </LinearLayout>
 
 
+    <ImageButton
+        android:id="@+id/cooking"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:layout_gravity="bottom|end"
+        android:layout_marginBottom="80dp"
+        android:layout_marginRight="16dp"
+        android:background="@drawable/chef"
+        android:clickable="true"
+        android:scaleType="center" />
+
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/addIngredient"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="16dp"
-        android:background="@android:color/black"
         android:clickable="true"
-        app:backgroundTint="@android:color/white"
+        app:backgroundTint="@color/floatingButtonAdd"
         app:elevation="1dp"
-        app:fabSize="normal"
-        app:srcCompat="@android:drawable/ic_menu_add" />
-
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/cooking"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_marginBottom="80dp"
-        android:layout_marginRight="16dp"
-        android:background="@android:color/black"
-        android:clickable="true"
-        app:backgroundTint="@android:color/white"
-        app:elevation="1dp"
-        app:fabSize="normal"
-        app:srcCompat="@android:drawable/ic_menu_add" />
+        app:fabSize="auto"
+        app:srcCompat="@drawable/ic_add_white_24dp" />
 
 </android.support.design.widget.CoordinatorLayout>

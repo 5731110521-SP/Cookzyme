@@ -1,31 +1,54 @@
 package com.example.cookzyme.cookzyme;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.os.AsyncTask;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ListView;
+
+import com.example.cookzyme.cookzyme.customAdapter.customAdapterRefrigerator;
+import com.example.cookzyme.cookzyme.database.Ingredients;
+import com.microsoft.windowsazure.mobileservices.MobileServiceException;
+
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 public class RefrigeratorSectionFragment extends Fragment {
 
-    customAdapterRefrigerator customAdapterRefrigerator;
+    com.example.cookzyme.cookzyme.customAdapter.customAdapterRefrigerator customAdapterRefrigerator;
     ListView listView;
     FloatingActionButton addIngredient;
-    FloatingActionButton cooking;
+    ImageButton cooking;
     static ArrayList<Ingredients> refrigerator;
     View rootView;
+
+    public static RefrigeratorSectionFragment newInstance() {
+        RefrigeratorSectionFragment fragment = new RefrigeratorSectionFragment();
+        return fragment;
+    }
+
+    public RefrigeratorSectionFragment() { }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         rootView = inflater.inflate(R.layout.refrigerator_section_fragment, container, false);
         listView=(ListView) rootView.findViewById(R.id.refrigeratorListView);
         addIngredient=(FloatingActionButton) rootView.findViewById(R.id.addIngredient);
-        cooking=(FloatingActionButton) rootView.findViewById(R.id.cooking);
+        cooking=(ImageButton) rootView.findViewById(R.id.cooking);
         addIngredient.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -53,12 +76,10 @@ public class RefrigeratorSectionFragment extends Fragment {
             refrigerator=database.getAllRefrigerator();
             database.closeDB();
                 if(refrigerator.size()>0){
-                    customAdapterRefrigerator =new customAdapterRefrigerator(rootView.getContext().getApplicationContext(),refrigerator);
-                    listView.setAdapter(customAdapterRefrigerator);
+                    getIngredientPic();
                 }
         }else{
-            customAdapterRefrigerator =new customAdapterRefrigerator(rootView.getContext().getApplicationContext(),refrigerator);
-            listView.setAdapter(customAdapterRefrigerator);
+            getIngredientPic();
         }
         return rootView;
     }
@@ -71,9 +92,63 @@ public class RefrigeratorSectionFragment extends Fragment {
                 SQLiteDBHelper database = new SQLiteDBHelper(getContext());
                 refrigerator=database.getAllRefrigerator();
                 database.closeDB();
-                customAdapterRefrigerator =new customAdapterRefrigerator(rootView.getContext().getApplicationContext(),refrigerator);
-                listView.setAdapter(customAdapterRefrigerator);
+                getIngredientPic();
             }
         }
+    }
+    private void getIngredientPic(){
+        new AsyncTask<Void, Void, List<BitmapDrawable>>() {
+            @Override
+            protected List<BitmapDrawable> doInBackground(Void... params) {
+                try {
+                    List<Ingredients> results = AzureServiceAdapter.getInstance().getClient().getTable(Ingredients.class).execute().get();
+                    List<Ingredients> result = results;
+                    for (Ingredients i:refrigerator
+                            ) {
+                        for (Ingredients iresult:result
+                                ) {
+                            if(i.getIngredient_name().equals(iresult.getIngredient_name())){
+                                i.setPath(iresult.getPath());
+                                break;
+                            }
+                        }
+                    }
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                } catch (ExecutionException e) {
+                    e.printStackTrace();
+                } catch (MobileServiceException e) {
+                    e.printStackTrace();
+                }
+                List<BitmapDrawable> foodPic = new ArrayList<BitmapDrawable>();
+                for (Ingredients i:refrigerator
+                        ) {
+                    URL newurl = null;
+                    try {
+                        newurl = new URL(i.getPath());
+                    } catch (MalformedURLException e) {
+                        e.printStackTrace();
+                    }
+                    Bitmap mIcon_val = null;
+                    try {
+                        mIcon_val = BitmapFactory.decodeStream(newurl.openConnection().getInputStream());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    BitmapDrawable ob = new BitmapDrawable(getResources(), mIcon_val);
+                    foodPic.add(ob);
+                }
+
+                return foodPic;
+            }
+
+            @Override
+            protected void onPostExecute(List<BitmapDrawable> aVoid) {
+                super.onPostExecute(aVoid);
+                customAdapterRefrigerator =new customAdapterRefrigerator(rootView.getContext().getApplicationContext(),refrigerator);
+                customAdapterRefrigerator.setFoodPic(aVoid);
+                listView.setAdapter(customAdapterRefrigerator);
+            }
+        }.execute();
     }
 }

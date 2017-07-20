@@ -15,6 +15,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.cookzyme.cookzyme.database.Foods;
+import com.example.cookzyme.cookzyme.database.HowToCook;
 import com.microsoft.speech.tts.Synthesizer;
 
 import java.io.IOException;

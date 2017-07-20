@@ -5,6 +5,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
 import android.support.v4.app.Fragment;
+
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
@@ -30,7 +31,7 @@ import com.microsoft.windowsazure.mobileservices.table.MobileServiceTable;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
+import com.example.cookzyme.cookzyme.database.*;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -38,6 +39,21 @@ import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import in.srain.cube.views.GridViewWithHeaderAndFooter;
+
+import android.os.Bundle;
+import android.support.v4.app.FragmentTransaction;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.example.cookzyme.cookzyme.customAdapter.customAdapterGrid;
+
+import de.hdodenhof.circleimageview.CircleImageView;
+import in.srain.cube.views.GridViewWithHeaderAndFooter;
+
 
 public class Profile extends Fragment {
     private BitmapDrawable[] arrImg ;
@@ -57,6 +73,15 @@ public class Profile extends Fragment {
     private URL newurl4 = null;
     private BitmapDrawable ob4;
     private GridViewWithHeaderAndFooter gridView;
+
+
+    public static Profile newInstance() {
+
+        Profile fragment = new Profile();
+        return fragment;
+    }
+
+    public Profile() { }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -82,6 +107,7 @@ public class Profile extends Fragment {
         gridView.addHeaderView(headerView);
 
         new CustomVisonTask().execute();
+
 
         //ALL handle click
         headerView.findViewById(R.id.followButton).setOnClickListener(new View.OnClickListener(){
@@ -124,9 +150,17 @@ public class Profile extends Fragment {
 //
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-                Toast.makeText(getActivity(), "" + position, Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getActivity(), "" + position, Toast.LENGTH_SHORT).show();
+                ViewPostInProfile viewPost = new ViewPostInProfile();
 
+                Bundle bundle = new Bundle();
+                bundle.putString("position", String.valueOf(position));
+                viewPost.setArguments(bundle);
 
+                FragmentTransaction transaction =  getFragmentManager().beginTransaction();
+                transaction.replace(R.id.frame, viewPost);
+                transaction.addToBackStack(null);
+                transaction.commit();
             }
         });
 

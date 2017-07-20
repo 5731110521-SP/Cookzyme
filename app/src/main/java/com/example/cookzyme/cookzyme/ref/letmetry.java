@@ -1,22 +1,14 @@
-package com.example.cookzyme.cookzyme;
+package com.example.cookzyme.cookzyme.ref;
 
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.ContextMenu;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.Toast;
 
-import com.facebook.CallbackManager;
-import com.facebook.share.ShareApi;
-import com.facebook.share.model.SharePhoto;
-import com.facebook.share.model.SharePhotoContent;
+import com.example.cookzyme.cookzyme.R;
+import com.example.cookzyme.cookzyme.customAdapter.customAdapterGrid;
 
 public class letmetry extends AppCompatActivity {
 

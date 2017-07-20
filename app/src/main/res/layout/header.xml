@@ -58,9 +58,9 @@
                 android:layout_alignParentTop="false"
                 android:layout_centerHorizontal="false"
                 android:layout_centerInParent="true"
-                android:src="@color/colorPrimaryDark"
+                android:src="@drawable/com_facebook_button_icon_blue"
                 app:civ_border_color="@android:color/black"
-                app:civ_border_width="4dp" />
+                app:civ_border_width="4dp"/>
 
             <TextView
                 android:id="@+id/username"
@@ -75,7 +75,7 @@
                 android:shadowDy="-1"
                 android:shadowRadius="1"
                 android:text="username"
-                android:textColor="@android:color/black"
+                android:textColor="@android:color/white"
                 android:textSize="18sp"
                 android:textStyle="bold" />
         </RelativeLayout>

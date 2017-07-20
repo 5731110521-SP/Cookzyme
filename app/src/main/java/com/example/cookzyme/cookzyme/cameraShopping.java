@@ -139,18 +139,12 @@ public class cameraShopping extends AppCompatActivity {
             photo = (Bitmap) data.getExtras().get("data");
 //            ((ImageView)findViewById(R.id.imageView)).setImageBitmap(photo);
 //            bitmaps.add(photo);
-//            run2 r = new run2(photo);
-//            Thread t= new Thread(r);
-//            t.start();
-//            try {
-//                t.join();
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();
-//            }
-//            textView.setText(r.getAns2());
-//            tag.clear();
-//            tag.add(r.getAns2());
+
+            ((ImageView)findViewById(R.id.imageView)).setImageBitmap(photo);
+            bitmaps.add(photo);
+
 //            System.out.println(" ---------------- " + tag.size());
+
         }
     }
 }

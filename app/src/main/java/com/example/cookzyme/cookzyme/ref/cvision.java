@@ -1,8 +1,10 @@
-package com.example.cookzyme.cookzyme;
+package com.example.cookzyme.cookzyme.ref;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+
+import com.example.cookzyme.cookzyme.R;
 
 import java.net.URI;
 import org.apache.http.HttpEntity;

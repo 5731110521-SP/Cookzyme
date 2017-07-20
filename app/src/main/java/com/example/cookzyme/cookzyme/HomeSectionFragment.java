@@ -19,11 +19,18 @@ public class HomeSectionFragment extends Fragment {
 
     TabLayout mTab;
 
+
+    public static HomeSectionFragment newInstance() {
+        HomeSectionFragment fragment = new HomeSectionFragment();
+        return fragment;
+    }
+
+    public HomeSectionFragment() { }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.home_section_fragment, container, false);
-        ((Toolbar)rootView.findViewById(R.id.Toolbar)).setTitle("Home");
 
         mViewPager = (ViewPager) rootView.findViewById(R.id.pagerHome);
         mTab = (TabLayout)rootView.findViewById(R.id.tabs);
@@ -55,7 +62,6 @@ public class HomeSectionFragment extends Fragment {
 
             }
         });
-
         return rootView;
     }
 
@@ -67,8 +73,15 @@ public class HomeSectionFragment extends Fragment {
 
     public static class AppSectionsPagerAdapter extends FragmentPagerAdapter {
 
+        private String[] tabTitles = new String[]{"Home", "Feed"};
+
         public AppSectionsPagerAdapter(FragmentManager fm) {
             super(fm);
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return tabTitles[position];
         }
 
         @Override

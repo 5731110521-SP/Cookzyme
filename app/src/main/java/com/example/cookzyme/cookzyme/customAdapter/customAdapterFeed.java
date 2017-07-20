@@ -1,4 +1,4 @@
-package com.example.cookzyme.cookzyme;
+package com.example.cookzyme.cookzyme.customAdapter;
 
 import android.content.Context;
 import android.graphics.drawable.BitmapDrawable;
@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.example.cookzyme.cookzyme.R;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -60,7 +62,7 @@ public class customAdapterFeed extends BaseAdapter {
         if(view == null)
             view = mInflater.inflate(R.layout.singlerow_feed, parent, false);
 
-            TextView textViewUsername = (TextView) view.findViewById(R.id.userName);
+            TextView textViewUsername = (TextView) view.findViewById(R.id.username);
             textViewUsername.setText(username.get(position));
 
 
