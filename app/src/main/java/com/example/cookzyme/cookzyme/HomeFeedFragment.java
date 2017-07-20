@@ -66,7 +66,6 @@ public class HomeFeedFragment extends Fragment {
         mFollowers = mClient.getTable(Follow.class);
         mUsers = mClient.getTable(Users.class);
         mPosts = mClient.getTable(Posts.class);
-
         listView = (ListView) rootView.findViewById(R.id.listviewFeed);
 
         new CustomVisonTask().execute();
