@@ -90,7 +90,10 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private TextView createone;
 
     private  MobileServiceClient mClient;
-    private String profilepic;
+    public static String myProfilepic;
+    public static String myEmail;
+    public static String myFirstName;
+    public static String myLastName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -455,26 +458,21 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                         try {
                             android.util.Log.i("Response",response.toString());
 
-                            String email = response.getJSONObject().getString("email");
-                            String firstName = response.getJSONObject().getString("first_name");
-                            String lastName = response.getJSONObject().getString("last_name");
+                            myEmail = response.getJSONObject().getString("email");
+                            myFirstName = response.getJSONObject().getString("first_name");
+                            myLastName = response.getJSONObject().getString("last_name");
                             String gender = response.getJSONObject().getString("gender");
 
                             Profile profile = Profile.getCurrentProfile();
                             String id = profile.getId();
                             String link = profile.getLinkUri().toString();
-                            //  Log.i("Link",link);
                             if (Profile.getCurrentProfile()!=null)
                             {
-                                profilepic = "" + Profile.getCurrentProfile().getProfilePictureUri(500, 500);
+                                myProfilepic = "" + Profile.getCurrentProfile().getProfilePictureUri(500, 500);
                                 android.util.Log.i("Login", "" + Profile.getCurrentProfile().getProfilePictureUri(500, 500));
                             }
-                            android.util.Log.i("Login" + "Email", email);
-                            android.util.Log.i("Login"+ "FirstName", firstName);
-                            android.util.Log.i("Login" + "LastName", lastName);
-                            android.util.Log.i("Login" + "Gender", gender);
                             String bgPath = "https://i.ytimg.com/vi/wnBXGxJdO_E/maxresdefault.jpg";
-                            mClient.getTable(Users.class).insert(new Users(email,null,firstName+" "+lastName,null,profilepic,bgPath,0,0), new TableOperationCallback<Users>() {
+                            mClient.getTable(Users.class).insert(new Users(myEmail,null,myFirstName+" "+myLastName,null,myProfilepic,bgPath,0,0), new TableOperationCallback<Users>() {
                                 public void onCompleted(Users entity, Exception exception, ServiceFilterResponse response) {
                                     if (exception == null) {
                                         // Insert succeeded
@@ -498,5 +496,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         request.setParameters(parameters);
         request.executeAsync();
     }
+
 }
 

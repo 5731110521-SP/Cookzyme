@@ -14,7 +14,7 @@ public class Users {
     public String name;
     public Date birthdate;
     public String path;
-    public String bgPath;
+    public String bgpath;
     public int following;
     public int follower;
     @com.google.gson.annotations.SerializedName("id")
@@ -26,17 +26,17 @@ public class Users {
         this.name = name;
         this.birthdate = birthdate;
         this.path = path;
-        this.bgPath = bgPath;
+        this.bgpath = bgPath;
         this.following = following;
         this.follower = follower;
     }
 
     public String getBgPath() {
-        return bgPath;
+        return bgpath;
     }
 
     public void setBgPath(String bgPath) {
-        this.bgPath = bgPath;
+        this.bgpath = bgPath;
     }
 
     public String getId() { return mId; }

@@ -28,16 +28,16 @@ public class letmetry extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.grid_view);
-
-
-        GridView gridview = (GridView) findViewById(R.id.gridView);
-        gridview.setAdapter(new customAdapterGrid(this,arrImg));
-
-
-        gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-                Toast.makeText(letmetry.this, "" + position, Toast.LENGTH_SHORT).show();
-            }
-        });
+//
+//
+//        GridView gridview = (GridView) findViewById(R.id.gridView);
+//        gridview.setAdapter(new customAdapterGrid(this,arrImg));
+//
+//
+//        gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
+//                Toast.makeText(letmetry.this, "" + position, Toast.LENGTH_SHORT).show();
+//            }
+//        });
     }
 }
