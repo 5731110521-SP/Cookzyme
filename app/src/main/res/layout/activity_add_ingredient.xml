@@ -33,7 +33,15 @@
         android:layout_height="150dp"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="40dp"
+        android:visibility="gone"
         app:srcCompat="@drawable/egg" />
+
+    <ProgressBar
+        android:id="@+id/progressBarAdd"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="30dp" />
 
     <TextView
         android:id="@+id/foodName"
@@ -43,13 +51,16 @@
         android:gravity="center_horizontal"
         android:text="foodName"
         android:textColor="@android:color/black"
-        android:textSize="20sp" />
+        android:textSize="20sp"
+        android:visibility="gone" />
 
     <LinearLayout
+        android:id="@+id/addlinear1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:visibility="gone">
 
         <TextView
             android:id="@+id/quantity"
@@ -82,11 +93,13 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/addlinear2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:visibility="gone">
 
         <TextView
             android:id="@+id/expire"
@@ -107,12 +120,14 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/addlinear3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:visibility="gone">
 
         <Button
             android:id="@+id/confirm"
@@ -138,10 +153,12 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/addlinear4"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal"
-        android:paddingBottom="10dp">
+        android:paddingBottom="10dp"
+        android:visibility="gone">
 
         <TextView
             android:layout_width="wrap_content"
