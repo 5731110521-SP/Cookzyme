@@ -26,7 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class HomeTabFragment extends Fragment {
-
+    public static String foodname;
     private ArrayList<String> name = new ArrayList<>();
     private ArrayList<Integer> cal = new ArrayList<>();
     private ArrayList<BitmapDrawable> pic = new ArrayList<>();
@@ -60,8 +60,7 @@ public class HomeTabFragment extends Fragment {
         //click item on listview
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-                //if(arg2==0){
-                recipe.name = name.get(arg2);
+                HomeTabFragment.foodname = name.get(arg2);
                 Intent in = new Intent(getActivity(), viewRecipeHome.class);
                 startActivity(in);
                 /*}else{
@@ -102,6 +101,7 @@ public class HomeTabFragment extends Fragment {
                     like2.add(allFoods.get(i).getLike());
                 }
                 adapter = new customAdapter(getContext(), name2, cal2, pic2,like2);
+                name = name2;
 
             } catch (Exception e) {
                 e.printStackTrace();

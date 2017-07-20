@@ -19,7 +19,7 @@
             android:nestedScrollingEnabled="false"
             android:numColumns="3"
             android:stretchMode="columnWidth"
-            android:verticalSpacing="12dp" />
+            android:verticalSpacing="12dp"/>
     </RelativeLayout>
 
 </FrameLayout>

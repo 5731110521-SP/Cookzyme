@@ -1,6 +1,7 @@
 package com.example.cookzyme.cookzyme.customAdapter;
 
 import android.content.Context;
+import android.graphics.drawable.BitmapDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,7 @@ import com.example.cookzyme.cookzyme.R;
 import com.example.cookzyme.cookzyme.database.Ingredients;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -21,14 +23,14 @@ import java.util.List;
 
 public class customAdapterRefrigerator extends BaseAdapter {
     Context mContext;
-    private List<String> foodPic;
+    private List<BitmapDrawable> foodPic;
     private List<String> ingredientName;
     private List<Integer> sign;
     private List<Integer> num;
     private List<String> pronoun;
     private ArrayList<Ingredients> refrigerator;
 
-    public customAdapterRefrigerator(Context context, List<String> foodPic, List<String> ingredientName, List<Integer> sign, List<Integer> num, List<String> pronoun) {
+    public customAdapterRefrigerator(Context context, List<BitmapDrawable> foodPic, List<String> ingredientName, List<Integer> sign, List<Integer> num, List<String> pronoun) {
         this.mContext= context;
         this.foodPic = foodPic;
         this.ingredientName = ingredientName;
@@ -40,6 +42,12 @@ public class customAdapterRefrigerator extends BaseAdapter {
     public customAdapterRefrigerator(Context context, ArrayList<Ingredients> refrigerator) {
         this.mContext= context;
         this.refrigerator=refrigerator;
+        this.foodPic = new ArrayList<>();
+
+    }
+
+    public void setFoodPic(List<BitmapDrawable> foodPic) {
+        this.foodPic = foodPic;
     }
 
     public int getCount() {
@@ -61,8 +69,9 @@ public class customAdapterRefrigerator extends BaseAdapter {
         if(view == null)
             view = mInflater.inflate(R.layout.singlerow_refrigerator, parent, false);
 
-//        ImageView imageViewFoodPic = (ImageView)view.findViewById(R.id.foodPic);
-//        imageViewFoodPic.setBackgroundResource(foodPic.get(position));
+
+        ImageView imageViewFoodPic = (ImageView)view.findViewById(R.id.foodPic);
+        imageViewFoodPic.setBackgroundDrawable(foodPic.get(position));
 
         TextView textViewIngredientName = (TextView)view.findViewById(R.id.ingredientName);
         textViewIngredientName.setText(refrigerator.get(position).getIngredient_name());

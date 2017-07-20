@@ -62,7 +62,7 @@ public class customAdapterFeed extends BaseAdapter {
         if(view == null)
             view = mInflater.inflate(R.layout.singlerow_feed, parent, false);
 
-            TextView textViewUsername = (TextView) view.findViewById(R.id.userName);
+            TextView textViewUsername = (TextView) view.findViewById(R.id.username);
             textViewUsername.setText(username.get(position));
 
 
