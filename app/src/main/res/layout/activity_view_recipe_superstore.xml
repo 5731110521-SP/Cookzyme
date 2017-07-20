@@ -212,7 +212,7 @@
             android:layout_height="wrap_content"
             android:text="bra"
             android:textColor="#000"
-            android:textSize="20sp" />
+            android:textSize="20sp"/>
 
         <TextView
             android:id="@+id/text2"

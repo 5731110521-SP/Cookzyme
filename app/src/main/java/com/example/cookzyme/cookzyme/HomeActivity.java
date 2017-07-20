@@ -17,7 +17,7 @@ import android.view.View;
 import android.widget.TextView;
 
 public class HomeActivity extends FragmentActivity {
-
+    int beforeCurrent =2;
     ViewPager mViewPager;
 //    private static HomeSectionFragment homeSectionFragment = new HomeSectionFragment();
 //    private static Profile profile = new Profile();
@@ -32,21 +32,42 @@ public class HomeActivity extends FragmentActivity {
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.navigation_Refrigerator:
+//                    System.out.println("0 beforeCurrent "+ beforeCurrent);
+                    beforeCurrent = mViewPager.getCurrentItem();
                     mViewPager.setCurrentItem(0);
+//                    System.out.println("After set 0");
                     return true;
                 case R.id.navigation_Superstore:
+//                    System.out.println("1 beforeCurrent "+ beforeCurrent);
+                    beforeCurrent = mViewPager.getCurrentItem();
                     mViewPager.setCurrentItem(1);
+//                    System.out.println("After set 1");
                     return true;
                 case R.id.navigation_home:
+//                    System.out.println("2 beforeCurrent "+ beforeCurrent);
+                    beforeCurrent = mViewPager.getCurrentItem();
                     mViewPager.setCurrentItem(2);
+//                    System.out.println("After set 2");
                     return true;
                 case R.id.navigation_Profile:
-                    mViewPager.getAdapter().notifyDataSetChanged();
+//                    System.out.println("3 beforeCurrent "+ beforeCurrent);
+                    if(beforeCurrent!=3){
+//                        System.out.println("if not not refresh");
+                    }else{
+                        mViewPager.getAdapter().notifyDataSetChanged();
+                        getSupportFragmentManager().popBackStack();
+//                        System.out.println("else 3  refresh");
+                    }
+                    beforeCurrent = mViewPager.getCurrentItem();
                     mViewPager.setCurrentItem(3);
-                    getSupportFragmentManager().popBackStack();
+//                    System.out.println("After set 3");
                     return true;
                 case R.id.navigation_Setting:
+//                    System.out.println("4 beforeCurrent "+ beforeCurrent);
+                    beforeCurrent = mViewPager.getCurrentItem();
                     mViewPager.setCurrentItem(4);
+//                    System.out.println("After set 4");
+//                    System.out.println(mViewPager.getCurrentItem());
                     return true;
             }
             return false;
@@ -81,6 +102,7 @@ public class HomeActivity extends FragmentActivity {
         mViewPager = (ViewPager) findViewById(R.id.pager);
         mViewPager.setOnPageChangeListener(mOnPageChangeListener);
         mViewPager.setAdapter(mAppSectionsPagerAdapter);
+        mViewPager.setOffscreenPageLimit(10);
 
         navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
@@ -105,7 +127,7 @@ public class HomeActivity extends FragmentActivity {
                 case 2:
                     return HomeSectionFragment.newInstance();
                 case 3:
-                    return new Profile();
+                    return Profile.newInstance();
                 case 4:
                     return HomeSectionFragment.newInstance();
                 default:
