@@ -137,20 +137,14 @@ public class cameraShopping extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == CAMERA_REQUEST && resultCode == Activity.RESULT_OK) {
             photo = (Bitmap) data.getExtras().get("data");
+//            ((ImageView)findViewById(R.id.imageView)).setImageBitmap(photo);
+//            bitmaps.add(photo);
+
             ((ImageView)findViewById(R.id.imageView)).setImageBitmap(photo);
             bitmaps.add(photo);
-//            run2 r = new run2(photo);
-//            Thread t= new Thread(r);
-//            t.start();
-//            try {
-//                t.join();
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();
-//            }
-//            textView.setText(r.getAns2());
-//            tag.clear();
-//            tag.add(r.getAns2());
-            System.out.println(" ---------------- " + tag.size());
+
+//            System.out.println(" ---------------- " + tag.size());
+
         }
     }
 }

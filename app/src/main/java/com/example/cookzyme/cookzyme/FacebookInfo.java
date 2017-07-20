@@ -60,7 +60,6 @@ public class FacebookInfo extends AppCompatActivity {
     private  MobileServiceClient mClient;
     private String profilepic;
     private String myEmail;
-    private int ready = 0;
     private String eiei;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -218,10 +217,7 @@ public class FacebookInfo extends AppCompatActivity {
         parameters.putString("fields", "id,email,first_name,last_name,gender");
         request.setParameters(parameters);
         request.executeAsync();
-        ready = 1;
     }
-
-
 
     private void myNewGraphReq(String friendlistId) {
         final String graphPath = "/"+friendlistId+"/members/";

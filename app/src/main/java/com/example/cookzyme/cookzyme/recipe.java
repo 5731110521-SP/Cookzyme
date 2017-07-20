@@ -120,11 +120,11 @@ public class recipe extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
                 //if(arg2==0){
-                    recipe.name=name_list.get(arg2);
-                    Intent in = new Intent(recipe.this, viewRecipeHome.class);
-                    startActivity(in);
-                    overridePendingTransition(0, 0);
-                finish();
+//                    name=name_list.get(arg2);
+//                    Intent in = new Intent(recipe.this, viewRecipeHome.class);
+//                    startActivity(in);
+//                    overridePendingTransition(0, 0);
+//                finish();
                 /*}else{
                     recipe.index=arg2;
                     Intent in = new Intent(recipe.this, viewRecipeSuperstore.class);
