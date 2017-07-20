@@ -9,11 +9,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ListView;
+
+import com.example.cookzyme.cookzyme.customAdapter.customAdapterRefrigerator;
+import com.example.cookzyme.cookzyme.database.Ingredients;
+
 import java.util.ArrayList;
 
 public class RefrigeratorSectionFragment extends Fragment {
 
-    customAdapterRefrigerator customAdapterRefrigerator;
+    com.example.cookzyme.cookzyme.customAdapter.customAdapterRefrigerator customAdapterRefrigerator;
     ListView listView;
     FloatingActionButton addIngredient;
     ImageButton cooking;

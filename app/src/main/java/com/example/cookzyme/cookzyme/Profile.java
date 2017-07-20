@@ -1,29 +1,18 @@
 package com.example.cookzyme.cookzyme;
 
-import android.content.Intent;
 import android.support.v4.app.Fragment;
         import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
-import android.text.method.ScrollingMovementMethod;
-        import android.view.LayoutInflater;
-        import android.view.MotionEvent;
-        import android.view.View;
+import android.view.LayoutInflater;
+import android.view.View;
         import android.view.ViewGroup;
         import android.widget.AdapterView;
-        import android.widget.GridView;
-        import android.widget.ImageView;
-        import android.widget.LinearLayout;
-        import android.widget.ListView;
-        import android.widget.ScrollView;
-        import android.widget.TextView;
-        import android.widget.Toast;
+import android.widget.ImageView;
+import android.widget.TextView;
 
-        import com.example.cookzyme.cookzyme.ExpandableHeightGridView;
+import com.example.cookzyme.cookzyme.customAdapter.customAdapterGrid;
 
-        import java.util.ArrayList;
-        import java.util.List;
-
-        import de.hdodenhof.circleimageview.CircleImageView;
+import de.hdodenhof.circleimageview.CircleImageView;
         import in.srain.cube.views.GridViewWithHeaderAndFooter;
 
 public class Profile extends Fragment {

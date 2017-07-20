@@ -1,4 +1,4 @@
-package com.example.cookzyme.cookzyme;
+package com.example.cookzyme.cookzyme.customAdapter;
 
 import android.content.Context;
 import android.graphics.drawable.BitmapDrawable;
@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.example.cookzyme.cookzyme.R;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;

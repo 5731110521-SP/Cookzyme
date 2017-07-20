@@ -1,4 +1,4 @@
-package com.example.cookzyme.cookzyme;
+package com.example.cookzyme.cookzyme.database;
 
 import com.microsoft.windowsazure.mobileservices.table.DateTimeOffset;
 
