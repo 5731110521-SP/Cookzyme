@@ -24,11 +24,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.example.cookzyme.cookzyme.database.Ingredients;
@@ -50,7 +52,9 @@ import java.net.URI;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 public class addIngredient extends AppCompatActivity {
     private Button mDateButton;
@@ -60,11 +64,10 @@ public class addIngredient extends AppCompatActivity {
     private int mMonth;
     private int mDay;
     static final int DATE_DIALOG_ID = 0;
-    private Context context;
     private TextView clickHere;
     TextView foodName;
     EditText num;
-    TextView pronoun;
+    Spinner pronounSpinner;
     Button datePicker;
     ImageView foodPic;
     private Uri imageUri;
@@ -73,6 +76,8 @@ public class addIngredient extends AppCompatActivity {
     Thread t;
     Bitmap thumbnail;
     ProgressBar progressBar;
+    Button find;
+    TextView or;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,10 +86,12 @@ public class addIngredient extends AppCompatActivity {
 
         foodName=(TextView) findViewById(R.id.foodName);
         num=(EditText) findViewById(R.id.num);
-        pronoun=(TextView) findViewById(R.id.pronoun);
+        pronounSpinner=(Spinner) findViewById(R.id.pronounSpinner);
         datePicker=(Button) findViewById(R.id.datePicker);
         foodPic=(ImageView) findViewById(R.id.foodPic);
         progressBar=(ProgressBar) findViewById(R.id.progressBarAdd);
+        find=(Button)findViewById(R.id.find);
+        or=(TextView)findViewById(R.id.or);
 
         // change color button
         confirmButton = (Button) findViewById(R.id.confirm);
@@ -117,9 +124,20 @@ public class addIngredient extends AppCompatActivity {
             public void onClick(View v){
                 DateFormat df2 = new SimpleDateFormat("M-d-yyyy");
                 try {
-                    Ingredients ingredient = new Ingredients(foodName.getText().toString(),"path",pronoun.getText().toString(),
-                            Integer.parseInt(num.getText().toString())
-                            ,df2.parse(datePicker.getText().toString()));
+                    int amount=0;
+                    Ingredients ingredient;
+                    if(pronounSpinner.getSelectedItem().toString().equals("-")){
+                        ingredient = new Ingredients(foodName.getText().toString(), "path", "", 0
+                                , df2.parse(datePicker.getText().toString()));
+                    }else if(num.getText().length()==0){
+                        num.setError("กรุณากรอกจำนวน");
+                        num.requestFocus();
+                        return;
+                    }else {
+                        ingredient = new Ingredients(foodName.getText().toString(), "path", pronounSpinner.getSelectedItem().toString(),
+                                Integer.parseInt(num.getText().toString())
+                                , df2.parse(datePicker.getText().toString()));
+                    }
                     SQLiteDBHelper database = new SQLiteDBHelper(v.getContext());
                     database.insertRefrigerator(ingredient);
                     database.closeDB();
@@ -141,18 +159,29 @@ public class addIngredient extends AppCompatActivity {
             }
         });
 
+        foodPic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                foodName.setVisibility(View.GONE);
+                findViewById(R.id.addlinear1).setVisibility(View.GONE);
+                findViewById(R.id.addlinear2).setVisibility(View.GONE);
+                findViewById(R.id.addlinear3).setVisibility(View.GONE);
+                findViewById(R.id.addlinear4).setVisibility(View.GONE);
+                foodPic.setVisibility(View.GONE);
 
-        ContentValues values = new ContentValues();
-        values.put(MediaStore.Images.Media.TITLE, "New Picture");
-        values.put(MediaStore.Images.Media.DESCRIPTION, "From your Camera");
-        if (checkPermissionWRITE_EXTERNAL_STORAGE(this)) {
-            imageUri = getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
-        }else{
-            System.out.println("******************************************");
-        }
-        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
-        startActivityForResult(intent, CAMERA_REQUEST);
+                ContentValues values = new ContentValues();
+                values.put(MediaStore.Images.Media.TITLE, "New Picture");
+                values.put(MediaStore.Images.Media.DESCRIPTION, "From your Camera");
+                if (checkPermissionWRITE_EXTERNAL_STORAGE(view.getContext())) {
+                    imageUri = getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
+                }else{
+                    System.out.println("******************************************");
+                }
+                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
+                startActivityForResult(intent, CAMERA_REQUEST);
+            }
+        });
 
     }
 
@@ -250,35 +279,18 @@ public class addIngredient extends AppCompatActivity {
             case CAMERA_REQUEST:
                 if (requestCode == CAMERA_REQUEST)
                     if (resultCode == Activity.RESULT_OK) {
-                        new AsyncTask<Void,Void,Void>(){
-
-                            @Override
-                            protected Void doInBackground(Void... voids) {
-                                try {
-                                    thumbnail = MediaStore.Images.Media.getBitmap(getContentResolver(), imageUri);
-
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                }
-                                return null;
-                            }
-
-                            @Override
-                            protected void onPostExecute(Void aVoid) {
-                                super.onPostExecute(aVoid);
-                                foodPic.setVisibility(View.VISIBLE);
-                                foodPic.setImageBitmap(thumbnail);
-                                Bitmap b = thumbnail;
-                                new CustomVisonTask().execute(b);
-                            }
-                        }.execute();
+                        new ImageTask(this).execute();
                     }
 
         }
     }
 
     private class CustomVisonTask extends AsyncTask<Bitmap,Void,String> {
-        String ans2;
+        Context context;
+
+        public CustomVisonTask(Context context){
+            this.context=context;
+        }
 
         @Override
         protected void onPreExecute() {
@@ -290,7 +302,6 @@ public class addIngredient extends AppCompatActivity {
             HttpClient httpclient = HttpClients.createDefault();
 
             String ans = "";
-            ans2="";
             try
             {
                 URIBuilder builder = new URIBuilder("https://southcentralus.api.cognitive.microsoft.com/customvision/v1.0/Prediction/e2677f6f-0e6c-437e-96f0-5d3baaf9bc4b/image");
@@ -318,26 +329,35 @@ public class addIngredient extends AppCompatActivity {
                     ans = EntityUtils.toString(entity);
                     JSONObject obj = new JSONObject(ans);
                     JSONArray jobj = obj.getJSONArray("Predictions");
-                    ans2=((JSONObject)jobj.get(0)).getString("Tag");
+                    ans=((JSONObject)jobj.get(0)).getString("Tag");
                 }
             }
             catch (Exception e)
             {
                 e.printStackTrace();
             }
-            return ans2;
+            return ans;
         }
 
         protected void onPostExecute(String result) {
-            //foodPic.setImageBitmap(thumbnail);
             foodName.setText(result);
+
             progressBar.setVisibility(View.GONE);
             foodName.setVisibility(View.VISIBLE);
             findViewById(R.id.addlinear1).setVisibility(View.VISIBLE);
             findViewById(R.id.addlinear2).setVisibility(View.VISIBLE);
             findViewById(R.id.addlinear3).setVisibility(View.VISIBLE);
             findViewById(R.id.addlinear4).setVisibility(View.VISIBLE);
+            List<String> list = new ArrayList<>();
+            list.add("ฟอง");
+            list.add("-");
+            ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_item, list);
 
+            // Drop down layout style - list view with radio button
+            dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+            // attaching data adapter to spinner
+            pronounSpinner.setAdapter(dataAdapter);
         }
 
 
@@ -362,6 +382,43 @@ public class addIngredient extends AppCompatActivity {
 
             //bm.recycle();
             return resizedBitmap;
+        }
+    }
+
+    private class ImageTask extends AsyncTask<Void,Void,Void>{
+        Context context;
+
+        public ImageTask(Context context){
+            this.context=context;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            or.setVisibility(View.GONE);
+            find.setVisibility(View.GONE);
+            foodPic.setVisibility(View.GONE);
+            progressBar.setVisibility(View.VISIBLE);
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            try {
+                thumbnail = MediaStore.Images.Media.getBitmap(getContentResolver(), imageUri);
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            foodPic.setVisibility(View.VISIBLE);
+            foodPic.setImageBitmap(thumbnail);
+            Bitmap b = thumbnail;
+            new CustomVisonTask(context).execute(b);
         }
     }
 }

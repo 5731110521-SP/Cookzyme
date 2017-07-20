@@ -166,6 +166,7 @@ public class HomeFeedFragment extends Fragment {
         }
 
         protected void onPostExecute(Void result) {
+            rootView.findViewById(R.id.progressBarFeed).setVisibility(View.GONE);
             listView.setAdapter(adapter);
         }
     }

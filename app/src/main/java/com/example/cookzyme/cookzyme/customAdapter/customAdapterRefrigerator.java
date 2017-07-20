@@ -83,7 +83,11 @@ public class customAdapterRefrigerator extends BaseAdapter {
 //        imageViewSign.setBackgroundResource(sign.get(position));
 
         TextView textViewNum = (TextView)view.findViewById(R.id.num);
-        textViewNum.setText(Integer.toString(refrigerator.get(position).getAmount()));
+        if(refrigerator.get(position).getAmount()==0){
+            textViewNum.setText("");
+        }else{
+            textViewNum.setText(Integer.toString(refrigerator.get(position).getAmount()));
+        }
 
         TextView textViewPronoun = (TextView)view.findViewById(R.id.pronoun);
         textViewPronoun.setText(refrigerator.get(position).getUnit());
