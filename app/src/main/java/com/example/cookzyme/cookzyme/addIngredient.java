@@ -29,6 +29,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.facebook.share.model.SharePhoto;
@@ -74,6 +75,7 @@ public class addIngredient extends AppCompatActivity {
     public static final int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 123;
     Thread t;
     Bitmap thumbnail;
+    ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,6 +87,8 @@ public class addIngredient extends AppCompatActivity {
         pronoun=(TextView) findViewById(R.id.pronoun);
         datePicker=(Button) findViewById(R.id.datePicker);
         foodPic=(ImageView) findViewById(R.id.foodPic);
+        progressBar=(ProgressBar) findViewById(R.id.progressBarAdd);
+
         // change color button
         confirmButton = (Button) findViewById(R.id.confirm);
         int colorButton = getResources().getColor(R.color.colorButton);
@@ -265,8 +269,8 @@ public class addIngredient extends AppCompatActivity {
                             @Override
                             protected void onPostExecute(Void aVoid) {
                                 super.onPostExecute(aVoid);
+                                foodPic.setVisibility(View.VISIBLE);
                                 foodPic.setImageBitmap(thumbnail);
-                                //image = foodPic.getDrawingCache(true);
                                 Bitmap b = thumbnail;
                                 new CustomVisonTask().execute(b);
                             }
@@ -282,7 +286,6 @@ public class addIngredient extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            foodName.setText("Waiting");
         }
 
         @Override
@@ -331,6 +334,13 @@ public class addIngredient extends AppCompatActivity {
         protected void onPostExecute(String result) {
             //foodPic.setImageBitmap(thumbnail);
             foodName.setText(result);
+            progressBar.setVisibility(View.GONE);
+            foodName.setVisibility(View.VISIBLE);
+            findViewById(R.id.addlinear1).setVisibility(View.VISIBLE);
+            findViewById(R.id.addlinear2).setVisibility(View.VISIBLE);
+            findViewById(R.id.addlinear3).setVisibility(View.VISIBLE);
+            findViewById(R.id.addlinear4).setVisibility(View.VISIBLE);
+
         }
 
 
