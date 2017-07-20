@@ -34,6 +34,7 @@ public class Profile extends Fragment {
 
 
     public static Profile newInstance() {
+
         Profile fragment = new Profile();
         return fragment;
     }
@@ -59,13 +60,13 @@ public class Profile extends Fragment {
 
         //ALL set
         username = (TextView) headerView.findViewById(R.id.username);
-        Profile.username.setText("Palida");
+        username.setText("Palida");
         cookingNum = (TextView) headerView.findViewById(R.id.cookingNum);
-        Profile.cookingNum.setText("222");
+        cookingNum.setText("222");
         followersNum = (TextView) headerView.findViewById(R.id.followersNum);
-        Profile.followersNum.setText("255");
+        followersNum.setText("255");
         followingNum = (TextView) headerView.findViewById(R.id.followingNum);
-        Profile.followingNum.setText("144");
+        followingNum.setText("144");
         userPic = (CircleImageView ) headerView.findViewById(R.id.userPic);
         userPic.setImageResource(R.drawable.avatar);
         headerPic = (ImageView) headerView.findViewById(R.id.headerPic);
@@ -115,11 +116,12 @@ public class Profile extends Fragment {
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
 //                Toast.makeText(getActivity(), "" + position, Toast.LENGTH_SHORT).show();
-                Bundle bundle = new Bundle();
-                bundle.putString(String.valueOf(position), "From Activity");
-
                 ViewPostInProfile viewPost = new ViewPostInProfile();
+
+                Bundle bundle = new Bundle();
+                bundle.putString("position", String.valueOf(position));
                 viewPost.setArguments(bundle);
+
                 FragmentTransaction transaction =  getFragmentManager().beginTransaction();
                 transaction.replace(R.id.frame, viewPost);
                 transaction.addToBackStack(null);
