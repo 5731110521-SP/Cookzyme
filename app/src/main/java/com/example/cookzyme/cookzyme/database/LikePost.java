@@ -1,4 +1,4 @@
-package com.example.cookzyme.cookzyme;
+package com.example.cookzyme.cookzyme.database;
 
 /**
  * Created by Panuvit on 19/7/2560.

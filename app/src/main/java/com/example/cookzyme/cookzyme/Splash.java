@@ -5,9 +5,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.os.Handler;
 
+import com.example.cookzyme.cookzyme.database.Database;
 import com.facebook.AccessToken;
 import com.facebook.FacebookSdk;
-import com.facebook.appevents.AppEventsLogger;
 
 
 public class Splash extends AppCompatActivity {

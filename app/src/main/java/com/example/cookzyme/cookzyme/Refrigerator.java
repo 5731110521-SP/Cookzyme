@@ -1,9 +1,7 @@
 package com.example.cookzyme.cookzyme;
 
-import android.content.Context;
+import com.example.cookzyme.cookzyme.database.Ingredients;
 
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.ArrayList;
 
 

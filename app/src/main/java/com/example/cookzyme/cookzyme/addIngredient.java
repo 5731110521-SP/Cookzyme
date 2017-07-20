@@ -17,7 +17,6 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.provider.MediaStore;
-import android.support.constraint.solver.widgets.Snapshot;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
@@ -32,9 +31,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.facebook.share.model.SharePhoto;
-import com.facebook.share.model.SharePhotoContent;
-import com.facebook.share.widget.ShareButton;
+import com.example.cookzyme.cookzyme.database.Ingredients;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
