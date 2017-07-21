@@ -56,7 +56,8 @@ import in.srain.cube.views.GridViewWithHeaderAndFooter;
 
 
 public class Profile extends Fragment {
-    private BitmapDrawable[] arrImg ;
+    public static BitmapDrawable[] arrImg ;
+    public static Posts[] arrMyPosts ;
     private static TextView username,cookingNum,followersNum,followingNum;
     private static ImageView headerPic;
     private static CircleImageView userPic;
@@ -66,15 +67,12 @@ public class Profile extends Fragment {
     private View headerView;
     private List<Users> Users;
     private List<Posts> Posts;
-    private URL newurl2 = null;
-    private BitmapDrawable ob2;
-    private URL newurl3 = null;
-    private BitmapDrawable ob3;
-    private URL newurl4 = null;
-    private BitmapDrawable ob4;
+    private URL newurl2 , newurl3 ,newurl4;
+    public static BitmapDrawable myProfilePic;
+    private BitmapDrawable ob3,ob4;
     private GridViewWithHeaderAndFooter gridView;
-
-
+    public static String myUsername;
+    public static boolean ready;
     public static Profile newInstance() {
 
         Profile fragment = new Profile();
@@ -91,7 +89,7 @@ public class Profile extends Fragment {
 //        normal but scroll within grid
 //        GridView gridview = (GridView) rootView.findViewById(R.id.gridView);
 //        gridview.setAdapter(new customAdapterGrid(getActivity(),arrImg));
-
+        ready = false;
         try {
             mClient = new MobileServiceClient("https://cookzymeapp.azurewebsites.net", getActivity().getApplicationContext() );
         } catch (MalformedURLException e) {
@@ -164,7 +162,7 @@ public class Profile extends Fragment {
             }
         });
 
-//        Another how to
+//        Another
 //        ExpandableHeightGridView mGridView = (ExpandableHeightGridView)
 //                getView().findViewById(R.id.gridView);
 //        mGridView.setExpanded(true);
@@ -184,11 +182,13 @@ public class Profile extends Fragment {
         @Override
         protected Void doInBackground(Void... bitmaps) {
             try {
+                System.out.println("---PROFILE---");
                 Users = mUsers
                         .where()
                         .field("email").eq("mind_lover_soul@hotmail.com")
                         .execute()
                         .get();
+                myUsername = Users.get(0).getName();
                 Posts = mPosts
                         .where()
                         .field("email").eq("mind_lover_soul@hotmail.com")
@@ -196,20 +196,22 @@ public class Profile extends Fragment {
                         .get();
                 newurl2 = new URL(Users.get(0).getPath());
                 Bitmap mIcon_val2 = BitmapFactory.decodeStream(newurl2.openConnection().getInputStream());
-                ob2 = new BitmapDrawable(getResources(), mIcon_val2);
+                myProfilePic = new BitmapDrawable(getResources(), mIcon_val2);
 
                 newurl3 = new URL(Users.get(0).getBgPath());
                 Bitmap mIcon_val3 = BitmapFactory.decodeStream(newurl3.openConnection().getInputStream());
                 ob3 = new BitmapDrawable(getResources(), mIcon_val3);
 
                 arrImg = new BitmapDrawable[Posts.size()];
+                arrMyPosts = new Posts[Posts.size()];
                 for(int i =0; i < Posts.size(); i++){
                     newurl4 = new URL(Posts.get(i).getPath());
                     Bitmap mIcon_val4 = BitmapFactory.decodeStream(newurl4.openConnection().getInputStream());
                     ob4 = new BitmapDrawable(getResources(), mIcon_val4);
                     arrImg[i] = ob4;
+                    arrMyPosts[i] = new Posts(Posts.get(i).getEmail(),Posts.get(i).getPath(),Posts.get(i).description,Posts.get(i).food_name,Posts.get(i).getLike());
                 }
-
+                ready = true;
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -218,7 +220,7 @@ public class Profile extends Fragment {
 
         protected void onPostExecute(Void result) {
             username = (TextView) headerView.findViewById(R.id.username);
-            Profile.username.setText(Users.get(0).getName());
+            Profile.username.setText(myUsername);
 
             cookingNum = (TextView) headerView.findViewById(R.id.cookingNum);
             Profile.cookingNum.setText(String.valueOf(Posts.size()));
@@ -230,7 +232,7 @@ public class Profile extends Fragment {
             Profile.followingNum.setText(String.valueOf(Users.get(0).getFollowing()));
 
             userPic = (CircleImageView ) headerView.findViewById(R.id.userPic);
-            userPic.setImageDrawable(ob2);
+            userPic.setImageDrawable(myProfilePic);
 
             headerPic = (ImageView) headerView.findViewById(R.id.headerPic);
             headerPic.setImageDrawable(ob3);

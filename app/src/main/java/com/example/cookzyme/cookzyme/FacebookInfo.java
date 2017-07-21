@@ -156,7 +156,7 @@ public class FacebookInfo extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 System.out.println(myEmail+"---------------------------------");
-                mClient.getTable(Posts.class).insert(new Posts(myEmail,"http://www.cutestpaw.com/wp-content/uploads/2014/07/Friend-said-she-just-got-a-new-corgi..jpg","น่ารักเหมือนเก๊ามั้ยยย" ,"ข้าวผัด"), new TableOperationCallback<Posts>() {
+                mClient.getTable(Posts.class).insert(new Posts(myEmail,"http://www.cutestpaw.com/wp-content/uploads/2014/07/Friend-said-she-just-got-a-new-corgi..jpg","น่ารักเหมือนเก๊ามั้ยยย" ,"ข้าวผัด",0), new TableOperationCallback<Posts>() {
                     public void onCompleted(Posts entity, Exception exception, ServiceFilterResponse response) {
                         if (exception == null) {
                             // Insert succeeded

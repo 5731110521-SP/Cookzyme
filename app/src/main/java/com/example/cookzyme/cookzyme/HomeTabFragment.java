@@ -87,6 +87,7 @@ public class HomeTabFragment extends Fragment {
         @Override
         protected Void doInBackground(Void... bitmaps) {
             try {
+                System.out.println("---TAB---");
                 List<Foods> foodna = mFoods
                         .execute()
                         .get();

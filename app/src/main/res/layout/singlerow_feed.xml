@@ -38,7 +38,7 @@
                 android:layout_weight="1"
                 android:gravity="left|center_vertical"
                 android:paddingLeft="10dp"
-                android:text="TextView"
+                android:text=""
                 android:textColor="@android:color/black"
                 tools:text="username"/>
 
@@ -50,7 +50,7 @@
                 android:layout_weight="1.25"
                 android:gravity="right|center_vertical"
                 android:paddingRight="30dp"
-                android:text="TextView"
+                android:text=""
                 android:textColor="@android:color/black"
                 tools:text="fromMenu"/>
         </LinearLayout>

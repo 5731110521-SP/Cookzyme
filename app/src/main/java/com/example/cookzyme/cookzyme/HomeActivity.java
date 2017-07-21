@@ -123,13 +123,13 @@ public class HomeActivity extends FragmentActivity {
                 case 0:
                     return RefrigeratorSectionFragment.newInstance();
                 case 1:
-                    return HomeFeedFragment.newInstance();
+                    return RefrigeratorSectionFragment.newInstance();
                 case 2:
                     return HomeSectionFragment.newInstance();
                 case 3:
                     return Profile.newInstance();
                 case 4:
-                    return HomeSectionFragment.newInstance();
+                    return RefrigeratorSectionFragment.newInstance();
                 default:
                     return Profile.newInstance();
             }
@@ -144,7 +144,6 @@ public class HomeActivity extends FragmentActivity {
             return 5;
         }
     }
-
 }
 
 
