@@ -25,6 +25,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
+import com.example.cookzyme.cookzyme.ref.letmetry;
+
 public class RefrigeratorSectionFragment extends Fragment {
 
     com.example.cookzyme.cookzyme.customAdapter.customAdapterRefrigerator customAdapterRefrigerator;
@@ -59,12 +61,13 @@ public class RefrigeratorSectionFragment extends Fragment {
         cooking.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                SQLiteDBHelper database = new SQLiteDBHelper(getContext());
-                database.getReadableDatabase().execSQL("delete from "+ SQLiteDBHelper.REFRIGERATOR_TABLE_NAME);
-                database.closeDB();
-                refrigerator=null;
-                listView.setAdapter(null);
+                    Intent in = new Intent(getActivity(),ShowCanCook.class);
+                    startActivity(in);
+//                SQLiteDBHelper database = new SQLiteDBHelper(getContext());
+//                database.getReadableDatabase().execSQL("delete from "+ SQLiteDBHelper.REFRIGERATOR_TABLE_NAME);
+//                database.closeDB();
+//                refrigerator=null;
+//                listView.setAdapter(null);
 
             }
         });

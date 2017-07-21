@@ -42,6 +42,16 @@ public class Query {
                                 if(!refrigerator.contains(fh.getIngredient_name())){
                                     hasAllIngredients = false;
                                     break;
+                                }else {
+                                    if(refrigerator.get(refrigerator.indexOf(fh.getIngredient_name())).getIngredient_name().equals(fh.getIngredient_name())){
+                                        if(refrigerator.get(refrigerator.indexOf(fh.getIngredient_name())).getUnit().equals(fh.getUnit())){
+                                            if(refrigerator.get(refrigerator.indexOf(fh.getIngredient_name())).getAmount()<fh.getAmount()){
+                                                hasAllIngredients = false;
+                                                break;
+                                            }
+                                        }
+                                    }
+
                                 }
 
                             }
@@ -71,6 +81,11 @@ public class Query {
                     List<Foods> allFoods = mAllFoods;
                     List<HasIngredient> mFoodHasIngredient = mHasIngredient.execute().get();
                     List<HasIngredient> foodHasIngredient = mFoodHasIngredient;
+                    List<String> ingredientsInList = new ArrayList<String>();
+                    for (Ingredients i: ingredientList
+                            ) {
+                        ingredientsInList.add(i.getIngredient_name());
+                    }
                     for (Foods f:allFoods
                             ) {
                         Boolean hasIngredients = false;
@@ -78,7 +93,7 @@ public class Query {
                                 ) {
                             if(f.getFood_name().equals(fh.getFood_name())){
 
-                                if(ingredientList.contains(fh.getIngredient_name())){
+                                if(ingredientsInList.contains(fh.getIngredient_name())){
                                     hasIngredients = true;
                                     break;
                                 }
