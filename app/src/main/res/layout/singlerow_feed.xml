@@ -26,7 +26,8 @@
                 android:layout_gravity="center"
                 android:layout_marginLeft="20dp"
                 android:scaleType="centerCrop"
-                app:srcCompat="@drawable/avatar" />
+                app:srcCompat="@drawable/avatar"/>
+
 
             <TextView
                 android:id="@+id/username"

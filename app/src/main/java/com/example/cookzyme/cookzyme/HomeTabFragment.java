@@ -42,7 +42,7 @@ public class HomeTabFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.activity_recipe, container, false);
 
-       // progressBarHome=(ProgressBar)rootView.findViewById(R.id.progressBarHome);
+        progressBarHome=(ProgressBar)rootView.findViewById(R.id.progressBarHome);
 
         try {
             mClient = new MobileServiceClient("https://cookzymeapp.azurewebsites.net", getActivity().getApplicationContext() );
