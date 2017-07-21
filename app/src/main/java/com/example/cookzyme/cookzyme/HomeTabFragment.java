@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 
 import com.example.cookzyme.cookzyme.customAdapter.customAdapter;
 import com.example.cookzyme.cookzyme.database.Foods;
@@ -25,7 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class HomeTabFragment extends Fragment {
-
+    public static String foodname;
     private ArrayList<String> name = new ArrayList<>();
     private ArrayList<Integer> cal = new ArrayList<>();
     private ArrayList<BitmapDrawable> pic = new ArrayList<>();
@@ -35,10 +36,13 @@ public class HomeTabFragment extends Fragment {
     private MobileServiceTable<Foods> mFoods;
 
     private ListView listView;
+    ProgressBar progressBarHome;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.activity_recipe, container, false);
+
+        progressBarHome=(ProgressBar)rootView.findViewById(R.id.progressBarHome);
 
         try {
             mClient = new MobileServiceClient("https://cookzymeapp.azurewebsites.net", getActivity().getApplicationContext() );
@@ -56,8 +60,7 @@ public class HomeTabFragment extends Fragment {
         //click item on listview
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-                //if(arg2==0){
-                recipe.name = name.get(arg2);
+                HomeTabFragment.foodname = name.get(arg2);
                 Intent in = new Intent(getActivity(), viewRecipeHome.class);
                 startActivity(in);
                 /*}else{
@@ -98,6 +101,7 @@ public class HomeTabFragment extends Fragment {
                     like2.add(allFoods.get(i).getLike());
                 }
                 adapter = new customAdapter(getContext(), name2, cal2, pic2,like2);
+                name = name2;
 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -106,6 +110,7 @@ public class HomeTabFragment extends Fragment {
         }
 
         protected void onPostExecute(Void result) {
+            progressBarHome.setVisibility(View.GONE);
             listView.setAdapter(adapter);
         }
     }

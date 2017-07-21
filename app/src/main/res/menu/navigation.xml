@@ -8,8 +8,8 @@
 
     <item
         android:id="@+id/navigation_Superstore"
-        android:icon="@drawable/refrigerator"
-        android:title="Superstore" />
+        android:icon="@drawable/cart"
+        android:title="Superstore"/>
 
     <item
         android:id="@+id/navigation_home"
