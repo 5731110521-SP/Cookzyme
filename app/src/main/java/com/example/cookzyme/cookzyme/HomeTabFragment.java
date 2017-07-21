@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 
 import com.example.cookzyme.cookzyme.customAdapter.customAdapter;
 import com.example.cookzyme.cookzyme.database.Foods;
@@ -35,10 +36,13 @@ public class HomeTabFragment extends Fragment {
     private MobileServiceTable<Foods> mFoods;
 
     private ListView listView;
+    ProgressBar progressBarHome;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.activity_recipe, container, false);
+
+       // progressBarHome=(ProgressBar)rootView.findViewById(R.id.progressBarHome);
 
         try {
             mClient = new MobileServiceClient("https://cookzymeapp.azurewebsites.net", getActivity().getApplicationContext() );
@@ -106,6 +110,7 @@ public class HomeTabFragment extends Fragment {
         }
 
         protected void onPostExecute(Void result) {
+            progressBarHome.setVisibility(View.GONE);
             listView.setAdapter(adapter);
         }
     }

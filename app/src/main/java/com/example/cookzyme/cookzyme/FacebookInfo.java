@@ -143,10 +143,10 @@ public class FacebookInfo extends AppCompatActivity {
         logout.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-//                LoginManager.getInstance().logOut();
-//                Intent in = new Intent(FacebookInfo.this, LoginActivity.class);
-//                startActivity(in);
-//                finish();
+                LoginManager.getInstance().logOut();
+                Intent in = new Intent(FacebookInfo.this, LoginActivity.class);
+                startActivity(in);
+                finish();
                 System.out.println(eiei);
             }
         });
