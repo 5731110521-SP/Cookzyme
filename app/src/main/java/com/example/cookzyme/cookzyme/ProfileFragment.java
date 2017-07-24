@@ -7,55 +7,30 @@ import android.os.AsyncTask;
 import android.support.v4.app.Fragment;
 
 import android.os.Bundle;
-import android.text.method.ScrollingMovementMethod;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.GridView;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.ScrollView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.example.cookzyme.cookzyme.ExpandableHeightGridView;
-import com.facebook.GraphRequest;
-import com.facebook.GraphResponse;
-import com.facebook.login.LoginResult;
 import com.microsoft.windowsazure.mobileservices.MobileServiceClient;
 import com.microsoft.windowsazure.mobileservices.table.MobileServiceTable;
 
-import org.json.JSONException;
-import org.json.JSONObject;
 import com.example.cookzyme.cookzyme.database.*;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import in.srain.cube.views.GridViewWithHeaderAndFooter;
 
-import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.example.cookzyme.cookzyme.customAdapter.customAdapterGrid;
 
-import de.hdodenhof.circleimageview.CircleImageView;
-import in.srain.cube.views.GridViewWithHeaderAndFooter;
 
-
-public class Profile extends Fragment {
+public class ProfileFragment extends Fragment {
     private BitmapDrawable[] arrImg ;
     private static TextView username,cookingNum,followersNum,followingNum;
     private static ImageView headerPic;
@@ -75,13 +50,13 @@ public class Profile extends Fragment {
     private GridViewWithHeaderAndFooter gridView;
 
 
-    public static Profile newInstance() {
+    public static ProfileFragment newInstance() {
 
-        Profile fragment = new Profile();
+        ProfileFragment fragment = new ProfileFragment();
         return fragment;
     }
 
-    public Profile() { }
+    public ProfileFragment() { }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -218,16 +193,16 @@ public class Profile extends Fragment {
 
         protected void onPostExecute(Void result) {
             username = (TextView) headerView.findViewById(R.id.username);
-            Profile.username.setText(Users.get(0).getName());
+            username.setText(Users.get(0).getName());
 
             cookingNum = (TextView) headerView.findViewById(R.id.cookingNum);
-            Profile.cookingNum.setText(String.valueOf(Posts.size()));
+            cookingNum.setText(String.valueOf(Posts.size()));
 
             followersNum = (TextView) headerView.findViewById(R.id.followersNum);
-            Profile.followersNum.setText(String.valueOf(Users.get(0).getFollower()));
+            followersNum.setText(String.valueOf(Users.get(0).getFollower()));
 
             followingNum = (TextView) headerView.findViewById(R.id.followingNum);
-            Profile.followingNum.setText(String.valueOf(Users.get(0).getFollowing()));
+            followingNum.setText(String.valueOf(Users.get(0).getFollowing()));
 
             userPic = (CircleImageView ) headerView.findViewById(R.id.userPic);
             userPic.setImageDrawable(ob2);

@@ -90,6 +90,7 @@ public class HomeFeedFragment extends Fragment {
         }
 
 
+
         mFollowers = mClient.getTable(Follow.class);
         mUsers = mClient.getTable(Users.class);
         mPosts = mClient.getTable(Posts.class);
