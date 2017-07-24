@@ -1,6 +1,8 @@
 package com.example.cookzyme.cookzyme.customAdapter;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +14,7 @@ import android.widget.TextView;
 import com.example.cookzyme.cookzyme.R;
 import com.example.cookzyme.cookzyme.database.Ingredients;
 
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -29,6 +32,9 @@ public class customAdapterRefrigerator extends BaseAdapter {
     private List<Integer> num;
     private List<String> pronoun;
     private ArrayList<Ingredients> refrigerator;
+    Bitmap mIcon_val;
+    URL newurl;
+    int p;
 
     public customAdapterRefrigerator(Context context, List<BitmapDrawable> foodPic, List<String> ingredientName, List<Integer> sign, List<Integer> num, List<String> pronoun) {
         this.mContext= context;
@@ -42,8 +48,7 @@ public class customAdapterRefrigerator extends BaseAdapter {
     public customAdapterRefrigerator(Context context, ArrayList<Ingredients> refrigerator) {
         this.mContext= context;
         this.refrigerator=refrigerator;
-        this.foodPic = new ArrayList<>();
-
+//        this.foodPic = new ArrayList<>();
     }
 
     public void setFoodPic(List<BitmapDrawable> foodPic) {
@@ -55,23 +60,51 @@ public class customAdapterRefrigerator extends BaseAdapter {
     }
 
     public Object getItem(int position) {
-        return null;
+        return refrigerator.get(position);
     }
 
     public long getItemId(int position) {
         return 0;
     }
 
-    public View getView(int position, View view, ViewGroup parent) {
+    public View getView(final int position, View view, ViewGroup parent) {
         LayoutInflater mInflater =
                 (LayoutInflater)mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+        p=position;
 
         if(view == null)
             view = mInflater.inflate(R.layout.singlerow_refrigerator, parent, false);
 
+        newurl = null;
+        try {
+            newurl = new URL(refrigerator.get(position).getPath());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        mIcon_val = null;
+        Thread t = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    mIcon_val = BitmapFactory.decodeStream(newurl.openConnection().getInputStream());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        t.start();
+        try {
+            t.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        BitmapDrawable ob = new BitmapDrawable(view.getResources(), mIcon_val);
 
         ImageView imageViewFoodPic = (ImageView)view.findViewById(R.id.foodPic);
-        imageViewFoodPic.setBackgroundDrawable(foodPic.get(position));
+        imageViewFoodPic.setBackgroundDrawable(ob);
+//        ImageView imageViewFoodPic = (ImageView)view.findViewById(R.id.foodPic);
+//        imageViewFoodPic.setBackgroundDrawable(foodPic.get(position));
 
         TextView textViewIngredientName = (TextView)view.findViewById(R.id.ingredientName);
         textViewIngredientName.setText(refrigerator.get(position).getIngredient_name());
@@ -92,14 +125,16 @@ public class customAdapterRefrigerator extends BaseAdapter {
 //        imageViewSign.setBackgroundResource(sign.get(position));
 
         TextView textViewNum = (TextView)view.findViewById(R.id.num);
+        TextView textViewPronoun = (TextView)view.findViewById(R.id.pronoun);
         if(refrigerator.get(position).getAmount()==0){
-            textViewNum.setText("");
+            textViewNum.setVisibility(View.GONE);
+            textViewPronoun.setVisibility(View.GONE);
         }else{
             textViewNum.setText(Integer.toString(refrigerator.get(position).getAmount()));
+            textViewPronoun.setText(refrigerator.get(position).getUnit());
         }
 
-        TextView textViewPronoun = (TextView)view.findViewById(R.id.pronoun);
-        textViewPronoun.setText(refrigerator.get(position).getUnit());
+
 
         return view;
     }

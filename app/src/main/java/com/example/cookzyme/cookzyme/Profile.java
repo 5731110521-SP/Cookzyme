@@ -18,6 +18,7 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -73,6 +74,7 @@ public class Profile extends Fragment {
     private URL newurl4 = null;
     private BitmapDrawable ob4;
     private GridViewWithHeaderAndFooter gridView;
+    ProgressBar progressBarProfile;
 
 
     public static Profile newInstance() {
@@ -87,6 +89,8 @@ public class Profile extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.activity_profile, container, false);
+
+        progressBarProfile = (ProgressBar)rootView.findViewById(R.id.progressBarProfile);
 
 //        normal but scroll within grid
 //        GridView gridview = (GridView) rootView.findViewById(R.id.gridView);
@@ -217,6 +221,9 @@ public class Profile extends Fragment {
         }
 
         protected void onPostExecute(Void result) {
+
+            progressBarProfile.setVisibility(View.GONE);
+
             username = (TextView) headerView.findViewById(R.id.username);
             Profile.username.setText(Users.get(0).getName());
 

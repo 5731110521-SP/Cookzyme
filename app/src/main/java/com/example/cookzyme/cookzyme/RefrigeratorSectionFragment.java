@@ -8,10 +8,18 @@ import android.os.AsyncTask;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.example.cookzyme.cookzyme.customAdapter.customAdapterRefrigerator;
@@ -33,6 +41,14 @@ public class RefrigeratorSectionFragment extends Fragment {
     ImageButton cooking;
     static ArrayList<Ingredients> refrigerator;
     View rootView;
+    Toolbar Toolbar;
+    Menu menu;
+    AdapterView.OnItemClickListener onItemClickListener = new AdapterView.OnItemClickListener() {
+        @Override
+        public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+
+        }
+    };
 
     public static RefrigeratorSectionFragment newInstance() {
         RefrigeratorSectionFragment fragment = new RefrigeratorSectionFragment();
@@ -46,9 +62,16 @@ public class RefrigeratorSectionFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         rootView = inflater.inflate(R.layout.refrigerator_section_fragment, container, false);
+
         listView=(ListView) rootView.findViewById(R.id.refrigeratorListView);
         addIngredient=(FloatingActionButton) rootView.findViewById(R.id.addIngredient);
         cooking=(ImageButton) rootView.findViewById(R.id.cooking);
+        Toolbar=(Toolbar) rootView.findViewById(R.id.Toolbar);
+        //to calling onCreateOptionsMenu
+        setHasOptionsMenu(true);
+        Toolbar.inflateMenu(R.menu.refrigerator_toolbar);
+        ((AppCompatActivity)getActivity()).setSupportActionBar(Toolbar);
+
         addIngredient.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -76,12 +99,58 @@ public class RefrigeratorSectionFragment extends Fragment {
             refrigerator=database.getAllRefrigerator();
             database.closeDB();
                 if(refrigerator.size()>0){
-                    getIngredientPic();
+//                    getIngredientPic();
+                    customAdapterRefrigerator =new customAdapterRefrigerator(rootView.getContext().getApplicationContext(),refrigerator);
+                    listView.setAdapter(customAdapterRefrigerator);
                 }
         }else{
-            getIngredientPic();
+//            getIngredientPic();
+            customAdapterRefrigerator =new customAdapterRefrigerator(rootView.getContext().getApplicationContext(),refrigerator);
+            listView.setAdapter(customAdapterRefrigerator);
         }
+
+        //listView.setOnItemClickListener(onItemClickListener);
+
         return rootView;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.refrigerator_toolbar, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+        this.menu=menu;
+    }
+
+
+    @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        super.onPrepareOptionsMenu(menu);
+        this.menu=menu;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.edit_refrigerator:
+                item.setVisible(false);
+                menu.getItem(1).setVisible(true);
+                for (int i=0;i<listView.getCount();i++) {
+                    ((LinearLayout) listView.getChildAt(i)).getChildAt(0).setVisibility(View.VISIBLE);
+                }
+                return true;
+            case R.id.cancel_refrigerator:
+                item.setVisible(false);
+                menu.getItem(0).setVisible(true);
+                for (int i=0;i<listView.getCount();i++) {
+                    ((LinearLayout) listView.getChildAt(i)).getChildAt(0).setVisibility(View.GONE);
+                }
+                return true;
+            default:
+                // If we got here, the user's action was not recognized.
+                // Invoke the superclass to handle it.
+                return super.onOptionsItemSelected(item);
+
+        }
     }
 
     @Override
@@ -92,7 +161,9 @@ public class RefrigeratorSectionFragment extends Fragment {
                 SQLiteDBHelper database = new SQLiteDBHelper(getContext());
                 refrigerator=database.getAllRefrigerator();
                 database.closeDB();
-                getIngredientPic();
+//                getIngredientPic();
+                customAdapterRefrigerator =new customAdapterRefrigerator(rootView.getContext().getApplicationContext(),refrigerator);
+                listView.setAdapter(customAdapterRefrigerator);
             }
         }
     }
@@ -151,4 +222,5 @@ public class RefrigeratorSectionFragment extends Fragment {
             }
         }.execute();
     }
+
 }

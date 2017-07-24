@@ -10,8 +10,10 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.graphics.Paint;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.GradientDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -33,7 +35,9 @@ import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.example.cookzyme.cookzyme.customAdapter.customAdapterRefrigerator;
 import com.example.cookzyme.cookzyme.database.Ingredients;
+import com.microsoft.windowsazure.mobileservices.MobileServiceException;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -44,17 +48,23 @@ import org.apache.http.entity.ByteArrayEntity;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URI;
+import java.net.URL;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
+
+import static com.microsoft.windowsazure.mobileservices.table.query.QueryOperations.val;
 
 public class addIngredient extends AppCompatActivity {
     private Button mDateButton;
@@ -78,6 +88,7 @@ public class addIngredient extends AppCompatActivity {
     ProgressBar progressBar;
     Button find;
     TextView or;
+    String ans = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -122,31 +133,31 @@ public class addIngredient extends AppCompatActivity {
         //confirm button
         findViewById(R.id.confirm).setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
-                DateFormat df2 = new SimpleDateFormat("M-d-yyyy");
-                try {
-                    int amount=0;
-                    Ingredients ingredient;
-                    if(pronounSpinner.getSelectedItem().toString().equals("-")){
-                        ingredient = new Ingredients(foodName.getText().toString(), "path", "", 0
-                                , df2.parse(datePicker.getText().toString()));
-                    }else if(num.getText().length()==0){
-                        num.setError("กรุณากรอกจำนวน");
-                        num.requestFocus();
-                        return;
-                    }else {
-                        ingredient = new Ingredients(foodName.getText().toString(), "path", pronounSpinner.getSelectedItem().toString(),
-                                Integer.parseInt(num.getText().toString())
-                                , df2.parse(datePicker.getText().toString()));
-                    }
-                    SQLiteDBHelper database = new SQLiteDBHelper(v.getContext());
-                    database.insertRefrigerator(ingredient);
-                    database.closeDB();
-                    setResult(RESULT_OK);
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-
-                    finish();
+//                DateFormat df2 = new SimpleDateFormat("M-d-yyyy");
+//                try {
+//                    Ingredients ingredient;
+                    new getIngredientPicTask(v.getContext()).execute(foodName.getText().toString());
+//                    if(pronounSpinner.getSelectedItem().toString().equals("-")){
+//                        ingredient = new Ingredients(foodName.getText().toString(), path, "", 0
+//                                , df2.parse(datePicker.getText().toString()));
+//                    }else if(num.getText().length()==0){
+//                        num.setError("กรุณากรอกจำนวน");
+//                        num.requestFocus();
+//                        return;
+//                    }else {
+//                        ingredient = new Ingredients(foodName.getText().toString(), path, pronounSpinner.getSelectedItem().toString(),
+//                                Integer.parseInt(num.getText().toString())
+//                                , df2.parse(datePicker.getText().toString()));
+//                    }
+//                    SQLiteDBHelper database = new SQLiteDBHelper(v.getContext());
+//                    database.insertRefrigerator(ingredient);
+//                    database.closeDB();
+//                    setResult(RESULT_OK);
+//                } catch (ParseException e) {
+//                    e.printStackTrace();
+//                }
+//
+//                    finish();
             }
         });
         // all about click here
@@ -154,8 +165,22 @@ public class addIngredient extends AppCompatActivity {
         clickHere.setPaintFlags(clickHere.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
         findViewById(R.id.clickHere).setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
-//                Intent loginIntent = new Intent(addBankaccount.this, viewBankAccount.class);
-//                startActivity(loginIntent);
+                Intent loginIntent = new Intent(addIngredient.this, WrongIngredient.class);
+                Bundle b = new Bundle();
+                JSONObject obj = null;
+                try {
+                    obj = new JSONObject(ans);
+                    JSONArray jobj = obj.getJSONArray("Predictions");
+                    b.putString("item1", ((JSONObject)jobj.get(1)).getString("Tag"));
+                    b.putString("item2", ((JSONObject)jobj.get(2)).getString("Tag"));
+                    b.putString("item3", ((JSONObject)jobj.get(3)).getString("Tag"));
+                    b.putString("item4", ((JSONObject)jobj.get(4)).getString("Tag"));
+                    loginIntent.putExtras(b);
+                    startActivityForResult(loginIntent,0);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
             }
         });
 
@@ -272,16 +297,18 @@ public class addIngredient extends AppCompatActivity {
         return true;
     }
 
-    Bitmap image;
-
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch (requestCode) {
             case CAMERA_REQUEST:
-                if (requestCode == CAMERA_REQUEST)
-                    if (resultCode == Activity.RESULT_OK) {
-                        new ImageTask(this).execute();
-                    }
-
+                if (resultCode == Activity.RESULT_OK) {
+                    new ImageTask(this).execute();
+                }
+                return;
+            case 0:
+                if (resultCode == Activity.RESULT_OK){
+                    String name = data.getStringExtra("name");
+                    foodName.setText(name);
+                }
         }
     }
 
@@ -300,8 +327,7 @@ public class addIngredient extends AppCompatActivity {
         @Override
         protected String doInBackground(Bitmap... bitmap) {
             HttpClient httpclient = HttpClients.createDefault();
-
-            String ans = "";
+            String answer = "";
             try
             {
                 URIBuilder builder = new URIBuilder("https://southcentralus.api.cognitive.microsoft.com/customvision/v1.0/Prediction/e2677f6f-0e6c-437e-96f0-5d3baaf9bc4b/image");
@@ -329,14 +355,14 @@ public class addIngredient extends AppCompatActivity {
                     ans = EntityUtils.toString(entity);
                     JSONObject obj = new JSONObject(ans);
                     JSONArray jobj = obj.getJSONArray("Predictions");
-                    ans=((JSONObject)jobj.get(0)).getString("Tag");
+                    answer=((JSONObject)jobj.get(0)).getString("Tag");
                 }
             }
             catch (Exception e)
             {
                 e.printStackTrace();
             }
-            return ans;
+            return answer;
         }
 
         protected void onPostExecute(String result) {
@@ -419,6 +445,62 @@ public class addIngredient extends AppCompatActivity {
             foodPic.setImageBitmap(thumbnail);
             Bitmap b = thumbnail;
             new CustomVisonTask(context).execute(b);
+        }
+    }
+
+    private class getIngredientPicTask extends AsyncTask<String,Void,String>{
+        Context context;
+        public getIngredientPicTask(Context context) {
+            this.context=context;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            progressBar.setVisibility(View.VISIBLE);
+            findViewById(R.id.addlinear3).setVisibility(View.GONE);
+            findViewById(R.id.addlinear4).setVisibility(View.GONE);
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            List<Ingredients> results=new ArrayList<>();
+            try {
+                results = AzureServiceAdapter.getInstance().getClient().getTable(Ingredients.class)
+                        .where().field("ingredient_name").eq(val(params[0])).execute().get();
+                return results.get(0).getPath();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return "";
+        }
+
+        @Override
+        protected void onPostExecute(String aVoid) {
+            super.onPostExecute(aVoid);
+            try {
+                Ingredients ingredient;
+                DateFormat df2 = new SimpleDateFormat("M-d-yyyy");
+                if (pronounSpinner.getSelectedItem().toString().equals("-")) {
+                    ingredient = new Ingredients(foodName.getText().toString(), aVoid, "", 0
+                            , df2.parse(datePicker.getText().toString()));
+                } else if (num.getText().length() == 0) {
+                    num.setError("กรุณากรอกจำนวน");
+                    num.requestFocus();
+                    return;
+                } else {
+                    ingredient = new Ingredients(foodName.getText().toString(), aVoid, pronounSpinner.getSelectedItem().toString(),
+                            Integer.parseInt(num.getText().toString())
+                            , df2.parse(datePicker.getText().toString()));
+                }
+                SQLiteDBHelper database = new SQLiteDBHelper(context);
+                database.insertRefrigerator(ingredient);
+                database.closeDB();
+                setResult(RESULT_OK);
+                finish();
+            }catch (Exception e){
+                e.printStackTrace();
+            }
         }
     }
 }

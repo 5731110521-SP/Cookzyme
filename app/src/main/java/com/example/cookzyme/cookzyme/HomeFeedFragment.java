@@ -85,19 +85,15 @@ public class HomeFeedFragment extends Fragment {
 
         try {
             mClient = new MobileServiceClient("https://cookzymeapp.azurewebsites.net", getActivity().getApplicationContext() );
+            mFollowers = mClient.getTable(Follow.class);
+            mUsers = mClient.getTable(Users.class);
+            mPosts = mClient.getTable(Posts.class);
+            listView = (ListView) rootView.findViewById(R.id.listviewFeed);
+
+            new CustomVisonTask().execute();
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
-
-
-        mFollowers = mClient.getTable(Follow.class);
-        mUsers = mClient.getTable(Users.class);
-        mPosts = mClient.getTable(Posts.class);
-        listView = (ListView) rootView.findViewById(R.id.listviewFeed);
-
-        new CustomVisonTask().execute();
-
-        adapter = new customAdapterFeed(getContext(), followingEmail, followingPic, fromMenu,foodPic,caption,carrot,likeNum,commentNum);
 
         //listview
 
@@ -198,10 +194,10 @@ public class HomeFeedFragment extends Fragment {
                         carrot2.add(R.drawable.carrot_grey);
                         likeNum2.add(2);
                         commentNum2.add(5);
-                        adapter2 = new customAdapterFeed(getContext(), followingEmail2, followingPic2, fromMenu2,
-                                foodPic2, caption2, carrot2, likeNum2, commentNum2);
-                        adapter = adapter2;
                     }
+                    adapter2 = new customAdapterFeed(getContext(), followingEmail2, followingPic2, fromMenu2,
+                            foodPic2, caption2, carrot2, likeNum2, commentNum2);
+                    adapter = adapter2;
                 }
             } catch (Exception e) {
                 e.printStackTrace();
