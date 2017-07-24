@@ -8,6 +8,7 @@ import android.os.AsyncTask;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
@@ -89,8 +90,6 @@ public class HomeFeedFragment extends Fragment {
             e.printStackTrace();
         }
 
-
-
         mFollowers = mClient.getTable(Follow.class);
         mUsers = mClient.getTable(Users.class);
         mPosts = mClient.getTable(Posts.class);
@@ -158,16 +157,17 @@ public class HomeFeedFragment extends Fragment {
 //                }
 //            });
             try {
+                System.out.println("---HOME FEED---");
                 List<Follow> followingEmailna = mFollowers
                         .where()
                         .field("email").eq("Khamint@hotmail.com")
                         .select("following_email")
                         .execute()
                         .get();
-                System.out.println("---STEP 01---");
                 List<String> allMyFollowing = new ArrayList<>();
-                for (int i = 0; i < followingEmailna.size(); i++) {
-                    allMyFollowing.add(followingEmailna.get(i).following_email);
+                allMyFollowing.add("Khamint@hotmail.com");
+                for(int k = 0; k<followingEmailna.size(); k++) {allMyFollowing.add(followingEmailna.get(k).following_email);}
+                for (int i = 0; i < allMyFollowing.size(); i++) {
                     List<Users> Usersna = mUsers
                             .where()
                             .field("email").eq(allMyFollowing.get(i))
@@ -176,7 +176,6 @@ public class HomeFeedFragment extends Fragment {
                     URL newurl = new URL(Usersna.get(0).path);
                     Bitmap mIcon_val = BitmapFactory.decodeStream(newurl.openConnection().getInputStream());
                     BitmapDrawable ob = new BitmapDrawable(getResources(), mIcon_val);
-                    System.out.println("---STEP 02---");
                     List<Posts> Postsna = mPosts
                             .where()
                             .field("email").eq(allMyFollowing.get(i))
@@ -184,9 +183,9 @@ public class HomeFeedFragment extends Fragment {
                             .get();
                     List<Posts> allMyFollowingPost = new ArrayList<>();
                     for (int j = 0; j < Postsna.size(); j++) {
-                        followingEmail2.add(Usersna.get(i).name);
+                        followingEmail2.add(Usersna.get(0).name);
                         followingPic2.add(ob);
-                        allMyFollowingPost.add(Postsna.get(i));
+                        allMyFollowingPost.add(Postsna.get(j));
                         String nameoffood = Postsna.get(j).food_name;
                         String pathofpost = Postsna.get(j).path;
                         fromMenu2.add(nameoffood);
@@ -195,7 +194,6 @@ public class HomeFeedFragment extends Fragment {
                         BitmapDrawable ob2 = new BitmapDrawable(getResources(), mIcon_val2);
                         foodPic2.add(ob2);
                         caption2.add(Postsna.get(j).description);
-                        System.out.println("---STEP 03---");
                         carrot2.add(R.drawable.carrot_grey);
                         likeNum2.add(2);
                         commentNum2.add(5);

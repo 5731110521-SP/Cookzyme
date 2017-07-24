@@ -1,6 +1,10 @@
 package com.example.cookzyme.cookzyme;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.os.AsyncTask;
 import android.support.design.internal.BottomNavigationItemView;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
@@ -19,7 +23,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.cookzyme.cookzyme.ExpandableHeightGridView;
+import com.example.cookzyme.cookzyme.customAdapter.customAdapterGrid;
 
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,6 +43,7 @@ public class ViewPostInProfile extends Fragment {
 
     public ViewPostInProfile() { }
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -51,17 +58,19 @@ public class ViewPostInProfile extends Fragment {
         // get position of grid from ProfileFragment
         String position = getArguments().getString("position");
 
+        while (!Profile.ready){
+        }
         //ALL set
         userPic = (ImageView) rootView.findViewById(R.id.userPic);
-        userPic.setImageResource(R.drawable.egg);
+        userPic.setImageDrawable(Profile.myProfilePic);
         username = (TextView) rootView.findViewById(R.id.username);
-        username.setText("Palida");
+        username.setText(Profile.myUsername);
         fromMenu = (TextView) rootView.findViewById(R.id.fromMenu);
-        fromMenu.setText("KaiAraiMairoo");
+        fromMenu.setText(Profile.arrMyPosts[Integer.parseInt(position)].food_name);
         foodPic = (ImageView) rootView.findViewById(R.id.foodPic);
-        foodPic.setImageResource(R.drawable.avatar);
+        foodPic.setImageDrawable(Profile.arrImg[Integer.parseInt(position)] );
         caption = (TextView) rootView.findViewById(R.id.caption);
-        caption.setText("this is item " + position);
+        caption.setText(Profile.arrMyPosts[Integer.parseInt(position)].description);
         carrot = (ImageView) rootView.findViewById(R.id.carrot);
         carrot.setImageResource(R.drawable.carrot_grey);
         likeNum = (TextView) rootView.findViewById(R.id.likeNum);
@@ -73,4 +82,5 @@ public class ViewPostInProfile extends Fragment {
 
         return rootView;
     }
+
 }
