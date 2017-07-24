@@ -60,8 +60,8 @@ public class HomeTabFragment extends Fragment {
         //click item on listview
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-                HomeTabFragment.foodname = name.get(arg2);
                 Intent in = new Intent(getActivity(), viewRecipeHome.class);
+                in.putExtra("food_name",name.get(arg2));
                 startActivity(in);
                 /*}else{
                     recipe.index=arg2;

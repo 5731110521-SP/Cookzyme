@@ -1,11 +1,14 @@
 package com.example.cookzyme.cookzyme;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.example.cookzyme.cookzyme.customAdapter.customAdapter;
@@ -20,12 +23,26 @@ import java.util.List;
 
 public class ShowCanCook extends Activity {
     private ListView lv;
+    private ArrayList<String> food_name;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_can_cook);
         lv = (ListView) findViewById(R.id.listview1);
         new CanCookTask().execute();
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+                Intent in = new Intent(getApplicationContext(), viewRecipeHome.class);
+                in.putExtra("food_name",food_name.get(arg2));
+                startActivity(in);
+                /*}else{
+                    recipe.index=arg2;
+                    Intent in = new Intent(recipe.this, viewRecipeSuperstore.class);
+                    startActivity(in);
+                    overridePendingTransition(0, 0);
+                }*/
+            }
+        });
     }
     private class CanCookTask extends AsyncTask<Void, Void, Void>{
         customAdapter adapter;
@@ -116,6 +133,7 @@ public class ShowCanCook extends Activity {
                     like.add(f.getLike());
                 }
                 adapter = new customAdapter(getApplicationContext(),name,cal,pic,like);
+                food_name = (ArrayList<String>) name;
 
             } catch (Exception e) {
                 e.printStackTrace();
