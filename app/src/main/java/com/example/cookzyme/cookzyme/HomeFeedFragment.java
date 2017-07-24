@@ -16,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.facebook.*;
@@ -45,29 +46,31 @@ import java.util.List;
 
 public class HomeFeedFragment extends Fragment {
     private MobileServiceClient mClient;
-    private ArrayList<String> followingEmail = new ArrayList<>();
-    private ArrayList<BitmapDrawable> followingPic = new ArrayList<>();
-    private ArrayList<String> fromMenu= new ArrayList<>();
-    private ArrayList<BitmapDrawable> foodPic= new ArrayList<>();
-    private ArrayList<String> caption=new ArrayList<>();
-    private ArrayList<Integer> carrot=new ArrayList<>();
-    private ArrayList<Integer> likeNum=new ArrayList<>();
-    private ArrayList<Integer> commentNum = new ArrayList<>();
-
+    public static ArrayList<String> followingEmail = new ArrayList<>();
+    public static ArrayList<BitmapDrawable> followingPic = new ArrayList<>();
+    public static ArrayList<String> fromMenu= new ArrayList<>();
+    public static ArrayList<BitmapDrawable> foodPic= new ArrayList<>();
+    public static ArrayList<String> caption=new ArrayList<>();
+    public static ArrayList<Integer> carrot=new ArrayList<>();
+    public static ArrayList<Integer> likeNum=new ArrayList<>();
+    public static ArrayList<Integer> commentNum = new ArrayList<>();
+    public static List<Posts> allMyFollowingPost;
+    public static List<String> PostId = new ArrayList<>();
+    public static List<String> path = new ArrayList<>();
+    public static List<String> Email = new ArrayList<>();
     private View rootView;
-    private ListView listView;
-    private customAdapterFeed adapter;
-    private customAdapterFeed adapter2;
+    public static ListView listView;
+    public static customAdapterFeed adapter;
     private MobileServiceTable<Follow> mFollowers;
     private MobileServiceTable<Users> mUsers;
-    private MobileServiceTable<Posts> mPosts;
+    public static MobileServiceTable<Posts> mPosts;
     CallbackManager callbackManager;
 
     public static String myProfilepic;
     public static String myEmail;
     public static String myFirstName;
     public static String myLastName;
-
+    private  int eiei;
 
     public static HomeFeedFragment newInstance() {
         HomeFeedFragment fragment = new HomeFeedFragment();
@@ -102,34 +105,26 @@ public class HomeFeedFragment extends Fragment {
         //listview
 
         //click item on listview
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-                //if(arg2==0){
-//                recipe.name=name_list.get(arg2);
-//                Intent in = new Intent(getActivity(), viewRecipeHome.class);
-//                startActivity(in);
-                /*}else{
-                    recipe.index=arg2;
-                    Intent in = new Intent(recipe.this, viewRecipeSuperstore.class);
-                    startActivity(in);
-                    overridePendingTransition(0, 0);
-                }*/
-            }
-        });
+//        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            public void onItemClick(AdapterView<?> l, View view, int position, long id) {
+//                eiei = position;
+//                System.out.println("111111111111111111111111111");
+//                ImageView imageViewUserPic = (ImageView) view.findViewById(R.id.userPic);
+//                imageViewUserPic.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View view) {
+//                        System.out.println(eiei);
+//                        System.out.println("22222222222222222222");
+//                    }
+//                });
+//            }
+//        });
+
 
         return rootView;
     }
 
-    private class CustomVisonTask extends AsyncTask<Void,Void,Void> {
-    private ArrayList<String> followingEmail2 = new ArrayList<>();
-    private ArrayList<BitmapDrawable> followingPic2 = new ArrayList<>();
-    private ArrayList<String> fromMenu2 = new ArrayList<>();
-    private ArrayList<BitmapDrawable> foodPic2 = new ArrayList<>();
-    private ArrayList<String> caption2 =new ArrayList<>();
-    private ArrayList<Integer> carrot2 =new ArrayList<>();
-    private ArrayList<Integer> likeNum2 =new ArrayList<>();
-    private ArrayList<Integer> commentNum2 = new ArrayList<>();
-
+       private class CustomVisonTask extends AsyncTask<Void,Void,Void> {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -157,7 +152,6 @@ public class HomeFeedFragment extends Fragment {
 //                }
 //            });
             try {
-                System.out.println("---HOME FEED---");
                 List<Follow> followingEmailna = mFollowers
                         .where()
                         .field("email").eq("Khamint@hotmail.com")
@@ -181,27 +175,30 @@ public class HomeFeedFragment extends Fragment {
                             .field("email").eq(allMyFollowing.get(i))
                             .execute()
                             .get();
-                    List<Posts> allMyFollowingPost = new ArrayList<>();
+                    allMyFollowingPost = new ArrayList<>();
                     for (int j = 0; j < Postsna.size(); j++) {
-                        followingEmail2.add(Usersna.get(0).name);
-                        followingPic2.add(ob);
+                        Email.add(Usersna.get(0).email);
+                        followingEmail.add(Usersna.get(0).name);
+                        followingPic.add(ob);
                         allMyFollowingPost.add(Postsna.get(j));
                         String nameoffood = Postsna.get(j).food_name;
                         String pathofpost = Postsna.get(j).path;
-                        fromMenu2.add(nameoffood);
+                        path.add(pathofpost);
+                        fromMenu.add(nameoffood);
                         URL newurl2 = new URL(pathofpost);
                         Bitmap mIcon_val2 = BitmapFactory.decodeStream(newurl2.openConnection().getInputStream());
                         BitmapDrawable ob2 = new BitmapDrawable(getResources(), mIcon_val2);
-                        foodPic2.add(ob2);
-                        caption2.add(Postsna.get(j).description);
-                        carrot2.add(R.drawable.carrot_grey);
-                        likeNum2.add(2);
-                        commentNum2.add(5);
-                        adapter2 = new customAdapterFeed(getContext(), followingEmail2, followingPic2, fromMenu2,
-                                foodPic2, caption2, carrot2, likeNum2, commentNum2);
-                        adapter = adapter2;
+                        foodPic.add(ob2);
+                        caption.add(Postsna.get(j).description);
+                        carrot.add(R.drawable.carrot_grey);
+                        likeNum.add(allMyFollowingPost.get(j).getLike());
+                        PostId.add(allMyFollowingPost.get(j).getmId());
+                        commentNum.add(5);
                     }
                 }
+                adapter = new customAdapterFeed(getContext(), followingEmail, followingPic, fromMenu,
+                        foodPic, caption, carrot, likeNum, commentNum);
+                System.out.println("---HOME FEED---");
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -248,6 +245,23 @@ public class HomeFeedFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         callbackManager.onActivityResult(requestCode, resultCode, data);
+    }
+
+    private class CustomVisonTask2 extends AsyncTask<Void,Void,Void> {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected Void doInBackground(Void... bitmaps) {
+
+            return null;
+        }
+
+        protected void onPostExecute(Void result) {
+
+        }
     }
 }
 
