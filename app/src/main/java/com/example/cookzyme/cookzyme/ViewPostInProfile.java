@@ -55,7 +55,7 @@ public class ViewPostInProfile extends Fragment {
         params.height = ViewGroup.LayoutParams.MATCH_PARENT;
         layout.setLayoutParams(params);
 
-        // get position of grid from Profile
+        // get position of grid from ProfileFragment
         String position = getArguments().getString("position");
 
         while (!Profile.ready){
