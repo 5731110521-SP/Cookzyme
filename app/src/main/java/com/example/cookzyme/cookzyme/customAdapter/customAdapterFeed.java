@@ -1,7 +1,10 @@
 package com.example.cookzyme.cookzyme.customAdapter;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
+import android.os.AsyncTask;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,9 +12,14 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.cookzyme.cookzyme.HomeFeedFragment;
+import com.example.cookzyme.cookzyme.HomeTabFragment;
 import com.example.cookzyme.cookzyme.R;
+import com.example.cookzyme.cookzyme.database.Posts;
+import com.microsoft.windowsazure.mobileservices.MobileServiceClient;
 
 import java.lang.reflect.Array;
+import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,7 +28,7 @@ import java.util.List;
  */
 
 public class customAdapterFeed extends BaseAdapter {
-    Context mContext;
+    private Context mContext;
     private ArrayList<String> username;
     private ArrayList<BitmapDrawable> userPic;
     private ArrayList<String> fromMenu;
@@ -29,7 +37,7 @@ public class customAdapterFeed extends BaseAdapter {
     private ArrayList<Integer> carrot;
     private ArrayList<Integer> likeNum;
     private ArrayList<Integer> commentNum;
-
+    private int index;
 
     public customAdapterFeed(Context context, ArrayList<String> username,ArrayList<BitmapDrawable> userPic, ArrayList<String> fromMenu, ArrayList<BitmapDrawable> foodPic, ArrayList<String> caption, ArrayList<Integer> carrot, ArrayList<Integer> likeNum, ArrayList<Integer> commentNum) {
         this.mContext= context;
@@ -48,14 +56,14 @@ public class customAdapterFeed extends BaseAdapter {
     }
 
     public Object getItem(int position) {
-        return null;
+        return userPic.get(position);
     }
 
     public long getItemId(int position) {
         return 0;
     }
 
-    public View getView(int position, View view, ViewGroup parent) {
+    public View getView(final int position, View view, ViewGroup parent) {
         LayoutInflater mInflater =
                 (LayoutInflater)mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
@@ -68,7 +76,12 @@ public class customAdapterFeed extends BaseAdapter {
 
             ImageView imageViewUserPic = (ImageView) view.findViewById(R.id.userPic);
             imageViewUserPic.setBackgroundDrawable(userPic.get(position));
-
+            imageViewUserPic.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    System.out.println(position);
+                }
+            });
 
             TextView textViewFromMenu = (TextView) view.findViewById(R.id.fromMenu);
             textViewFromMenu.setText(fromMenu.get(position));
@@ -81,12 +94,60 @@ public class customAdapterFeed extends BaseAdapter {
 
             ImageView imageViewCarrot = (ImageView) view.findViewById(R.id.carrot);
             imageViewCarrot.setBackgroundResource(carrot.get(position));
+            imageViewCarrot.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    System.out.println(position);
+                    index = position;
+                    if(HomeFeedFragment.carrot.get(position) == R.drawable.carrot){
+                        HomeFeedFragment.carrot.set(position,R.drawable.carrot_grey);
+                        HomeFeedFragment.likeNum.set(position,HomeFeedFragment.likeNum.get(position)-1);
+                        notifyDataSetChanged();
+                        new CustomVisonTask().execute();
+                    }
+                    else {
+                        HomeFeedFragment.carrot.set(position, R.drawable.carrot);
+                        HomeFeedFragment.likeNum.set(position,HomeFeedFragment.likeNum.get(position)+1);
+                        notifyDataSetChanged();
+                        new CustomVisonTask().execute();
+                    }
+                }
+            });
 
             TextView textViewLikeNum = (TextView) view.findViewById(R.id.likeNum);
             textViewLikeNum.setText(Integer.toString(likeNum.get(position)));
 
             TextView textViewCommentNum = (TextView) view.findViewById(R.id.commentNum);
             textViewCommentNum.setText(Integer.toString(commentNum.get(position)));
+
         return view;
     }
+
+    private class CustomVisonTask extends AsyncTask<Void,Void,Void> {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected Void doInBackground(Void... bitmaps) {
+            try {
+                HomeFeedFragment.mPosts
+                            .update(new Posts(HomeFeedFragment.Email.get(index),
+                                    HomeFeedFragment.path.get(index), HomeFeedFragment.caption.get(index), HomeFeedFragment.fromMenu.get(index),
+                                    HomeFeedFragment.likeNum.get(index),
+                                    HomeFeedFragment.PostId.get(index)))
+                            .get();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        protected void onPostExecute(Void result) {
+            System.out.println("UPDATE SUCCESSED");
+        }
+    }
+
 }
+

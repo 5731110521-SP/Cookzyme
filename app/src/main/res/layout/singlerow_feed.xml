@@ -38,7 +38,7 @@
                 android:layout_weight="1"
                 android:gravity="left|center_vertical"
                 android:paddingLeft="10dp"
-                android:text="TextView"
+                android:text=""
                 android:textColor="@android:color/black"
                 tools:text="username"/>
 
@@ -50,7 +50,7 @@
                 android:layout_weight="1.25"
                 android:gravity="right|center_vertical"
                 android:paddingRight="30dp"
-                android:text="TextView"
+                android:text=""
                 android:textColor="@android:color/black"
                 tools:text="fromMenu"/>
         </LinearLayout>
@@ -61,7 +61,7 @@
             android:layout_height="350dp"
             android:adjustViewBounds="true"
             android:scaleType="centerCrop"
-            android:src="@drawable/egg"
+            app:srcCompat="@drawable/egg"/>
             />
         <LinearLayout
             android:layout_width="match_parent"
@@ -90,9 +90,7 @@
                 android:layout_height="40dp"
                 android:layout_marginLeft="20dp"
                 android:scaleX="0.7"
-                android:scaleY="0.7"
-                android:src="@drawable/carrot_grey"
-                />
+                android:scaleY="0.7" />
 
             <TextView
                 android:id="@+id/likeNum"

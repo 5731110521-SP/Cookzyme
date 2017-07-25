@@ -10,15 +10,12 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.TextView;
 
 import com.example.cookzyme.cookzyme.module.Receiver;
 import com.example.cookzyme.cookzyme.ref.EmptyActivity;
@@ -31,7 +28,7 @@ public class HomeActivity extends ActionBarActivity {
     int beforeCurrent =2;
     ViewPager mViewPager;
 //    private static HomeSectionFragment homeSectionFragment = new HomeSectionFragment();
-//    private static Profile profile = new Profile();
+//    private static ProfileFragment profile = new ProfileFragment();
     AppSectionsPagerAdapter mAppSectionsPagerAdapter;
 
     BottomNavigationView navigation;
@@ -138,15 +135,15 @@ public class HomeActivity extends ActionBarActivity {
                 case 0:
                     return RefrigeratorSectionFragment.newInstance();
                 case 1:
-                    return new EmptyActivity();
+                    return DuringCooking.newInstance();
                 case 2:
                     return HomeSectionFragment.newInstance();
                 case 3:
-                    return Profile.newInstance();
+                    return ProfileFragment.newInstance();
                 case 4:
                     return new EmptyActivity();
                 default:
-                    return Profile.newInstance();
+                    return ProfileFragment.newInstance();
             }
         }
 
@@ -159,7 +156,6 @@ public class HomeActivity extends ActionBarActivity {
             return 5;
         }
     }
-
 }
 
 

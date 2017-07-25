@@ -13,16 +13,27 @@ public class Posts {
     public String path;
     public String description;
     public String food_name;
+    public int like;
     @com.google.gson.annotations.SerializedName("id")
     private String mId;
     public String getId() { return mId; }
     public final void setId(String id) { mId = id; }
 
-    public Posts(String email, String path, String description, String foodname) {
+    public Posts(String email, String path, String description, String food_name, int like, String mId) {
         this.email = email;
         this.path = path;
         this.description = description;
-        this.food_name = foodname;
+        this.food_name = food_name;
+        this.like = like;
+        this.mId = mId;
+    }
+
+    public Posts(String email, String path, String description, String food_name, int like) {
+        this.email = email;
+        this.path = path;
+        this.description = description;
+        this.food_name = food_name;
+        this.like = like;
     }
 
     public String getEmail() {
@@ -63,5 +74,13 @@ public class Posts {
 
     public void setmId(String mId) {
         this.mId = mId;
+    }
+
+    public int getLike() {
+        return like;
+    }
+
+    public void setLike(int like) {
+        this.like = like;
     }
 }
