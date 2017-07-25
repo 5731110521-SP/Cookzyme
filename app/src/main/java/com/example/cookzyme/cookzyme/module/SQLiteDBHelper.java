@@ -1,4 +1,4 @@
-package com.example.cookzyme.cookzyme;
+package com.example.cookzyme.cookzyme.module;
 
 
 import android.content.ContentValues;
@@ -69,6 +69,7 @@ public class SQLiteDBHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
 
         String[] projection = {
+                REFRIGERATOR_COLUMN_ID,
                 SQLiteDBHelper.REFRIGERATOR_COLUMN_NAME,
                 SQLiteDBHelper.REFRIGERATOR_COLUMN_PATH,
                 SQLiteDBHelper.REFRIGERATOR_COLUMN_UNIT,
@@ -96,11 +97,12 @@ public class SQLiteDBHelper extends SQLiteOpenHelper {
         while(!cursor.isAfterLast()){
             DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
             try {
-                Ingredients in = new Ingredients(cursor.getString(cursor.getColumnIndex(projection[0])),
+                Ingredients in = new Ingredients(Integer.toString(cursor.getColumnIndex(projection[0])),
                         cursor.getString(cursor.getColumnIndex(projection[1])),
                         cursor.getString(cursor.getColumnIndex(projection[2])),
-                        Integer.parseInt(cursor.getString(cursor.getColumnIndex(projection[3]))),
-                        df.parse(cursor.getString(cursor.getColumnIndex(projection[4]))));
+                        cursor.getString(cursor.getColumnIndex(projection[3])),
+                        Integer.parseInt(cursor.getString(cursor.getColumnIndex(projection[4]))),
+                        df.parse(cursor.getString(cursor.getColumnIndex(projection[5]))));
                 cursor.moveToNext();
                 refrigerator.add(in);
             } catch (ParseException e) {
@@ -108,6 +110,15 @@ public class SQLiteDBHelper extends SQLiteOpenHelper {
             }
         }
         return  refrigerator;
+    }
+
+    public int removeRefrigerator(Ingredients ingredient){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String selection =SQLiteDBHelper.REFRIGERATOR_COLUMN_ID + " = ?";
+
+        String[] selectionArgs = {"%" + ingredient.getId() + "%"};
+
+        return db.delete(REFRIGERATOR_TABLE_NAME,selection,selectionArgs);
     }
 
     // closing database

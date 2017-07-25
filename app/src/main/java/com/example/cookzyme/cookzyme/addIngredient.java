@@ -2,18 +2,18 @@ package com.example.cookzyme.cookzyme;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.AlarmManager;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.app.PendingIntent;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.graphics.Paint;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.GradientDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -35,9 +35,8 @@ import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.example.cookzyme.cookzyme.customAdapter.customAdapterRefrigerator;
 import com.example.cookzyme.cookzyme.database.Ingredients;
-import com.microsoft.windowsazure.mobileservices.MobileServiceException;
+import com.example.cookzyme.cookzyme.module.SQLiteDBHelper;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -53,16 +52,13 @@ import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URI;
-import java.net.URL;
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 import static com.microsoft.windowsazure.mobileservices.table.query.QueryOperations.val;
 
@@ -89,6 +85,7 @@ public class addIngredient extends AppCompatActivity {
     Button find;
     TextView or;
     String ans = "";
+    private PendingIntent pendingIntent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -496,6 +493,7 @@ public class addIngredient extends AppCompatActivity {
                 SQLiteDBHelper database = new SQLiteDBHelper(context);
                 database.insertRefrigerator(ingredient);
                 database.closeDB();
+
                 setResult(RESULT_OK);
                 finish();
             }catch (Exception e){

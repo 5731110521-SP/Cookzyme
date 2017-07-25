@@ -21,8 +21,7 @@ public class HomeSectionFragment extends Fragment {
 
 
     public static HomeSectionFragment newInstance() {
-        HomeSectionFragment fragment = new HomeSectionFragment();
-        return fragment;
+        return new HomeSectionFragment();
     }
 
     public HomeSectionFragment() { }
@@ -88,11 +87,11 @@ public class HomeSectionFragment extends Fragment {
         public Fragment getItem(int i) {
             switch (i) {
                 case 0:
-                    return new HomeTabFragment();
+                    return HomeTabFragment.newInstance();
                 case 1:
                     return HomeFeedFragment.newInstance();
                 default:
-                    return new HomeTabFragment();
+                    return HomeTabFragment.newInstance();
             }
         }
 
