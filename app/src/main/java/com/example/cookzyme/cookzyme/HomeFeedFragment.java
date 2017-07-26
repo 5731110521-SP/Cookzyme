@@ -90,6 +90,12 @@ public class HomeFeedFragment extends Fragment {
 
         try {
             mClient = new MobileServiceClient("https://cookzymeapp.azurewebsites.net", getActivity().getApplicationContext() );
+            mFollowers = mClient.getTable(Follow.class);
+            mUsers = mClient.getTable(Users.class);
+            mPosts = mClient.getTable(Posts.class);
+            listView = (ListView) rootView.findViewById(R.id.listviewFeed);
+
+            new CustomVisonTask().execute();
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }

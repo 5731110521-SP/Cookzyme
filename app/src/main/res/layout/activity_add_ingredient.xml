@@ -51,14 +51,6 @@
         android:layout_height="wrap_content"
         android:text="Find" />
 
-    <ProgressBar
-        android:id="@+id/progressBarAdd"
-        style="?android:attr/progressBarStyleLarge"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="30dp"
-        android:visibility="gone" />
-
     <TextView
         android:id="@+id/foodName"
         android:layout_width="match_parent"
@@ -133,6 +125,14 @@
 
     </LinearLayout>
 
+    <ProgressBar
+        android:id="@+id/progressBarAdd"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="30dp"
+        android:visibility="gone" />
+
     <LinearLayout
         android:id="@+id/addlinear3"
         android:layout_width="match_parent"
@@ -189,6 +189,7 @@
             android:paddingLeft="10dp"
             android:paddingRight="20dp"
             android:text="click here"
+            android:clickable="true"
             android:textStyle="bold|italic" />
     </LinearLayout>
 

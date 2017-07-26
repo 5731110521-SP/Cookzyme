@@ -1,5 +1,8 @@
 package com.example.cookzyme.cookzyme;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -8,9 +11,20 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.MenuItem;
 
-public class HomeActivity extends FragmentActivity {
+import com.example.cookzyme.cookzyme.module.Receiver;
+import com.example.cookzyme.cookzyme.ref.EmptyActivity;
+
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+
+public class HomeActivity extends ActionBarActivity {
     int beforeCurrent =2;
     ViewPager mViewPager;
 //    private static HomeSectionFragment homeSectionFragment = new HomeSectionFragment();
@@ -48,7 +62,11 @@ public class HomeActivity extends FragmentActivity {
                     if(beforeCurrent!=3){
 //                        System.out.println("if not not refresh");
                     }else{
-                        mViewPager.getAdapter().notifyDataSetChanged();
+//                        Fragment page = getSupportFragmentManager().findFragmentByTag("android:switcher:" + R.id.pager + ":" + mViewPager.getCurrentItem());
+//                        final FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+//                        ft.detach(page);
+//                        ft.attach(page);
+//                        ft.commit();
                         getSupportFragmentManager().popBackStack();
 //                        System.out.println("else 3  refresh");
                     }
@@ -123,7 +141,7 @@ public class HomeActivity extends FragmentActivity {
                 case 3:
                     return ProfileFragment.newInstance();
                 case 4:
-                    return RefrigeratorSectionFragment.newInstance();
+                    return new EmptyActivity();
                 default:
                     return ProfileFragment.newInstance();
             }

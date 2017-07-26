@@ -12,6 +12,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.ProgressBar;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.microsoft.windowsazure.mobileservices.MobileServiceClient;
@@ -49,7 +53,8 @@ public class ProfileFragment extends Fragment {
     public static BitmapDrawable myProfilePic;
     private BitmapDrawable ob3,ob4;
     private GridViewWithHeaderAndFooter gridView;
-    public static String myUsername ,myEmail;
+    ProgressBar progressBarProfile;
+    public static String myUsername,myEmail;
     public static boolean ready;
     public static List<Integer> carrot = new ArrayList<>();
     public static List<String> PostId = new ArrayList<>();
@@ -71,6 +76,8 @@ public class ProfileFragment extends Fragment {
 
         String position = getArguments().getString("position");
         myEmail = position;
+
+        progressBarProfile = (ProgressBar)rootView.findViewById(R.id.progressBarProfile);
 
         ready = false;
 
@@ -215,6 +222,9 @@ public class ProfileFragment extends Fragment {
         }
 
         protected void onPostExecute(Void result) {
+
+            progressBarProfile.setVisibility(View.GONE);
+
             username = (TextView) headerView.findViewById(R.id.username);
             username.setText(myUsername);
 

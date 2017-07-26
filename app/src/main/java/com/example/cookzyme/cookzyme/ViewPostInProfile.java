@@ -153,7 +153,6 @@ public class ViewPostInProfile extends Fragment {
             commentNum = (TextView) rootView.findViewById(R.id.commentNum);
             commentNum.setText("266");
         }
-
         return rootView;
     }
 

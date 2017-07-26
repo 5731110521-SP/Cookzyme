@@ -30,6 +30,15 @@ public class Ingredients {
 		this.expire=expire;
 		this.path = path;
 	}
+	public Ingredients(String id,String ingredient_name,String path,String unit,int amount, Date expire) {
+		// TODO Auto-generated constructor stub
+		mId=id;
+		this.ingredient_name = ingredient_name;
+		this.amount=amount;
+		this.unit=unit;
+		this.expire=expire;
+		this.path = path;
+	}
 	public String getName() {
 		return ingredient_name;
 	}
@@ -58,4 +67,8 @@ public class Ingredients {
     public Date getExpire() {
         return expire;
     }
+
+	public String getId() {
+		return mId;
+	}
 }

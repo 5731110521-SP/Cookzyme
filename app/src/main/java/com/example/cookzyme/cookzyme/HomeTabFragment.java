@@ -37,6 +37,11 @@ public class HomeTabFragment extends Fragment {
 
     private ListView listView;
     ProgressBar progressBarHome;
+
+    public static HomeTabFragment newInstance() {
+        return new HomeTabFragment();
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
