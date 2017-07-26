@@ -9,6 +9,8 @@
     <color name="colorNewBG">#ffe465</color>
     <color name="colorButton">#5b6f98</color>
     <color name="floatingButtonAdd">#324a5e</color>
+    <color name="lightGray">#E1E1E1</color>
+    <color name="colorWhite">#FFFFFF</color>
 
 
 </resources>

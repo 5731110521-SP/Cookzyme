@@ -37,6 +37,11 @@ public class HomeTabFragment extends Fragment {
 
     private ListView listView;
     ProgressBar progressBarHome;
+
+    public static HomeTabFragment newInstance() {
+        return new HomeTabFragment();
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -74,10 +79,6 @@ public class HomeTabFragment extends Fragment {
         return rootView;
     }
     private class CustomVisonTask extends AsyncTask<Void,Void,Void> {
-        private ArrayList<String> name2 = new ArrayList<>();
-        private ArrayList<Integer> cal2 = new ArrayList<>();
-        private ArrayList<BitmapDrawable> pic2 = new ArrayList<>();
-        private ArrayList<Integer> like2 = new ArrayList<>();
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -87,23 +88,21 @@ public class HomeTabFragment extends Fragment {
         @Override
         protected Void doInBackground(Void... bitmaps) {
             try {
-                System.out.println("---TAB---");
                 List<Foods> foodna = mFoods
                         .execute()
                         .get();
                 List<Foods> allFoods = foodna;
                 for(int i = 0 ;i < allFoods.size(); i++){
-                    name2.add(allFoods.get(i).getFood_name());
-                    cal2.add(allFoods.get(i).getEnergy());
+                    name.add(allFoods.get(i).getFood_name());
+                    cal.add(allFoods.get(i).getEnergy());
                     URL newurl = new URL(allFoods.get(i).getPath());
                     Bitmap mIcon_val = BitmapFactory.decodeStream(newurl.openConnection().getInputStream());
                     BitmapDrawable ob = new BitmapDrawable(getResources(), mIcon_val);
-                    pic2.add(ob);
-                    like2.add(allFoods.get(i).getLike());
+                    pic.add(ob);
+                    like.add(allFoods.get(i).getLike());
                 }
-                adapter = new customAdapter(getContext(), name2, cal2, pic2,like2);
-                name = name2;
-
+                adapter = new customAdapter(getContext(), name, cal, pic,like);
+                System.out.println("---TAB---");
             } catch (Exception e) {
                 e.printStackTrace();
             }

@@ -5,14 +5,16 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.app.ActionBarActivity;
 import android.view.MenuItem;
+import com.example.cookzyme.cookzyme.ref.EmptyActivity;
 
-public class HomeActivity extends FragmentActivity {
+
+public class HomeActivity extends ActionBarActivity {
     int beforeCurrent =2;
     ViewPager mViewPager;
 //    private static HomeSectionFragment homeSectionFragment = new HomeSectionFragment();
@@ -50,7 +52,11 @@ public class HomeActivity extends FragmentActivity {
                     if(beforeCurrent!=3){
 //                        System.out.println("if not not refresh");
                     }else{
-                        mViewPager.getAdapter().notifyDataSetChanged();
+//                        Fragment page = getSupportFragmentManager().findFragmentByTag("android:switcher:" + R.id.pager + ":" + mViewPager.getCurrentItem());
+//                        final FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+//                        ft.detach(page);
+//                        ft.attach(page);
+//                        ft.commit();
                         getSupportFragmentManager().popBackStack();
 //                        System.out.println("else 3  refresh");
                     }
@@ -125,7 +131,7 @@ public class HomeActivity extends FragmentActivity {
                 case 3:
                     return ProfileFragment.newInstance();
                 case 4:
-                    return RefrigeratorSectionFragment.newInstance();
+                    return new EmptyActivity();
                 default:
                     return ProfileFragment.newInstance();
             }
