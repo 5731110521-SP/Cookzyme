@@ -1,10 +1,19 @@
 package com.example.cookzyme.cookzyme.customAdapter;
 
+import android.app.Activity;
+import android.app.FragmentManager;
+import android.content.ContentValues;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
+import android.os.Bundle;
+import android.provider.ContactsContract;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +23,10 @@ import android.widget.TextView;
 
 import com.example.cookzyme.cookzyme.HomeFeedFragment;
 import com.example.cookzyme.cookzyme.HomeTabFragment;
+import com.example.cookzyme.cookzyme.ProfileFragment;
+import com.example.cookzyme.cookzyme.ProfileFragment2;
 import com.example.cookzyme.cookzyme.R;
+import com.example.cookzyme.cookzyme.ViewPostInProfile;
 import com.example.cookzyme.cookzyme.database.Posts;
 import com.microsoft.windowsazure.mobileservices.MobileServiceClient;
 
@@ -63,10 +75,9 @@ public class customAdapterFeed extends BaseAdapter {
         return 0;
     }
 
-    public View getView(final int position, View view, ViewGroup parent) {
+    public View getView(final int position, View view, final ViewGroup parent) {
         LayoutInflater mInflater =
                 (LayoutInflater)mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
         if(view == null)
             view = mInflater.inflate(R.layout.singlerow_feed, parent, false);
 
@@ -79,7 +90,15 @@ public class customAdapterFeed extends BaseAdapter {
             imageViewUserPic.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    System.out.println(position);
+                    ProfileFragment2 Profile2 = new ProfileFragment2();
+
+                    Bundle bundle = new Bundle();
+                    bundle.putString("position", HomeFeedFragment.Email.get(position));
+                    Profile2.setArguments(bundle);
+
+                    ((FragmentActivity)mContext).getSupportFragmentManager().beginTransaction()
+                            .replace(R.id.frameHomeSection, Profile2)
+                            .commit();
                 }
             });
 
@@ -97,7 +116,6 @@ public class customAdapterFeed extends BaseAdapter {
             imageViewCarrot.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    System.out.println(position);
                     index = position;
                     if(HomeFeedFragment.carrot.get(position) == R.drawable.carrot){
                         HomeFeedFragment.carrot.set(position,R.drawable.carrot_grey);
@@ -148,6 +166,5 @@ public class customAdapterFeed extends BaseAdapter {
             System.out.println("UPDATE SUCCESSED");
         }
     }
-
 }
 
