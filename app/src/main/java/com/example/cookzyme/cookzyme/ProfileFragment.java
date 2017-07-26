@@ -150,6 +150,7 @@ public class ProfileFragment extends Fragment {
                     transaction.replace(R.id.frame, viewPost);
                     transaction.addToBackStack(null);
                     transaction.commit();
+
             }
         });
 
