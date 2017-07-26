@@ -56,28 +56,6 @@ public class ViewRecipeFragment extends Fragment {
         LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
         header = layoutInflater.inflate(R.layout.header_section, null);
         directView = layoutInflater.inflate(R.layout.direct_text, null);
-
-
-//        final customAdapterIngredient adapterIngre = new customAdapterIngredient(getActivity().getApplicationContext(), ingredients,signal);
-//        ListView listViewIngre = (ListView) rootView.findViewById(R.id.listviewIngre);
-//        listViewIngre.setAdapter(adapterIngre);
-////        listViewDirect.setEnabled(false)
-//
-//
-//
-//
-//        listViewIngre.addFooterView(directView);
-//
-//        directText = (TextView) directView.findViewById(R.id.directText);
-//        directText.setText("1 ล้างสันใจไก่  ล้างสันใจไก่  ล้างสันใจไก่  ล้างสันใจไก่  ล้างสันใจไก่  ล้างสันใจไก่ \n1 ล้างสันใจไก่  ล้างสันใจไก่  ล้างสันใจไก่  ล้างสันใจไก่  ล้างสันใจไก่  ล้างสันใจไก่ \n1 ล้างสันใจไก่  ล้างสันใจไก่  ล้างสันใจไก่  ล้างสันใจไก่  ล้างสันใจไก่  ล้างสันใจไก่ \n1 ล้างสันใจไก่  ล้างสันใจไก่  ล้างสันใจไก่  ล้างสันใจไก่  ล้างสันใจไก่  ล้างสันใจไก่ \n1 ล้างสันใจไก่  ล้างสันใจไก่  ล้างสันใจไก่  ล้างสันใจไก่  ล้างสันใจไก่  ล้างสันใจไก่ \n1 ล้างสันใจไก่  ล้างสันใจไก่  ล้างสันใจไก่  ล้างสันใจไก่  ล้างสันใจไก่  ล้างสันใจไก่ \n1 ล้างสันใจไก่  ล้างสันใจไก่  ล้างสันใจไก่  ล้างสันใจไก่  ล้างสันใจไก่  ล้างสันใจไก่ \n1 ล้างสันใจไก่  ล้างสันใจไก่  ล้างสันใจไก่  ล้างสันใจไก่  ล้างสันใจไก่  ล้างสันใจไก่ \n1 ล้างสันใจไก่  ล้างสันใจไก่  ล้างสันใจไก่  ล้างสันใจไก่  ล้างสันใจไก่  ล้างสันใจไก่ \n1 ล้างสันใจไก่  ล้างสันใจไก่  ล้างสันใจไก่  ล้างสันใจไก่  ล้างสันใจไก่  ล้างสันใจไก่ \n1 ล้างสันใจไก่  ล้างสันใจไก่  ล้างสันใจไก่  ล้างสันใจไก่  ล้างสันใจไก่  ล้างสันใจไก่ \n1 ล้างสันใจไก่  ล้างสันใจไก่  ล้างสันใจไก่  ล้างสันใจไก่  ล้างสันใจไก่  ล้างสันใจไก่ \n1 ล้างสันใจไก่  ล้างสันใจไก่  ล้างสันใจไก่  ล้างสันใจไก่  ล้างสันใจไก่  ล้างสันใจไก่ \n1 ล้างสันใจไก่  ล้างสันใจไก่  ล้างสันใจไก่  ล้างสันใจไก่  ล้างสันใจไก่  ล้างสันใจไก่ \n1 ล้างสันใจไก่  ล้างสันใจไก่  ล้างสันใจไก่  ล้างสันใจไก่  ล้างสันใจไก่  ล้างสันใจไก่ \n1 ล้างสันใจไก่  ล้างสันใจไก่  ล้างสันใจไก่  ล้างสันใจไก่  ล้างสันใจไก่  ล้างสันใจไก่ \n1 ล้างสันใจไก่  ล้างสันใจไก่  ล้างสันใจไก่  ล้างสันใจไก่  ล้างสันใจไก่  ล้างสันใจไก่ \n1 ล้างสันใจไก่  ล้างสันใจไก่  ล้างสันใจไก่  ล้างสันใจไก่  ล้างสันใจไก่  ล้างสันใจไก่");
-//
-//
-//        ingre = (TextView) rootView.findViewById(R.id.directText);
-//        listViewIngre.addHeaderView(header);
-
-
-
-
         new CustomVisonTask().execute();
         rootView.setClickable(true);
         return rootView;

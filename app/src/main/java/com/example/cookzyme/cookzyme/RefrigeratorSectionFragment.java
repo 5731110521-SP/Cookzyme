@@ -89,7 +89,7 @@ public class RefrigeratorSectionFragment extends Fragment {
 
                 FragmentTransaction transaction =  getActivity().getSupportFragmentManager().beginTransaction();
                 transaction.replace(R.id.refrigerator, canCook);
-                transaction.addToBackStack("TAGG");
+                transaction.addToBackStack(null);
                 transaction.commit();
 //                SQLiteDBHelper database = new SQLiteDBHelper(getContext());
 //                database.getReadableDatabase().execSQL("delete from "+ SQLiteDBHelper.REFRIGERATOR_TABLE_NAME);

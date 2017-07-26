@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 
 import com.example.cookzyme.cookzyme.customAdapter.customAdapter;
 import com.example.cookzyme.cookzyme.database.Foods;
@@ -37,7 +38,7 @@ public class CanCookFragment extends Fragment {
     private String mParam2;
     private ListView lv;
     private ArrayList<String> food_name;
-
+    ProgressBar progressBarHome;
     public CanCookFragment() {
         // Required empty public constructor
     }
@@ -54,6 +55,7 @@ public class CanCookFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view =  inflater.inflate(R.layout.fragment_can_cook, container, false);
+        progressBarHome=(ProgressBar)view.findViewById(R.id.progressBarHome);
         lv = (ListView) view.findViewById(R.id.listview1);
         new CanCookTask().execute();
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -90,6 +92,7 @@ public class CanCookFragment extends Fragment {
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
             lv.setAdapter(adapter);
+            progressBarHome.setVisibility(View.GONE);
         }
 
         @Override

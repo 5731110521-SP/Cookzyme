@@ -74,7 +74,7 @@ public class HomeTabFragment extends Fragment {
 
                 FragmentTransaction transaction =  getActivity().getSupportFragmentManager().beginTransaction();
 
-                transaction.replace(R.id.recipe, viewRecipe);
+                transaction.replace(R.id.frameHomeSection, viewRecipe);
                 transaction.addToBackStack(null);
                 transaction.commit();
                 /*}else{
