@@ -58,19 +58,19 @@ public class ViewPostInProfile extends Fragment {
         // get position of grid from ProfileFragment
         String position = getArguments().getString("position");
 
-        while (!Profile.ready){
+        while (!ProfileFragment.ready){
         }
         //ALL set
         userPic = (ImageView) rootView.findViewById(R.id.userPic);
-        userPic.setImageDrawable(Profile.myProfilePic);
+        userPic.setImageDrawable(ProfileFragment.myProfilePic);
         username = (TextView) rootView.findViewById(R.id.username);
-        username.setText(Profile.myUsername);
+        username.setText(ProfileFragment.myUsername);
         fromMenu = (TextView) rootView.findViewById(R.id.fromMenu);
-        fromMenu.setText(Profile.arrMyPosts[Integer.parseInt(position)].food_name);
+        fromMenu.setText(ProfileFragment.arrMyPosts[Integer.parseInt(position)].food_name);
         foodPic = (ImageView) rootView.findViewById(R.id.foodPic);
-        foodPic.setImageDrawable(Profile.arrImg[Integer.parseInt(position)] );
+        foodPic.setImageDrawable(ProfileFragment.arrImg[Integer.parseInt(position)] );
         caption = (TextView) rootView.findViewById(R.id.caption);
-        caption.setText(Profile.arrMyPosts[Integer.parseInt(position)].description);
+        caption.setText(ProfileFragment.arrMyPosts[Integer.parseInt(position)].description);
         carrot = (ImageView) rootView.findViewById(R.id.carrot);
         carrot.setImageResource(R.drawable.carrot_grey);
         likeNum = (TextView) rootView.findViewById(R.id.likeNum);

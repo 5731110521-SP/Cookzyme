@@ -117,7 +117,7 @@ public class HomeActivity extends FragmentActivity {
                 case 0:
                     return RefrigeratorSectionFragment.newInstance();
                 case 1:
-                    return DuringCooking.newInstance();
+                    return RefrigeratorSectionFragment.newInstance();
                 case 2:
                     return HomeSectionFragment.newInstance();
                 case 3:

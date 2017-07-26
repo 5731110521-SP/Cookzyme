@@ -1,5 +1,6 @@
 package com.example.cookzyme.cookzyme;
 
+import android.support.v4.app.FragmentTransaction;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -60,9 +61,17 @@ public class HomeTabFragment extends Fragment {
         //click item on listview
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-                Intent in = new Intent(getActivity(), viewRecipeHome.class);
-                in.putExtra("food_name",name.get(arg2));
-                startActivity(in);
+                ViewRecipeFragment viewRecipe = new ViewRecipeFragment();
+
+                Bundle bundle = new Bundle();
+                bundle.putString("food_name",name.get(arg2));
+                viewRecipe.setArguments(bundle);
+
+                FragmentTransaction transaction =  getActivity().getSupportFragmentManager().beginTransaction();
+
+                transaction.replace(R.id.recipe, viewRecipe);
+                transaction.addToBackStack(null);
+                transaction.commit();
                 /*}else{
                     recipe.index=arg2;
                     Intent in = new Intent(recipe.this, viewRecipeSuperstore.class);

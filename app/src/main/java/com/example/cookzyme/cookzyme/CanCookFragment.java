@@ -1,13 +1,18 @@
 package com.example.cookzyme.cookzyme;
 
-import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
@@ -21,20 +26,48 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ShowCanCook extends Activity {
+
+
+public class CanCookFragment extends Fragment {
+    // TODO: Rename parameter arguments, choose names that match
+    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+
+    // TODO: Rename and change types of parameters
+    private String mParam1;
+    private String mParam2;
     private ListView lv;
     private ArrayList<String> food_name;
+
+    public CanCookFragment() {
+        // Required empty public constructor
+    }
+
+    // TODO: Rename and change types and number of parameters
+    public static CanCookFragment newInstance() {
+        CanCookFragment fragment = new CanCookFragment();
+        return fragment;
+    }
+
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_show_can_cook);
-        lv = (ListView) findViewById(R.id.listview1);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        View view =  inflater.inflate(R.layout.fragment_can_cook, container, false);
+        lv = (ListView) view.findViewById(R.id.listview1);
         new CanCookTask().execute();
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-                Intent in = new Intent(getApplicationContext(), ViewRecipeFragment.class);
-                in.putExtra("food_name",food_name.get(arg2));
-                startActivity(in);
+                ViewRecipeFragment viewRecipe = new ViewRecipeFragment();
+
+                Bundle bundle = new Bundle();
+                bundle.putString("food_name",food_name.get(arg2));
+                viewRecipe.setArguments(bundle);
+
+                FragmentTransaction transaction =  getActivity().getSupportFragmentManager().beginTransaction();
+                transaction.replace(R.id.cancook, viewRecipe);
+                transaction.addToBackStack(null);
+                transaction.commit();
                 /*}else{
                     recipe.index=arg2;
                     Intent in = new Intent(recipe.this, viewRecipeSuperstore.class);
@@ -43,8 +76,12 @@ public class ShowCanCook extends Activity {
                 }*/
             }
         });
+        return view;
     }
-    private class CanCookTask extends AsyncTask<Void, Void, Void>{
+
+    // TODO: Rename method, update argument and hook method into UI event
+
+    private class CanCookTask extends AsyncTask<Void, Void, Void> {
         customAdapter adapter;
         public CanCookTask() {
         }
@@ -88,7 +125,7 @@ public class ShowCanCook extends Activity {
 
                 List<String> ingredientsInFridge = new ArrayList<String>();
                 for (Ingredients i: refrigerator
-                     ) {
+                        ) {
                     ingredientsInFridge.add(i.getIngredient_name());
                 }
                 for (Foods f : allFoods
@@ -132,7 +169,7 @@ public class ShowCanCook extends Activity {
                     pic.add(ob);
                     like.add(f.getLike());
                 }
-                adapter = new customAdapter(getApplicationContext(),name,cal,pic,like);
+                adapter = new customAdapter(getContext(),name,cal,pic,like);
                 food_name = (ArrayList<String>) name;
 
             } catch (Exception e) {

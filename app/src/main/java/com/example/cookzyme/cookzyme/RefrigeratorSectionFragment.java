@@ -8,6 +8,7 @@ import android.os.AsyncTask;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -61,8 +62,13 @@ public class RefrigeratorSectionFragment extends Fragment {
         cooking.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                    Intent in = new Intent(getActivity(),ShowCanCook.class);
-                    startActivity(in);
+                System.out.println("ClickHat");
+                CanCookFragment canCook = new CanCookFragment();
+
+                FragmentTransaction transaction =  getActivity().getSupportFragmentManager().beginTransaction();
+                transaction.replace(R.id.refrigerator, canCook);
+                transaction.addToBackStack("TAGG");
+                transaction.commit();
 //                SQLiteDBHelper database = new SQLiteDBHelper(getContext());
 //                database.getReadableDatabase().execSQL("delete from "+ SQLiteDBHelper.REFRIGERATOR_TABLE_NAME);
 //                database.closeDB();
