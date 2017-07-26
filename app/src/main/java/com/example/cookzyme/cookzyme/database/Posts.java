@@ -19,6 +19,15 @@ public class Posts {
     public String getId() { return mId; }
     public final void setId(String id) { mId = id; }
 
+    public Posts(String email, String path, String description, String food_name, int like, String mId) {
+        this.email = email;
+        this.path = path;
+        this.description = description;
+        this.food_name = food_name;
+        this.like = like;
+        this.mId = mId;
+    }
+
     public Posts(String email, String path, String description, String food_name, int like) {
         this.email = email;
         this.path = path;
