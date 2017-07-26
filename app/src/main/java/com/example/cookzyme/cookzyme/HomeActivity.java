@@ -1,5 +1,6 @@
 package com.example.cookzyme.cookzyme;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -8,6 +9,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AlertDialog;
 import android.view.MenuItem;
 
 public class HomeActivity extends FragmentActivity {
@@ -96,7 +98,7 @@ public class HomeActivity extends FragmentActivity {
         mViewPager = (ViewPager) findViewById(R.id.pager);
         mViewPager.setOnPageChangeListener(mOnPageChangeListener);
         mViewPager.setAdapter(mAppSectionsPagerAdapter);
-        mViewPager.setOffscreenPageLimit(10);
+        mViewPager.setOffscreenPageLimit(20);
 
         navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
@@ -117,7 +119,7 @@ public class HomeActivity extends FragmentActivity {
                 case 0:
                     return RefrigeratorSectionFragment.newInstance();
                 case 1:
-                    return DuringCooking.newInstance();
+                    return ViewRecipeFragment.newInstance();
                 case 2:
                     return HomeSectionFragment.newInstance();
                 case 3:
@@ -136,6 +138,23 @@ public class HomeActivity extends FragmentActivity {
         @Override
         public int getCount() {
             return 5;
+        }
+    }
+    @Override
+    public void onBackPressed() {
+        if(getSupportFragmentManager().getBackStackEntryCount() == 0) {
+            new AlertDialog.Builder(this)
+                    .setMessage("Are you sure you want to exit?")
+                    .setCancelable(false)
+                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            HomeActivity.this.finish();
+                        }
+                    })
+                    .setNegativeButton("No", null)
+                    .show();
+        }else{
+            super.onBackPressed();
         }
     }
 }

@@ -134,7 +134,7 @@ public class ProfileFragment extends Fragment {
                 viewPost.setArguments(bundle);
 
                 FragmentTransaction transaction =  getFragmentManager().beginTransaction();
-                transaction.replace(R.id.frame, viewPost);
+                transaction.replace(R.id.frameProfile, viewPost);
                 transaction.addToBackStack(null);
                 transaction.commit();
             }
