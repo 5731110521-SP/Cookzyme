@@ -125,7 +125,7 @@ public class HomeActivity extends ActionBarActivity {
                 case 0:
                     return RefrigeratorSectionFragment.newInstance();
                 case 1:
-                    return ViewRecipeFragment.newInstance();
+                    return new EmptyActivity();
                 case 2:
                     return HomeSectionFragment.newInstance();
                 case 3:

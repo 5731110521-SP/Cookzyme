@@ -30,6 +30,7 @@ public class DuringCooking extends Fragment {
     private int stepNum;
     private ArrayList<String> stepD = new ArrayList<>();
     private final static int REQUEST_VOICE_RECOGNITION = 10001;
+    private String foodName;
 
     public static DuringCooking newInstance() {
 
@@ -53,13 +54,15 @@ public class DuringCooking extends Fragment {
         GradientDrawable sd2 = (GradientDrawable) listen_again.getBackground();
         sd2.setColor(Color.BLACK);
 
-        // get stepNum, stepD
+        // get stepNum, stepD, foodName
         stepNum = getArguments().getInt("stepNum");
         stepD = getArguments().getStringArrayList("stepD");
+        foodName = getArguments().getString("foodName");
 
         //set Text
         step = (TextView ) rootView.findViewById(R.id.step);
         step.setText(stepD.get(stepNum));
+        ((android.support.v7.widget.Toolbar) rootView.findViewById(R.id.Toolbar)).setTitle(foodName);
 
         //ALL handle click
         if(stepNum<stepD.size()-1) {
