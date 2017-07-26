@@ -154,6 +154,7 @@ public class ViewRecipeFragment extends Fragment {
             ingre = (TextView) rootView.findViewById(R.id.directText);
             listViewIngre.addHeaderView(header);
             progressBarHome.setVisibility(View.GONE);
+            cooking.setVisibility(View.VISIBLE);
         }
     }
 }
