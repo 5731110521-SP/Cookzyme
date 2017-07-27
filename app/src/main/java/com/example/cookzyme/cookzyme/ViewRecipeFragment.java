@@ -136,6 +136,8 @@ public class ViewRecipeFragment extends Fragment {
                 bundle.putInt("stepNum", stepNum);
                 bundle.putString("foodName",food.get(0).getFood_name());
                 bundle.putStringArrayList("stepD",stepD);
+                ArrayList<HasIngredient> hasIngre = new ArrayList<HasIngredient>(hasIngredient);
+                bundle.putParcelableArrayList("hasIngre",hasIngre);
                 during.setArguments(bundle);
 
                 FragmentTransaction transaction =  getFragmentManager().beginTransaction();

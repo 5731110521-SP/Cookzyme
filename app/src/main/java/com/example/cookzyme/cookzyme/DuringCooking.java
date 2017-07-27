@@ -20,6 +20,11 @@ import android.widget.TextView;
 import android.speech.RecognizerIntent;
 import android.widget.Toast;
 
+import com.example.cookzyme.cookzyme.database.Foods;
+import com.example.cookzyme.cookzyme.database.HasIngredient;
+import com.example.cookzyme.cookzyme.database.Ingredients;
+import com.example.cookzyme.cookzyme.module.SQLiteDBHelper;
+
 import java.util.ArrayList;
 import java.util.Locale;
 
@@ -90,6 +95,7 @@ public class DuringCooking extends Fragment implements TextToSpeech.OnInitListen
                     Bundle bundle = new Bundle();
                     bundle.putInt("stepNum", stepNum);
                     bundle.putStringArrayList("stepD", stepD);
+                    bundle.putParcelableArrayList("hasIngre",getArguments().getParcelableArrayList("hasIngre"));
                     during.setArguments(bundle);
 
                     FragmentTransaction transaction = getFragmentManager().beginTransaction();
@@ -97,9 +103,65 @@ public class DuringCooking extends Fragment implements TextToSpeech.OnInitListen
                     transaction.addToBackStack(null);
                     transaction.commit();
                 }else{
+                    ArrayList<HasIngredient> hasIngre = getArguments().getParcelableArrayList("hasIngre");
+                    ArrayList<String> ingreName = new ArrayList<String>();
+                    for (Ingredients i:RefrigeratorSectionFragment.refrigerator
+                         ) {
+                        ingreName.add(i.getIngredient_name());
+                    }
+                    SQLiteDBHelper database = new SQLiteDBHelper(getContext());
+                    for (HasIngredient hi:hasIngre
+                         ) {
+                        int ingreIndexInFridge = ingreName.indexOf(hi.getIngredient_name());
+                        if(hi.getAmount()==0 || hi.getUnit().equals(null)||RefrigeratorSectionFragment.refrigerator.get(ingreIndexInFridge).getUnit().equals(null)|| !RefrigeratorSectionFragment.refrigerator.get(ingreIndexInFridge).getUnit().equals(hi.getUnit())){
+                            continue;
+                        }else {
+                            double haveAmount = RefrigeratorSectionFragment.refrigerator.get(ingreIndexInFridge).getAmount();
+                            if(haveAmount > hi.getAmount()){
+                                RefrigeratorSectionFragment.refrigerator.get(ingreIndexInFridge).setAmount(haveAmount-hi.getAmount());
+                                database.updateRefrigerator(RefrigeratorSectionFragment.refrigerator.get(ingreIndexInFridge));
+                                RefrigeratorSectionFragment.customAdapterRefrigerator.setRefrigerator(RefrigeratorSectionFragment.refrigerator);
+                            } else if(haveAmount == hi.getAmount()){
+                                database.removeRefrigerator(RefrigeratorSectionFragment.refrigerator.get(ingreIndexInFridge));
+                                RefrigeratorSectionFragment.customAdapterRefrigerator.remove(RefrigeratorSectionFragment.refrigerator.get(ingreIndexInFridge));
+                                RefrigeratorSectionFragment.refrigerator.remove(RefrigeratorSectionFragment.refrigerator.get(ingreIndexInFridge));
+                            } else {
+                                double remainingAmount = hi.getAmount();
+                                while(remainingAmount>0){
+                                    if(haveAmount > hi.getAmount()){
+                                        RefrigeratorSectionFragment.refrigerator.get(ingreIndexInFridge).setAmount(haveAmount-remainingAmount);
+                                        database.updateRefrigerator(RefrigeratorSectionFragment.refrigerator.get(ingreIndexInFridge));
+                                        RefrigeratorSectionFragment.customAdapterRefrigerator.setRefrigerator(RefrigeratorSectionFragment.refrigerator);
+                                        remainingAmount=0;
+                                    } else if(haveAmount == hi.getAmount()){
+                                        database.removeRefrigerator(RefrigeratorSectionFragment.refrigerator.get(ingreIndexInFridge));
+                                        RefrigeratorSectionFragment.customAdapterRefrigerator.remove(RefrigeratorSectionFragment.refrigerator.get(ingreIndexInFridge));
+                                        RefrigeratorSectionFragment.refrigerator.remove(RefrigeratorSectionFragment.refrigerator.get(ingreIndexInFridge));
+                                        remainingAmount=0;
+                                    }else{
+                                        database.removeRefrigerator(RefrigeratorSectionFragment.refrigerator.get(ingreIndexInFridge));
+                                        RefrigeratorSectionFragment.customAdapterRefrigerator.remove(RefrigeratorSectionFragment.refrigerator.get(ingreIndexInFridge));
+                                        RefrigeratorSectionFragment.refrigerator.remove(RefrigeratorSectionFragment.refrigerator.get(ingreIndexInFridge));
+                                        ingreName.remove(ingreIndexInFridge);
+                                        ingreIndexInFridge = ingreName.indexOf(hi.getIngredient_name());
+                                        remainingAmount-=haveAmount;
+                                        haveAmount = RefrigeratorSectionFragment.refrigerator.get(ingreIndexInFridge).getAmount();
+                                    }
+                                }
+
+
+                            }
+
+                        }
+                    }
+                    database.closeDB();
                     Animation anim = AnimationUtils.loadAnimation(getActivity(), R.anim.my_anim);
                     ImageView medal = (ImageView) rootView.findViewById(R.id.medal);
                     medal.setAnimation(anim);
+                    for(int i=0;i<stepD.size()+2;i++){
+                        getFragmentManager().popBackStack();
+                    }
+
                 }
             }
         });
@@ -120,12 +182,6 @@ public class DuringCooking extends Fragment implements TextToSpeech.OnInitListen
                 tts.speak(stepD.get(stepNum), TextToSpeech.QUEUE_FLUSH,null);
             }
         });
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                tts.speak(stepD.get(stepNum), TextToSpeech.QUEUE_FLUSH,null);
-            }
-        }).start();
         return rootView;
     }
 
@@ -173,6 +229,7 @@ public class DuringCooking extends Fragment implements TextToSpeech.OnInitListen
         if(status == TextToSpeech.SUCCESS) {
             // Do something here
             System.out.println("Success");
+            tts.speak(stepD.get(stepNum), TextToSpeech.QUEUE_FLUSH,null);
         } else {
             System.out.println("Error");
         }

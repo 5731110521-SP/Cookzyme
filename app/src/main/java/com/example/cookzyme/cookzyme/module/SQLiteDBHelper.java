@@ -39,7 +39,7 @@ public class SQLiteDBHelper extends SQLiteOpenHelper {
                 REFRIGERATOR_COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 REFRIGERATOR_COLUMN_NAME + " TEXT, " +
                 REFRIGERATOR_COLUMN_PATH + " TEXT, " +
-                REFRIGERATOR_COLUMN_AMOUNT + " INT UNSIGNED, " +
+                REFRIGERATOR_COLUMN_AMOUNT + " REAL UNSIGNED, " +
                 REFRIGERATOR_COLUMN_UNIT + " TEXT," +
                 REFRIGERATOR_COLUMN_EXPIRE + " TEXT" + ")");
     }
@@ -91,7 +91,7 @@ public class SQLiteDBHelper extends SQLiteOpenHelper {
                 null,                            // The values for the WHERE clause
                 null,                                     // don't group the rows
                 null,                                     // don't filter by row groups
-                null                                      // don't sort
+                "date("+REFRIGERATOR_COLUMN_EXPIRE+")"                                      // don't sort
         );
         cursor.moveToFirst();
         while(!cursor.isAfterLast()){
@@ -101,7 +101,7 @@ public class SQLiteDBHelper extends SQLiteOpenHelper {
                         cursor.getString(cursor.getColumnIndex(projection[1])),
                         cursor.getString(cursor.getColumnIndex(projection[2])),
                         cursor.getString(cursor.getColumnIndex(projection[3])),
-                        Integer.parseInt(cursor.getString(cursor.getColumnIndex(projection[4]))),
+                        Double.parseDouble(cursor.getString(cursor.getColumnIndex(projection[4]))),
                         df.parse(cursor.getString(cursor.getColumnIndex(projection[5]))));
                 cursor.moveToNext();
                 refrigerator.add(in);
@@ -111,7 +111,19 @@ public class SQLiteDBHelper extends SQLiteOpenHelper {
         }
         return  refrigerator;
     }
+    public int updateRefrigerator(Ingredients ingredient) {
+        SQLiteDatabase db = this.getWritableDatabase();
 
+        ContentValues values = new ContentValues();
+        values.put(REFRIGERATOR_COLUMN_AMOUNT, ingredient.getAmount());
+        DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+        values.put(REFRIGERATOR_COLUMN_EXPIRE, df.format(ingredient.getExpire()));
+        values.put(REFRIGERATOR_COLUMN_UNIT,ingredient.getUnit());
+
+        // updating row
+        return db.update(REFRIGERATOR_TABLE_NAME, values, REFRIGERATOR_COLUMN_ID + " = ?",
+                new String[] { String.valueOf(ingredient.getId()) });
+    }
     public int removeRefrigerator(Ingredients ingredient){
         SQLiteDatabase db = this.getWritableDatabase();
         String selection =SQLiteDBHelper.REFRIGERATOR_COLUMN_ID + " = ?";

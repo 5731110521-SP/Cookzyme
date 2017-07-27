@@ -37,7 +37,7 @@ import com.example.cookzyme.cookzyme.ref.letmetry;
 
 public class RefrigeratorSectionFragment extends Fragment {
 
-    com.example.cookzyme.cookzyme.customAdapter.customAdapterRefrigerator customAdapterRefrigerator;
+    static com.example.cookzyme.cookzyme.customAdapter.customAdapterRefrigerator customAdapterRefrigerator;
     ListView listView;
     FloatingActionButton addIngredient;
     ImageButton cooking;

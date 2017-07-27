@@ -61,7 +61,7 @@
         android:layout_margin="16dp"
         android:clickable="true"
         app:backgroundTint="@color/floatingButtonAdd"
-        app:elevation="1dp"
+        app:elevation="0dp"
         app:fabSize="auto"
         app:srcCompat="@drawable/ic_add_white_24dp"/>
 

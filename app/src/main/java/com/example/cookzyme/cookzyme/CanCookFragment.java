@@ -98,6 +98,16 @@ public class CanCookFragment extends Fragment {
         @Override
         protected Void doInBackground(Void... params) {
             List<Ingredients> refrigerator = RefrigeratorSectionFragment.refrigerator;
+            ArrayList<Ingredients> refrigeratorSum = new ArrayList<Ingredients>();
+            ArrayList<String> ingreInReSum = new ArrayList<String>();
+            for (int i =0;i<refrigerator.size();i++) {
+                if(ingreInReSum.contains(refrigerator.get(i).getIngredient_name())){
+                    refrigeratorSum.get(ingreInReSum.indexOf(refrigerator.get(i).getIngredient_name())).setAmount(refrigeratorSum.get(ingreInReSum.indexOf(refrigerator.get(i).getIngredient_name())).getAmount()+refrigerator.get(i).getAmount());
+                } else {
+                    ingreInReSum.add(refrigerator.get(i).getIngredient_name());
+                    refrigeratorSum.add(new Ingredients(refrigerator.get(i)));
+                }
+            }
             List<Foods> canCook = new ArrayList<Foods>();
             MobileServiceTable<Foods> mFoods = AzureServiceAdapter.getInstance().getClient().getTable(Foods.class);
             MobileServiceTable<HasIngredient> mHasIngredient = AzureServiceAdapter.getInstance().getClient().getTable(HasIngredient.class);
@@ -127,13 +137,13 @@ public class CanCookFragment extends Fragment {
                 } while (nResults > 0);
 
                 List<String> ingredientsInFridge = new ArrayList<String>();
-                for (Ingredients i: refrigerator
+                for (Ingredients i: refrigeratorSum
                         ) {
                     ingredientsInFridge.add(i.getIngredient_name());
                 }
                 for (Foods f : allFoods
                         ) {
-                    Boolean hasAllIngredients = true;
+                    boolean hasAllIngredients = true;
                     for (HasIngredient fh : foodHasIngredient
                             ) {
                         if (f.getFood_name().equals(fh.getFood_name())) {
@@ -141,9 +151,9 @@ public class CanCookFragment extends Fragment {
                                 hasAllIngredients = false;
                                 break;
                             } else {
-                                if (refrigerator.get(ingredientsInFridge.indexOf(fh.getIngredient_name())).getIngredient_name().equals(fh.getIngredient_name())) {
-                                    if (refrigerator.get(ingredientsInFridge.indexOf(fh.getIngredient_name())).getUnit().equals(fh.getUnit())) {
-                                        if (refrigerator.get(ingredientsInFridge.indexOf(fh.getIngredient_name())).getAmount() < fh.getAmount()) {
+                                if (refrigeratorSum.get(ingredientsInFridge.indexOf(fh.getIngredient_name())).getIngredient_name().equals(fh.getIngredient_name())) {
+                                    if (refrigeratorSum.get(ingredientsInFridge.indexOf(fh.getIngredient_name())).getUnit().equals(fh.getUnit())) {
+                                        if (refrigeratorSum.get(ingredientsInFridge.indexOf(fh.getIngredient_name())).getAmount() < fh.getAmount()) {
                                             hasAllIngredients = false;
                                             break;
                                         }
@@ -172,7 +182,7 @@ public class CanCookFragment extends Fragment {
                     pic.add(ob);
                     like.add(f.getLike());
                 }
-                adapter = new customAdapter(getContext(),name,cal,pic,like);
+                adapter = new customAdapter(getActivity(),name,cal,pic,like);
                 food_name = (ArrayList<String>) name;
 
             } catch (Exception e) {

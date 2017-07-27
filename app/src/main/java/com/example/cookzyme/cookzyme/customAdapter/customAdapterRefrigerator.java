@@ -36,6 +36,12 @@ public class customAdapterRefrigerator extends ArrayAdapter<Ingredients> {
     URL newurl;
     int p;
     RefrigeratorSectionFragment refrigeratorSectionFragment;
+
+    public void setRefrigerator(ArrayList<Ingredients> refrigerator) {
+        this.refrigerator = refrigerator;
+        notifyDataSetChanged();
+    }
+
     int mLayoutResourceId;
 
     public customAdapterRefrigerator(Context context, int layoutResourceId,RefrigeratorSectionFragment refrigeratorSectionFragment) {
@@ -121,7 +127,7 @@ public class customAdapterRefrigerator extends ArrayAdapter<Ingredients> {
             textViewNum.setVisibility(View.GONE);
             textViewPronoun.setVisibility(View.GONE);
         }else{
-            textViewNum.setText(Integer.toString(currentItem.getAmount()));
+            textViewNum.setText(Double.toString(currentItem.getAmount()));
             textViewPronoun.setText(currentItem.getUnit());
         }
 

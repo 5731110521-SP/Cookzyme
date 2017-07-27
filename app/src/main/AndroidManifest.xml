@@ -28,6 +28,7 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <!-- Record audio -->
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_icon"
@@ -89,12 +90,13 @@
         <activity android:name=".addIngredient" />
         <activity android:name=".WrongIngredient" />
 
-        <service android:name=".module.AlarmService"
+        <service
+            android:name=".module.AlarmService"
             android:enabled="true" />
 
-        <receiver android:name=".module.Receiver"/>
+        <receiver android:name=".module.Receiver" />
 
-        <activity android:name=".ShowCanCook"></activity>
+        <activity android:name=".addCart"></activity>
     </application>
 
 </manifest>
