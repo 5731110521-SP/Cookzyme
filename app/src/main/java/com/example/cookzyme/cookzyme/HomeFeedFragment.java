@@ -19,6 +19,7 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 
+import com.example.cookzyme.cookzyme.database.LikePost;
 import com.facebook.*;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
@@ -63,6 +64,7 @@ public class HomeFeedFragment extends Fragment {
     public static customAdapterFeed adapter;
     private MobileServiceTable<Follow> mFollowers;
     private MobileServiceTable<Users> mUsers;
+    public static MobileServiceTable<LikePost> mLikePost;
     public static MobileServiceTable<Posts> mPosts;
     CallbackManager callbackManager;
 
@@ -70,7 +72,6 @@ public class HomeFeedFragment extends Fragment {
     public static String myEmail;
     public static String myFirstName;
     public static String myLastName;
-    private  int eiei;
 
     public static HomeFeedFragment newInstance() {
         HomeFeedFragment fragment = new HomeFeedFragment();
@@ -102,30 +103,12 @@ public class HomeFeedFragment extends Fragment {
         mFollowers = mClient.getTable(Follow.class);
         mUsers = mClient.getTable(Users.class);
         mPosts = mClient.getTable(Posts.class);
+        mLikePost = mClient.getTable(LikePost.class);
         listView = (ListView) rootView.findViewById(R.id.listviewFeed);
 
         new CustomVisonTask().execute();
 
         adapter = new customAdapterFeed(getContext(), followingEmail, followingPic, fromMenu,foodPic,caption,carrot,likeNum,commentNum);
-
-        //listview
-
-        //click item on listview
-//        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            public void onItemClick(AdapterView<?> l, View view, int position, long id) {
-//                eiei = position;
-//                System.out.println("111111111111111111111111111");
-//                ImageView imageViewUserPic = (ImageView) view.findViewById(R.id.userPic);
-//                imageViewUserPic.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View view) {
-//                        System.out.println(eiei);
-//                        System.out.println("22222222222222222222");
-//                    }
-//                });
-//            }
-//        });
-
 
         return rootView;
     }
@@ -196,7 +179,17 @@ public class HomeFeedFragment extends Fragment {
                         BitmapDrawable ob2 = new BitmapDrawable(getResources(), mIcon_val2);
                         foodPic.add(ob2);
                         caption.add(Postsna.get(j).description);
-                        carrot.add(R.drawable.carrot_grey);
+                        List<LikePost> likePosts = mLikePost
+                                .where().field("post_id").eq(allMyFollowingPost.get(j).getId())
+                                .and()
+                                .field("like_email").eq("Khamint@hotmail.com")
+                                .execute().get();
+                        if(likePosts.size()==0) {
+                            carrot.add(R.drawable.carrot_grey);
+                        }
+                        else {
+                            carrot.add(R.drawable.carrot);
+                        }
                         likeNum.add(allMyFollowingPost.get(j).getLike());
                         PostId.add(allMyFollowingPost.get(j).getmId());
                         commentNum.add(5);
