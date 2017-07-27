@@ -109,7 +109,7 @@ public class HomeTabFragment extends Fragment {
         ((ViewGroup.MarginLayoutParams) paramstv).leftMargin = 20;
         tv.setLayoutParams(paramstv);
 
-        categoryHorizontalScroll chsv = new categoryHorizontalScroll(getContext(),"ข้าว");
+        categoryHorizontalScroll chsv = new categoryHorizontalScroll(this,getContext(),"ข้าว");
         llparent.addView(chsv);
 
         LinearLayout header2 = new LinearLayout(getContext());
@@ -126,7 +126,7 @@ public class HomeTabFragment extends Fragment {
         ((ViewGroup.MarginLayoutParams) paramstv2).leftMargin = 20;
         tv2.setLayoutParams(paramstv2);
 
-        categoryHorizontalScroll chsv2 = new categoryHorizontalScroll(getContext(),"กับข้าว");
+        categoryHorizontalScroll chsv2 = new categoryHorizontalScroll(this,getContext(),"กับข้าว");
         llparent.addView(chsv2);
 
         LinearLayout header3 = new LinearLayout(getContext());
@@ -143,7 +143,7 @@ public class HomeTabFragment extends Fragment {
         ((ViewGroup.MarginLayoutParams) paramstv3).leftMargin = 20;
         tv3.setLayoutParams(paramstv3);
 
-        categoryHorizontalScroll chsv3 = new categoryHorizontalScroll(getContext(),"เส้น");
+        categoryHorizontalScroll chsv3 = new categoryHorizontalScroll(this,getContext(),"เส้น");
         llparent.addView(chsv3);
 
         return rootView;

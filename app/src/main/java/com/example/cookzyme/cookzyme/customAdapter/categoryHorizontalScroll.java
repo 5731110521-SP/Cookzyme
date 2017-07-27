@@ -1,6 +1,7 @@
 package com.example.cookzyme.cookzyme.customAdapter;
 
 import com.example.cookzyme.cookzyme.R;
+import com.example.cookzyme.cookzyme.ViewRecipeFragment;
 import com.example.cookzyme.cookzyme.database.Foods;
 import com.example.cookzyme.cookzyme.database.HasCategory;
 import com.microsoft.windowsazure.mobileservices.MobileServiceClient;
@@ -11,6 +12,11 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,9 +39,14 @@ public class categoryHorizontalScroll extends HorizontalScrollView {
     LinearLayout llParent;
     private ArrayList<BitmapDrawable> pic = new ArrayList<>();
     ProgressBar progressBar;
+    private int i ;
+    Fragment fragment;
+    ArrayList<String> foodnames=new ArrayList<>();
 
-    public categoryHorizontalScroll(Context context,String category) {
+    public categoryHorizontalScroll(Fragment fragment, Context context, String category) {
         super(context);
+
+        this.fragment = fragment;
 
         try {
             mClient = new MobileServiceClient("https://cookzymeapp.azurewebsites.net", context.getApplicationContext() );
@@ -104,10 +115,26 @@ public class categoryHorizontalScroll extends HorizontalScrollView {
         }
 
         protected void onPostExecute(ArrayList<Foods> result) {
-            for(int i = 0 ;i < result.size(); i++){
+            for(i = 0 ;i < result.size(); i++){
+                foodnames.add(result.get(i).getFood_name());
                 LayoutInflater inflater = (LayoutInflater) context
                         .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 LinearLayout ll = new LinearLayout(context);
+                ll.setOnClickListener(new OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        ViewRecipeFragment viewRecipe = new ViewRecipeFragment();
+
+                        Bundle bundle = new Bundle();
+                        bundle.putString("food_name",   foodnames.get(i-1) );
+                        viewRecipe.setArguments(bundle);
+
+                        FragmentTransaction transaction = fragment.getFragmentManager().beginTransaction();
+                        transaction.replace(R.id.frameHomeSection, viewRecipe);
+                        transaction.addToBackStack(null);
+                        transaction.commit();
+                    }
+                });
                 inflater.inflate(R.layout.singer_food_horizontal, ll, true);
                 llParent.addView(ll);
                 try {
