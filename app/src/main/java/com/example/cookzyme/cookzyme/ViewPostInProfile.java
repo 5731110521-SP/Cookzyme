@@ -182,6 +182,7 @@ public class ViewPostInProfile extends Fragment {
         return rootView;
     }
 
+
     private class CustomVisonTask extends AsyncTask<Void,Void,Void> {
         @Override
         protected void onPreExecute() {

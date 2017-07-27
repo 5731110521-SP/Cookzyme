@@ -138,6 +138,7 @@ public class ProfileFragment extends Fragment {
 
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
+
                     ViewPostInProfile viewPost = new ViewPostInProfile();
                     Bundle bundle = new Bundle();
                     bundle.putString("position", String.valueOf(position));
@@ -148,6 +149,7 @@ public class ProfileFragment extends Fragment {
                     transaction.replace(R.id.frame, viewPost);
                     transaction.addToBackStack(null);
                     transaction.commit();
+
             }
         });
 
