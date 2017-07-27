@@ -86,9 +86,14 @@ public class DuringCooking extends Fragment {
                     transaction.addToBackStack(null);
                     transaction.commit();
                 }else{
-                    Animation anim = AnimationUtils.loadAnimation(getActivity(), R.anim.my_anim);
-                    ImageView medal = (ImageView) rootView.findViewById(R.id.medal);
-                    medal.setAnimation(anim);
+//                    Animation anim = AnimationUtils.loadAnimation(getActivity(), R.anim.my_anim);
+//                    ImageView medal = (ImageView) rootView.findViewById(R.id.medal);
+//                    medal.setAnimation(anim);
+                    ShareFragment share = new ShareFragment();
+                    FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                    transaction.replace(R.id.frameViewRecipe1, share);
+                    transaction.addToBackStack(null);
+                    transaction.commit();
                 }
             }
         });
