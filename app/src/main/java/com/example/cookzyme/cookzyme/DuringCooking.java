@@ -36,7 +36,7 @@ public class DuringCooking extends Fragment implements TextToSpeech.OnInitListen
     private Button next,listen_again;
     private TextView step;
     private int stepNum;
-    private ArrayList<String> stepD = new ArrayList<>();
+    public static ArrayList<String> stepD = new ArrayList<>();
     private final static int REQUEST_VOICE_RECOGNITION = 10001;
     private String foodName;
 
@@ -103,6 +103,7 @@ public class DuringCooking extends Fragment implements TextToSpeech.OnInitListen
                     transaction.addToBackStack(null);
                     transaction.commit();
                 }else{
+
                     ArrayList<HasIngredient> hasIngre = getArguments().getParcelableArrayList("hasIngre");
                     ArrayList<String> ingreName = new ArrayList<String>();
                     for (Ingredients i:RefrigeratorSectionFragment.refrigerator
@@ -158,9 +159,19 @@ public class DuringCooking extends Fragment implements TextToSpeech.OnInitListen
                     Animation anim = AnimationUtils.loadAnimation(getActivity(), R.anim.my_anim);
                     ImageView medal = (ImageView) rootView.findViewById(R.id.medal);
                     medal.setAnimation(anim);
-                    for(int i=0;i<stepD.size()+2;i++){
-                        getFragmentManager().popBackStack();
-                    }
+//                    for(int i=0;i<stepD.size()+2;i++){
+//                        getFragmentManager().popBackStack();
+//                    }
+
+
+//                    Animation anim = AnimationUtils.loadAnimation(getActivity(), R.anim.my_anim);
+//                    ImageView medal = (ImageView) rootView.findViewById(R.id.medal);
+//                    medal.setAnimation(anim);
+                    ShareFragment share = new ShareFragment();
+                    FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                    transaction.replace(R.id.frameViewRecipe1, share);
+                    transaction.addToBackStack(null);
+                    transaction.commit();
 
                 }
             }

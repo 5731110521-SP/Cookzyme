@@ -27,6 +27,7 @@ import android.widget.Toast;
 import com.example.cookzyme.cookzyme.ExpandableHeightGridView;
 import com.example.cookzyme.cookzyme.customAdapter.customAdapterFeed;
 import com.example.cookzyme.cookzyme.customAdapter.customAdapterGrid;
+import com.example.cookzyme.cookzyme.database.LikePost;
 import com.example.cookzyme.cookzyme.database.Posts;
 
 import java.net.URL;
@@ -83,24 +84,28 @@ public class ViewPostInProfile extends Fragment {
 
             carrot = (ImageView) rootView.findViewById(R.id.carrot);
             carrot.setImageResource(ProfileFragment2.carrot.get(Integer.parseInt(position)));
-//            carrot.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View view) {
-//                    index = Integer.parseInt(position);
-//                    if(ProfileFragment2.carrot.get(index) == R.drawable.carrot){
-//                        ProfileFragment2.carrot.set(index,R.drawable.carrot_grey);
-//                        ProfileFragment2.arrMyPosts[Integer.parseInt(position)].setLike(ProfileFragment2.arrMyPosts[Integer.parseInt(position)].getLike()-1);
-//                        likeNum.setText(ProfileFragment2.arrMyPosts[Integer.parseInt(position)].like + "");
-//                        new CustomVisonTask().execute();
-//                    }
-//                    else {
-//                        ProfileFragment2.carrot.set(index,R.drawable.carrot);
-//                        ProfileFragment2.arrMyPosts[Integer.parseInt(position)].setLike(ProfileFragment2.arrMyPosts[Integer.parseInt(position)].getLike()+1);
-//                        likeNum.setText(ProfileFragment2.arrMyPosts[Integer.parseInt(position)].like + "");
-//                        new CustomVisonTask().execute();
-//                    }
-//                }
-//            });
+            carrot.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    index = Integer.parseInt(position);
+                    if(ProfileFragment2.carrot.get(index) == R.drawable.carrot){
+                        ProfileFragment2.carrot.set(index,R.drawable.carrot_grey);
+                        ProfileFragment2.arrMyPosts[Integer.parseInt(position)].setLike(ProfileFragment2.arrMyPosts[Integer.parseInt(position)].getLike()-1);
+                        likeNum.setText(ProfileFragment2.arrMyPosts[Integer.parseInt(position)].like + "");
+                        carrot.setImageResource(ProfileFragment2.carrot.get(Integer.parseInt(position)));
+                        new updateToLikePostDatabase().execute("");
+                        new CustomVisonTask().execute();
+                    }
+                    else {
+                        ProfileFragment2.carrot.set(index,R.drawable.carrot);
+                        ProfileFragment2.arrMyPosts[Integer.parseInt(position)].setLike(ProfileFragment2.arrMyPosts[Integer.parseInt(position)].getLike()+1);
+                        likeNum.setText(ProfileFragment2.arrMyPosts[Integer.parseInt(position)].like + "");
+                        carrot.setImageResource(ProfileFragment2.carrot.get(Integer.parseInt(position)));
+                        new updateToLikePostDatabase().execute("add");
+                        new CustomVisonTask().execute();
+                    }
+                }
+            });
 
             likeNum = (TextView) rootView.findViewById(R.id.likeNum);
             likeNum.setText(ProfileFragment2.arrMyPosts[Integer.parseInt(position)].like + "");
@@ -132,17 +137,38 @@ public class ViewPostInProfile extends Fragment {
                 @Override
                 public void onClick(View view) {
                     index = Integer.parseInt(position);
-                    if(ProfileFragment.carrot.get(index) == R.drawable.carrot){
-                        ProfileFragment.carrot.set(index,R.drawable.carrot_grey);
-                        ProfileFragment.arrMyPosts[Integer.parseInt(position)].setLike(ProfileFragment.arrMyPosts[Integer.parseInt(position)].getLike()-1);
-                        likeNum.setText(ProfileFragment.arrMyPosts[Integer.parseInt(position)].like + "");
-                        new CustomVisonTask().execute();
-                    }
-                    else {
-                        ProfileFragment.carrot.set(index,R.drawable.carrot);
-                        ProfileFragment.arrMyPosts[Integer.parseInt(position)].setLike(ProfileFragment.arrMyPosts[Integer.parseInt(position)].getLike()+1);
-                        likeNum.setText(ProfileFragment.arrMyPosts[Integer.parseInt(position)].like + "");
-                        new CustomVisonTask().execute();
+                    if (getArguments().getString("status") == "ProfileFragment") {
+                        if (ProfileFragment.carrot.get(index) == R.drawable.carrot) {
+                            ProfileFragment.carrot.set(index, R.drawable.carrot_grey);
+                            ProfileFragment.arrMyPosts[Integer.parseInt(position)].setLike(ProfileFragment.arrMyPosts[Integer.parseInt(position)].getLike() - 1);
+                            likeNum.setText(ProfileFragment.arrMyPosts[Integer.parseInt(position)].like + "");
+                            carrot.setImageResource(ProfileFragment.carrot.get(Integer.parseInt(position)));
+                            // new updateToLikePostDatabase().execute("");
+                            // new CustomVisonTask().execute();
+                        } else {
+                            ProfileFragment.carrot.set(index, R.drawable.carrot);
+                            ProfileFragment.arrMyPosts[Integer.parseInt(position)].setLike(ProfileFragment.arrMyPosts[Integer.parseInt(position)].getLike() + 1);
+                            likeNum.setText(ProfileFragment.arrMyPosts[Integer.parseInt(position)].like + "");
+                            carrot.setImageResource(ProfileFragment.carrot.get(Integer.parseInt(position)));
+                            // new updateToLikePostDatabase().execute("add");
+                            // new CustomVisonTask().execute();
+                        }
+                    } else {
+                        if (ProfileFragment2.carrot.get(index) == R.drawable.carrot) {
+                            ProfileFragment2.carrot.set(index, R.drawable.carrot_grey);
+                            ProfileFragment2.arrMyPosts[Integer.parseInt(position)].setLike(ProfileFragment2.arrMyPosts[Integer.parseInt(position)].getLike() - 1);
+                            likeNum.setText(ProfileFragment2.arrMyPosts[Integer.parseInt(position)].like + "");
+                            carrot.setImageResource(ProfileFragment2.carrot.get(Integer.parseInt(position)));
+                            // new updateToLikePostDatabase().execute("");
+                            // new CustomVisonTask().execute();
+                        } else {
+                            ProfileFragment2.carrot.set(index, R.drawable.carrot);
+                            ProfileFragment2.arrMyPosts[Integer.parseInt(position)].setLike(ProfileFragment2.arrMyPosts[Integer.parseInt(position)].getLike() +1);
+                            likeNum.setText(ProfileFragment2.arrMyPosts[Integer.parseInt(position)].like + "");
+                            carrot.setImageResource(ProfileFragment2.carrot.get(Integer.parseInt(position)));
+                            // new updateToLikePostDatabase().execute("add");
+                            // new CustomVisonTask().execute();
+                        }
                     }
                 }
             });
@@ -189,6 +215,9 @@ public class ViewPostInProfile extends Fragment {
                                     ProfileFragment2.arrMyPosts[index].getLike(),
                                     ProfileFragment2.PostId.get(index)))
                             .get();
+                    HomeFeedFragment.mLikePost
+                            .insert(new LikePost(ProfileFragment.PostId.get(index),ProfileFragment.myEmail))
+                            .get();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -198,6 +227,89 @@ public class ViewPostInProfile extends Fragment {
 
         protected void onPostExecute(Void result) {
             System.out.println("UPDATE SUCCESSED");
+        }
+    }
+
+    private class updateToLikePostDatabase extends AsyncTask<String,Void,Void> {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected Void doInBackground(String... add) {
+            if(getArguments().getString("status") == "ProfileFragment") {
+                if (add[0] == "add") {
+                    try {
+                        HomeFeedFragment.mLikePost
+                                .insert(new LikePost(ProfileFragment.PostId.get(index), ProfileFragment.myEmail))
+                                .get();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    List<LikePost> likePosts2 = new ArrayList<>();
+                    try {
+                        List<LikePost> likePosts = HomeFeedFragment.mLikePost
+                                .where()
+                                .field("post_id").eq(ProfileFragment.PostId.get(index))
+                                .and()
+                                .field("like_email").eq(ProfileFragment.myEmail)
+                                .execute()
+                                .get();
+                        likePosts2 = likePosts;
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    try {
+                        System.out.println(likePosts2.get(0).getmId());
+                        System.out.println(likePosts2.get(0).getPost_id());
+                        System.out.println(likePosts2.get(0).getLike_email());
+                        HomeFeedFragment.mLikePost
+                                .delete(new LikePost(likePosts2.get(0).getmId(),likePosts2.get(0).getPost_id(),likePosts2.get(0).getLike_email()));
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }else{
+                if (add[0] == "add") {
+                    try {
+                        HomeFeedFragment.mLikePost
+                                .insert(new LikePost(ProfileFragment2.PostId.get(index), ProfileFragment2.myEmail))
+                                .get();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    List<LikePost> likePosts2 = new ArrayList<>();
+                    try {
+                        List<LikePost> likePosts = HomeFeedFragment.mLikePost
+                                .where()
+                                .field("post_id").eq(ProfileFragment2.PostId.get(index))
+                                .and()
+                                .field("like_email").eq(ProfileFragment2.myEmail)
+                                .execute()
+                                .get();
+                        likePosts2 = likePosts;
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    try {
+                        System.out.println(likePosts2.get(0).getmId());
+                        System.out.println(likePosts2.get(0).getPost_id());
+                        System.out.println(likePosts2.get(0).getLike_email());
+                        HomeFeedFragment.mLikePost
+                                .delete(new LikePost(likePosts2.get(0).getmId(),likePosts2.get(0).getPost_id(),likePosts2.get(0).getLike_email()));
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+            return null;
+        }
+
+        protected void onPostExecute(Void result) {
+            System.out.println("INSERT OR DELETE SUCCESSED");
         }
     }
 
