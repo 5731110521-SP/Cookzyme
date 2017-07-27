@@ -11,7 +11,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.microsoft.windowsazure.mobileservices.MobileServiceClient;
@@ -53,6 +55,7 @@ public class ProfileFragment2 extends Fragment {
     public static boolean ready;
     public static List<Integer> carrot = new ArrayList<>();
     public static List<String> PostId = new ArrayList<>();
+    ProgressBar progressBarProfile;
 
     public static ProfileFragment newInstance() {
         ProfileFragment fragment = new ProfileFragment();
@@ -72,6 +75,8 @@ public class ProfileFragment2 extends Fragment {
         String position = getArguments().getString("position");
         myEmail = position;
 
+        progressBarProfile = (ProgressBar)rootView.findViewById(R.id.progressBarProfile);
+
         ready = false;
 
         try {
@@ -90,11 +95,15 @@ public class ProfileFragment2 extends Fragment {
 
         new CustomVisonTask().execute();
 
-
         //ALL handle click
-        headerView.findViewById(R.id.followButton).setOnClickListener(new View.OnClickListener(){
+        final Button followerButton = (Button) headerView.findViewById(R.id.followButton);
+        followerButton.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
-
+                if(followerButton.getText() == "FOLLOW") {
+                    followerButton.setText("UNFOLLOW");
+                }else{
+                    followerButton.setText("FOLLOW");
+                }
             }
         });
         headerView.findViewById(R.id.challengeButton).setOnClickListener(new View.OnClickListener(){
@@ -195,12 +204,16 @@ public class ProfileFragment2 extends Fragment {
                     arrMyPosts[i] = new Posts(Posts.get(i).getEmail(),Posts.get(i).getPath(),Posts.get(i).description,Posts.get(i).food_name,Posts.get(i).like);
                 }
                 for(int i = 0; i< arrMyPosts.length; i++) {
+                    System.out.println(PostId.get(i));
+                    System.out.println(myEmail);
                     List<LikePost> likePosts = HomeFeedFragment.mLikePost
                             .where().field("post_id").eq(PostId.get(i))
                             .and()
                             .field("like_email").eq(myEmail)
                             .execute().get();
-                    if (likePosts.size() == 0) {
+                    List<LikePost> LP = likePosts;
+                    System.out.println(LP.size());
+                    if (LP.size() == 0) {
                         carrot.add(R.drawable.carrot_grey);
                     } else {
                         carrot.add(R.drawable.carrot);
@@ -215,6 +228,9 @@ public class ProfileFragment2 extends Fragment {
         }
 
         protected void onPostExecute(Void result) {
+
+            progressBarProfile.setVisibility(View.GONE);
+
             username = (TextView) headerView.findViewById(R.id.username);
             username.setText(myUsername);
 

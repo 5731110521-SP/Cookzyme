@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -99,11 +100,9 @@ public class ProfileFragment extends Fragment {
 
 
         //ALL handle click
-        headerView.findViewById(R.id.followButton).setOnClickListener(new View.OnClickListener(){
-            public void onClick(View v){
+        final Button followerButton = (Button) headerView.findViewById(R.id.followButton);
+        followerButton.setText("EDIT PROFILE");
 
-            }
-        });
         headerView.findViewById(R.id.challengeButton).setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
 

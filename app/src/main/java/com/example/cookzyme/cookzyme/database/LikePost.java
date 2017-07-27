@@ -15,6 +15,12 @@ public class LikePost {
         this.like_email = like_email;
     }
 
+    public LikePost(String mId, String post_id, String like_email) {
+        this.mId = mId;
+        this.post_id = post_id;
+        this.like_email = like_email;
+    }
+
     public String getPost_id() {
         return post_id;
     }
@@ -29,5 +35,13 @@ public class LikePost {
 
     public void setLike_email(String like_email) {
         this.like_email = like_email;
+    }
+
+    public String getmId() {
+        return mId;
+    }
+
+    public void setmId(String mId) {
+        this.mId = mId;
     }
 }

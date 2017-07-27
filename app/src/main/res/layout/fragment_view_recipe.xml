@@ -55,10 +55,11 @@
                 android:layout_marginRight="15dp"
                 android:layout_weight="1"
                 android:clickable="true"
+                android:visibility="gone"
                 app:backgroundTint="@android:color/holo_orange_light"
                 app:elevation="0dp"
                 app:fabSize="normal"
-                app:srcCompat="@drawable/bowl"/>
+                app:srcCompat="@drawable/bowl" />
         </RelativeLayout>
 
     </FrameLayout>

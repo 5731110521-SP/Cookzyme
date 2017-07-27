@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.speech.RecognizerIntent;
+import android.speech.tts.TextToSpeech;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
@@ -20,17 +21,25 @@ import android.speech.RecognizerIntent;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 import static android.app.Activity.RESULT_OK;
 
 
-public class DuringCooking extends Fragment {
+public class DuringCooking extends Fragment implements TextToSpeech.OnInitListener{
+    private TextToSpeech tts;
     private Button next,listen_again;
     private TextView step;
     private int stepNum;
     private ArrayList<String> stepD = new ArrayList<>();
     private final static int REQUEST_VOICE_RECOGNITION = 10001;
     private String foodName;
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        tts.shutdown();
+    }
 
     public static DuringCooking newInstance() {
 
@@ -44,7 +53,9 @@ public class DuringCooking extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.fragment_during_cooking, container, false);
-
+        tts = new TextToSpeech(getContext(), this, "com.google.android.tts");
+        tts.setLanguage(new Locale("th"));
+        tts.setSpeechRate((float)0.5);
         // change color button
         next = (Button ) rootView.findViewById(R.id.next);
         int colorButton1 = getResources().getColor(R.color.colorButton);
@@ -108,8 +119,18 @@ public class DuringCooking extends Fragment {
                 callVoiceRecognition();
             }
         });
-
-
+        listen_again.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                tts.speak(stepD.get(stepNum), TextToSpeech.QUEUE_FLUSH,null);
+            }
+        });
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                tts.speak(stepD.get(stepNum), TextToSpeech.QUEUE_FLUSH,null);
+            }
+        }).start();
         return rootView;
     }
 
@@ -152,4 +173,13 @@ public class DuringCooking extends Fragment {
         }
     }
 
+    @Override
+    public void onInit(int status) {
+        if(status == TextToSpeech.SUCCESS) {
+            // Do something here
+            System.out.println("Success");
+        } else {
+            System.out.println("Error");
+        }
+    }
 }

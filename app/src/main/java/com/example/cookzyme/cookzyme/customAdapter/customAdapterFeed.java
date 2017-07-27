@@ -18,6 +18,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -27,6 +28,7 @@ import com.example.cookzyme.cookzyme.ProfileFragment;
 import com.example.cookzyme.cookzyme.ProfileFragment2;
 import com.example.cookzyme.cookzyme.R;
 import com.example.cookzyme.cookzyme.ViewPostInProfile;
+import com.example.cookzyme.cookzyme.ViewRecipeFragment;
 import com.example.cookzyme.cookzyme.database.Posts;
 import com.microsoft.windowsazure.mobileservices.MobileServiceClient;
 
@@ -84,7 +86,6 @@ public class customAdapterFeed extends BaseAdapter {
             TextView textViewUsername = (TextView) view.findViewById(R.id.username);
             textViewUsername.setText(username.get(position));
 
-
             ImageView imageViewUserPic = (ImageView) view.findViewById(R.id.userPic);
             imageViewUserPic.setBackgroundDrawable(userPic.get(position));
             imageViewUserPic.setOnClickListener(new View.OnClickListener() {
@@ -98,12 +99,28 @@ public class customAdapterFeed extends BaseAdapter {
 
                     ((FragmentActivity)mContext).getSupportFragmentManager().beginTransaction()
                             .replace(R.id.frameHomeSection, Profile2)
+                            .addToBackStack(null)
                             .commit();
                 }
             });
 
             TextView textViewFromMenu = (TextView) view.findViewById(R.id.fromMenu);
             textViewFromMenu.setText(fromMenu.get(position));
+            textViewFromMenu.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    ViewRecipeFragment viewRecipe = new ViewRecipeFragment();
+
+                    Bundle bundle = new Bundle();
+                    bundle.putString("food_name", fromMenu.get(position) );
+                    viewRecipe.setArguments(bundle);
+
+                    ((FragmentActivity)mContext).getSupportFragmentManager().beginTransaction()
+                            .replace(R.id.frameHomeSection, viewRecipe)
+                            .addToBackStack(null)
+                            .commit();
+                }
+            });
 
             ImageView imageViewFoodPic = (ImageView) view.findViewById(R.id.foodPic);
             imageViewFoodPic.setBackgroundDrawable(foodPic.get(position));
