@@ -72,7 +72,7 @@ public class HomeSectionFragment extends Fragment {
 
     public static class AppSectionsPagerAdapter extends FragmentPagerAdapter {
 
-        private String[] tabTitles = new String[]{"Home", "Feed"};
+        private String[] tabTitles = new String[]{"Recipe", "Feed"};
 
         public AppSectionsPagerAdapter(FragmentManager fm) {
             super(fm);
