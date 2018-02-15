@@ -66,7 +66,7 @@ public class categoryHorizontalScroll extends HorizontalScrollView {
         LayoutInflater inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-        new categoryTask(context).execute(category);
+//        new categoryTask(context).execute(category);
     }
 
 

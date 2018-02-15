@@ -106,7 +106,7 @@ public class HomeFeedFragment extends Fragment {
         mLikePost = mClient.getTable(LikePost.class);
         listView = (ListView) rootView.findViewById(R.id.listviewFeed);
 
-        new CustomVisonTask().execute();
+        //new CustomVisonTask().execute();
 
         adapter = new customAdapterFeed(getContext(), followingEmail, followingPic, fromMenu,foodPic,caption,carrot,likeNum,commentNum);
 

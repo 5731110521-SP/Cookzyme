@@ -441,7 +441,7 @@ public class addIngredient extends AppCompatActivity {
             foodPic.setVisibility(View.VISIBLE);
             foodPic.setImageBitmap(thumbnail);
             Bitmap b = thumbnail;
-            new CustomVisonTask(context).execute(b);
+            //new CustomVisonTask(context).execute(b);
         }
     }
 

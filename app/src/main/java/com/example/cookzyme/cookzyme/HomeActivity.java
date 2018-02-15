@@ -9,12 +9,13 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
+
 import com.example.cookzyme.cookzyme.ref.EmptyActivity;
 
 
-public class HomeActivity extends ActionBarActivity {
+public class HomeActivity extends AppCompatActivity {
     int beforeCurrent =2;
     ViewPager mViewPager;
 //    private static HomeSectionFragment homeSectionFragment = new HomeSectionFragment();
@@ -127,10 +128,13 @@ public class HomeActivity extends ActionBarActivity {
                 case 1:
 //                    return ShareFragment.newInstance();
                     return SuperstoreFragment.newInstance();
+//                    return new EmptyActivity();
                 case 2:
                     return HomeSectionFragment.newInstance();
+//                    return new EmptyActivity();
                 case 3:
                     return ProfileFragment.newInstance();
+//                    return new EmptyActivity();
                 case 4:
                     return new EmptyActivity();
                 default:

@@ -11,6 +11,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.cookzyme.cookzyme.ref.EmptyActivity;
+
 public class HomeSectionFragment extends Fragment {
 
     ViewPager mViewPager;
@@ -90,6 +92,7 @@ public class HomeSectionFragment extends Fragment {
                     return HomeTabFragment.newInstance();
                 case 1:
                     return HomeFeedFragment.newInstance();
+//                    return new EmptyActivity();
                 default:
                     return HomeTabFragment.newInstance();
             }

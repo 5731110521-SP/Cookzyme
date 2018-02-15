@@ -96,7 +96,7 @@ public class ProfileFragment extends Fragment {
         headerView = layoutInflater.inflate(R.layout.header, null);
         gridView.addHeaderView(headerView);
 
-        new CustomVisonTask().execute();
+        //new CustomVisonTask().execute();
 
 
         //ALL handle click
